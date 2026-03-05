@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary */
+  --color-primary: #FF9600;
+  --color-primary-dark: #E68600;
+  --color-primary-light: #FFF3E0;
+
+  /* Secondary (Info/Blue) */
+  --color-secondary: #1CB0F6;
+  --color-secondary-dark: #1899D6;
+  --color-secondary-light: #DDF4FF;
+
+  /* Semantic */
+  --color-success: #58CC02;
+  --color-success-dark: #4CAD02;
+  --color-success-light: #E5F9E5;
+  --color-danger: #FF4B4B;
+  --color-danger-light: #FFE5E5;
+  --color-warning: #FFC800;
+  --color-warning-light: #FFF8E0;
+
+  /* Neutrals */
+  --color-bg-page: #F7F7F7;
+  --color-bg-card: #FFFFFF;
+  --color-border: #E5E5E5;
+  --color-text-primary: #3C3C3C;
+  --color-text-secondary: #AFAFAF;
+  --color-text-label: #777777;
+
+  /* Quadrant Tints */
+  --color-quadrant-do: #FFE5E5;
+  --color-quadrant-schedule: #E5F9E5;
+  --color-quadrant-minimize: #E5F0FF;
+  --color-quadrant-eliminate: #FFF8E0;
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-button-3d: 0 4px 0 var(--color-primary-dark);
+
+  /* Radius */
+  --radius-card: 1rem;       /* 16px — rounded-2xl */
+  --radius-card-lg: 1.5rem;  /* 24px — rounded-3xl */
+  --radius-pill: 9999px;     /* rounded-full */
+  --radius-button: 9999px;   /* rounded-full */
+
+  /* Font Families */
+  --font-heading: var(--font-nunito), 'Quicksand', 'Fredoka', sans-serif;
+  --font-body: var(--font-nunito), 'Quicksand', sans-serif;
+}
+
+body {
+  background-color: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr 280px;
+  min-height: 100vh;
+}
+
+.app-layout--two-col {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: 100vh;
+}
+
