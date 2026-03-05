@@ -1,5 +1,5 @@
-import React from 'react';
-import Sidebar from './Sidebar';
+import React from "react";
+import Sidebar from "./Sidebar";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -7,12 +7,18 @@ interface AppLayoutProps {
   rightPanel?: React.ReactNode;
 }
 
-export default function AppLayout({ children, showRightPanel = true, rightPanel }: AppLayoutProps) {
+export default function AppLayout({
+  children,
+  showRightPanel = true,
+  rightPanel,
+}: AppLayoutProps) {
   return (
     <div className="min-h-screen bg-bg-page flex flex-col md:flex-row font-body text-text-primary">
       <Sidebar />
 
-      <div className={`flex-1 flex flex-col md:flex-row w-full pb-20 md:pb-0 md:ml-[240px] ${showRightPanel ? 'lg:mr-[280px]' : ''}`}>
+      <div
+        className={`flex-1 flex flex-col md:flex-row w-full pb-20 md:pb-0 md:ml-[240px] ${showRightPanel ? "lg:mr-[280px]" : ""}`}
+      >
         <main className="flex-[1_1_0%] overflow-y-auto p-4 md:p-6 min-h-screen max-w-full">
           {children}
         </main>
