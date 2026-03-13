@@ -1,8 +1,14 @@
+"use client";
+
 import AppLayout from "@/components/layout/AppLayout";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import Card from "@/components/shared/Card";
+import Button from "@/components/shared/Button";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function Home() {
+  const { user } = useAuthStore();
+  const displayName = user?.displayName?.split(" ")[0] || "Scholar";
+
   return (
     <AppLayout
       rightPanel={
@@ -23,8 +29,8 @@ export default function Home() {
       <div className="space-y-6">
         <div className="bg-gradient-to-r from-[#1CB0F6] to-[#0D8ECF] rounded-3xl p-6 md:p-8 text-white flex justify-between items-center shadow-[var(--shadow-card)]">
           <div>
-            <h2 className="text-2xl md:text-3xl font-extrabold mb-2">Welcome back, Scholar!</h2>
-            <p className="opacity-90 mb-6 text-sm md:text-base">You've completed 85% of your weekly goals. Finish strong!</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold mb-2">Welcome back, {displayName}!</h2>
+            <p className="opacity-90 mb-6 text-sm md:text-base">You&apos;ve completed 85% of your weekly goals. Finish strong!</p>
             <Button className="bg-white text-secondary hover:bg-gray-100 border-none">
               Resume Lesson
             </Button>
@@ -33,7 +39,7 @@ export default function Home() {
         </div>
 
         <div>
-          <h3 className="font-bold text-xl mb-4 text-text-primary">Today's Quests</h3>
+          <h3 className="font-bold text-xl mb-4 text-text-primary">Today&apos;s Quests</h3>
           <div className="space-y-3">
             <Card className="flex justify-between items-center">
               <div className="flex items-center gap-3">

@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "Level up your productivity with GiatZ.",
 };
 
+import AuthProvider from "@/components/providers/AuthProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,8 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunito.variable} antialiased`}>
-        {children}
+      <body className={`${nunito.variable} antialiased`} suppressHydrationWarning={true}>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   HomeIcon,
@@ -9,6 +10,7 @@ import {
   QueueListIcon,
   GlobeAltIcon,
   AcademicCapIcon,
+  ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import {
   HomeIcon as HomeIconSolid,
@@ -46,18 +48,28 @@ const navItems = [
   },
 ];
 
+import { useAuthStore } from "@/store/useAuthStore";
+import Button from "@/components/shared/Button";
+
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout } = useAuthStore();
 
   return (
     <aside className="fixed bottom-0 left-0 w-full h-[72px] md:h-screen md:w-[240px] bg-bg-card flex flex-row md:flex-col border-t md:border-t-0 md:border-r border-border z-50">
       {/* Logo Area (Hidden on mobile) */}
       <div className="hidden md:flex pt-10 pb-8 px-8 flex-row items-center gap-3">
-        <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-          <AcademicCapIconSolid className="w-6 h-6 text-white" />
-        </div>
-        <h1 className="text-primary font-extrabold text-2xl tracking-wide">
-          GIATZ
+        <Image 
+          src="/images/logo.webp" 
+          alt="GiatZ Logo" 
+          width={80} 
+          height={80} 
+          quality={100}
+          className="w-10 h-10 rounded-full shrink-0 border-2 border-primary object-cover"
+        />
+        <h1 className="text-primary font-extrabold text-3xl tracking-wide font-heading">
+          GiatZ
         </h1>
       </div>
 
@@ -99,10 +111,45 @@ export default function Sidebar() {
       </nav>
 
       {/* Bottom CTA (Hidden on mobile) */}
-      <div className="hidden md:block p-6 mt-auto">
-        <button className="w-full bg-primary text-white font-bold uppercase tracking-wide py-3 px-4 rounded-full border-b-4 border-primary-dark hover:translate-y-[2px] hover:border-b-2 active:translate-y-[4px] active:border-b-0 transition-all text-[15px]">
-          GO PREMIUM
-        </button>
+      <div className="hidden md:flex flex-col gap-4 p-6 mt-auto border-t border-border">
+        {/* User Profile Info */}
+        {user && (
+          <div className="flex items-center gap-3 mb-2 px-1">
+            {user.photoURL || user.photoUrl ? (
+              <img 
+                src={user.photoURL || user.photoUrl || ""} 
+                alt={user.displayName || "Profile"} 
+                className="w-10 h-10 rounded-full border-2 border-primary object-cover shrink-0" 
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-primary-light text-primary-dark border-2 border-primary flex items-center justify-center shrink-0">
+                <span className="font-extrabold text-lg">
+                  {user.displayName ? user.displayName.charAt(0).toUpperCase() : (user.email ? user.email.charAt(0).toUpperCase() : '?')}
+                </span>
+              </div>
+            )}
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-sm font-extrabold text-text-primary truncate">
+                {user.displayName || "Scholar"}
+              </span>
+              <span className="text-[12px] font-medium text-text-secondary truncate">
+                {user.email}
+              </span>
+            </div>
+          </div>
+        )}
+
+        <Button 
+          variant="danger" 
+          fullWidth 
+          icon={<ArrowRightStartOnRectangleIcon />}
+          onClick={async () => {
+            await logout();
+            router.push('/login');
+          }}
+        >
+          LOGOUT
+        </Button>
       </div>
     </aside>
   );

@@ -1,11 +1,12 @@
 import AppLayout from "@/components/layout/AppLayout";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import Card from "@/components/shared/Card";
+import Button from "@/components/shared/Button";
 
 export default function MatrixPage() {
   return (
     <AppLayout showRightPanel={false}>
       <div className="h-full flex flex-col">
+        {/* Header Area */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary">Task Matrix</h2>

@@ -1,5 +1,5 @@
 import AppLayout from "@/components/layout/AppLayout";
-import Card from "@/components/ui/Card";
+import Card from "@/components/shared/Card";
 
 export default function CampPage() {
   return (

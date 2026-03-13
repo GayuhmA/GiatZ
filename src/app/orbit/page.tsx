@@ -1,6 +1,6 @@
 import AppLayout from "@/components/layout/AppLayout";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import Card from "@/components/shared/Card";
+import Button from "@/components/shared/Button";
 
 export default function OrbitPage() {
   return (
@@ -9,7 +9,7 @@ export default function OrbitPage() {
         <div className="space-y-6">
           <Card>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-lg text-text-primary">Sound Mixer</h3>
+              <h3 className="font-bold text-xl mb-4 text-text-primary">Today&apos;s Training</h3>
               <button className="text-text-secondary hover:text-primary">
                 <span className="text-lg">⚙️</span>
               </button>
@@ -66,7 +66,7 @@ export default function OrbitPage() {
 
           <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary mb-2 text-center">Deep Work Orbit</h2>
           <p className="text-sm md:text-base text-text-secondary mb-8 text-center max-w-md">
-            You're orbiting success! Keep the momentum going.
+            You&apos;re orbiting success! Keep the momentum going.
           </p>
 
           <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
