@@ -11,11 +11,16 @@
   --color-secondary-dark: #1899D6;
   --color-secondary-light: #DDF4FF;
 
+  /* Brand (Deep Blue & Pale Blue) */
+  --color-brand-dark: #1A3B43;
+  --color-brand-light: #EAF4F6;
+
   /* Semantic */
   --color-success: #58CC02;
   --color-success-dark: #4CAD02;
   --color-success-light: #E5F9E5;
   --color-danger: #FF4B4B;
+  --color-danger-dark: #cc3c3c;
   --color-danger-light: #FFE5E5;
   --color-warning: #FFC800;
   --color-warning-light: #FFF8E0;
