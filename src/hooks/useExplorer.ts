@@ -35,15 +35,24 @@ export function useExplorer() {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const nodes: ExplorerNode[] = snapshot.docs.map((doc) => {
-          const data = doc.data();
+        const nodes: ExplorerNode[] = snapshot.docs.map((docSnap) => {
+          const data = docSnap.data();
+          let position = data.position;
+
+          if (!position) {
+            position = {
+              x: Math.random() * 800,
+              y: Math.random() * 600,
+            };
+            // Persist the generated position
+            const nodeRef = doc(db, "users", user.uid, "notes", docSnap.id);
+            updateDoc(nodeRef, { position }).catch(console.error);
+          }
+
           return {
-            id: doc.id,
+            id: docSnap.id,
             type: "noteNode",
-            position: data.position || {
-              x: Math.random() * 400,
-              y: Math.random() * 400,
-            },
+            position,
             data: {
               label: data.title || "Untitled Note",
               icon: data.icon || "📝",
@@ -75,15 +84,30 @@ export function useExplorer() {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const nodes: ExplorerNode[] = snapshot.docs.map((doc) => {
-          const data = doc.data();
+        const nodes: ExplorerNode[] = snapshot.docs.map((docSnap) => {
+          const data = docSnap.data();
+          let position = data.position;
+
+          if (!position) {
+            position = {
+              x: Math.random() * 800,
+              y: Math.random() * 600,
+            };
+            // Persist the generated position
+            const nodeRef = doc(
+              db,
+              "users",
+              user.uid,
+              "categories",
+              docSnap.id,
+            );
+            updateDoc(nodeRef, { position }).catch(console.error);
+          }
+
           return {
-            id: doc.id,
+            id: docSnap.id,
             type: "categoryNode",
-            position: data.position || {
-              x: Math.random() * 400,
-              y: Math.random() * 400,
-            },
+            position,
             data: {
               label: data.name || "New Category",
             },
@@ -139,13 +163,17 @@ export function useExplorer() {
 
   // Actions
   const addCategory = useCallback(
-    async (name: string, position = { x: 400, y: 200 }) => {
+    async (name: string, position?: { x: number; y: number }) => {
       if (!user?.uid) return;
       try {
+        const initialPosition = position || {
+          x: Math.random() * 800,
+          y: Math.random() * 600,
+        };
         const categoriesRef = collection(db, "users", user.uid, "categories");
         await addDoc(categoriesRef, {
           name: name.toUpperCase(),
-          position,
+          position: initialPosition,
           createdAt: serverTimestamp(),
         });
       } catch (err) {
@@ -195,9 +223,14 @@ export function useExplorer() {
       if (!user?.uid) return null;
       try {
         if (noteId === "new") {
+          const initialPosition = updates.position || {
+            x: Math.random() * 800,
+            y: Math.random() * 600,
+          };
           const notesRef = collection(db, "users", user.uid, "notes");
           const docRef = await addDoc(notesRef, {
             ...updates,
+            position: initialPosition,
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
           });

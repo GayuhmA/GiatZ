@@ -26,19 +26,30 @@ export default memo(function CustomCategoryNode({
         type="target"
         position={Position.Top}
         isConnectable={isConnectable}
-        className="!bg-transparent !border-none w-full h-full"
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
+      />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        isConnectable={isConnectable}
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
+      />
+      <Handle
+        type="source"
+        position={Position.Left}
+        isConnectable={isConnectable}
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        isConnectable={isConnectable}
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
       />
 
       <span className="text-sm truncate uppercase tracking-wider font-bold">
         {label}
       </span>
-
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        isConnectable={isConnectable}
-        className="!bg-transparent !border-none w-full h-full"
-      />
     </motion.div>
   );
 });

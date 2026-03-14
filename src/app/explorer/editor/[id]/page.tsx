@@ -238,11 +238,32 @@ export default function NoteEditorPage({
     disconnectNodes(edgeId);
   };
 
-  const handleAddLink = (item?: any) => {
+  const handleAddLink = async (item?: any) => {
     const itemToAdd = item || availableSuggestions[0];
-    if (!itemToAdd || !noteId) return;
+    if (!itemToAdd || !noteId || !user?.uid) return;
 
-    connectNodes(noteId, itemToAdd.id);
+    let currentId = noteId;
+
+    // If it's a new note, we MUST save it first to get a valid ID for the edge
+    if (noteId === "new") {
+      const savedId = await updateNote("new", {
+        title: title || "Untitled Note",
+        content: editorRef.current?.innerHTML || "",
+        quadrant: matrixStatus?.id || null,
+      });
+
+      if (savedId) {
+        currentId = savedId;
+        // Don't router.replace here yet, let the auto-save or manual save handle it,
+        // but we need the ID for the connection.
+        // Actually, we SHOULD replace to keep the UI in sync
+        router.replace(`/explorer/editor/${savedId}`);
+      } else {
+        return; // Save failed
+      }
+    }
+
+    connectNodes(currentId, itemToAdd.id);
     setNewLink("");
     setShowSuggestions(false);
   };

@@ -51,7 +51,13 @@ export default memo(function CustomNoteNode({
         type="target"
         position={Position.Top}
         isConnectable={isConnectable}
-        className="!bg-transparent !border-none w-full"
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
+      />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        isConnectable={isConnectable}
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
       />
 
       {icon && (
@@ -62,12 +68,17 @@ export default memo(function CustomNoteNode({
         </span>
       )}
       <span className="text-sm truncate">{label}</span>
-
       <Handle
         type="source"
-        position={Position.Bottom}
+        position={Position.Left}
         isConnectable={isConnectable}
-        className="!bg-transparent !border-none w-full"
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        isConnectable={isConnectable}
+        className="!bg-transparent !border-none !w-2 !h-2 rounded-full"
       />
     </motion.div>
   );
