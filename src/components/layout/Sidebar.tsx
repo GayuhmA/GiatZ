@@ -60,11 +60,11 @@ export default function Sidebar() {
     <aside className="fixed bottom-0 left-0 w-full h-[72px] md:h-screen md:w-[240px] bg-bg-card flex flex-row md:flex-col border-t md:border-t-0 md:border-r border-border z-50">
       {/* Logo Area (Hidden on mobile) */}
       <div className="hidden md:flex pt-10 pb-8 px-8 flex-row items-center gap-3">
-        <Image 
-          src="/images/logo.webp" 
-          alt="GiatZ Logo" 
-          width={80} 
-          height={80} 
+        <Image
+          src="/images/logo.webp"
+          alt="GiatZ Logo"
+          width={80}
+          height={80}
           quality={100}
           className="w-10 h-10 rounded-full shrink-0 border-2 border-primary object-cover"
         />
@@ -76,7 +76,10 @@ export default function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 flex flex-row md:flex-col justify-around md:justify-start px-2 md:px-6 py-2 md:py-4 md:space-y-2 w-full">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive =
+            item.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(item.href);
           const Icon = isActive ? item.iconSolid : item.iconOutline;
 
           return (
@@ -116,15 +119,19 @@ export default function Sidebar() {
         {user && (
           <div className="flex items-center gap-3 mb-2 px-1">
             {user.photoURL || user.photoUrl ? (
-              <img 
-                src={user.photoURL || user.photoUrl || ""} 
-                alt={user.displayName || "Profile"} 
-                className="w-10 h-10 rounded-full border-2 border-primary object-cover shrink-0" 
+              <img
+                src={user.photoURL || user.photoUrl || ""}
+                alt={user.displayName || "Profile"}
+                className="w-10 h-10 rounded-full border-2 border-primary object-cover shrink-0"
               />
             ) : (
               <div className="w-10 h-10 rounded-full bg-primary-light text-primary-dark border-2 border-primary flex items-center justify-center shrink-0">
                 <span className="font-extrabold text-lg">
-                  {user.displayName ? user.displayName.charAt(0).toUpperCase() : (user.email ? user.email.charAt(0).toUpperCase() : '?')}
+                  {user.displayName
+                    ? user.displayName.charAt(0).toUpperCase()
+                    : user.email
+                      ? user.email.charAt(0).toUpperCase()
+                      : "?"}
                 </span>
               </div>
             )}
@@ -139,13 +146,13 @@ export default function Sidebar() {
           </div>
         )}
 
-        <Button 
-          variant="danger" 
-          fullWidth 
+        <Button
+          variant="danger"
+          fullWidth
           icon={<ArrowRightStartOnRectangleIcon />}
           onClick={async () => {
             await logout();
-            router.push('/login');
+            router.push("/login");
           }}
         >
           LOGOUT

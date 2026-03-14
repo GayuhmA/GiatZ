@@ -2,42 +2,42 @@
 
 @theme {
   /* Primary */
-  --color-primary: #FF9600;
-  --color-primary-dark: #E68600;
-  --color-primary-light: #FFF3E0;
+  --color-primary: #ff9600;
+  --color-primary-dark: #e68600;
+  --color-primary-light: #fff3e0;
 
   /* Secondary (Info/Blue) */
-  --color-secondary: #1CB0F6;
-  --color-secondary-dark: #1899D6;
-  --color-secondary-light: #DDF4FF;
+  --color-secondary: #1cb0f6;
+  --color-secondary-dark: #1899d6;
+  --color-secondary-light: #ddf4ff;
 
   /* Brand (Deep Blue & Pale Blue) */
-  --color-brand-dark: #1A3B43;
-  --color-brand-light: #EAF4F6;
+  --color-brand-dark: #1a3b43;
+  --color-brand-light: #eaf4f6;
 
   /* Semantic */
-  --color-success: #58CC02;
-  --color-success-dark: #4CAD02;
-  --color-success-light: #E5F9E5;
-  --color-danger: #FF4B4B;
+  --color-success: #58cc02;
+  --color-success-dark: #4cad02;
+  --color-success-light: #e5f9e5;
+  --color-danger: #ff4b4b;
   --color-danger-dark: #cc3c3c;
-  --color-danger-light: #FFE5E5;
-  --color-warning: #FFC800;
-  --color-warning-light: #FFF8E0;
+  --color-danger-light: #ffe5e5;
+  --color-warning: #ffc800;
+  --color-warning-light: #fff8e0;
 
   /* Neutrals */
-  --color-bg-page: #F7F7F7;
-  --color-bg-card: #FFFFFF;
-  --color-border: #E5E5E5;
-  --color-text-primary: #3C3C3C;
-  --color-text-secondary: #AFAFAF;
+  --color-bg-page: #f7f7f7;
+  --color-bg-card: #ffffff;
+  --color-border: #e5e5e5;
+  --color-text-primary: #3c3c3c;
+  --color-text-secondary: #afafaf;
   --color-text-label: #777777;
 
   /* Quadrant Tints */
-  --color-quadrant-do: #FFE5E5;
-  --color-quadrant-schedule: #E5F9E5;
-  --color-quadrant-minimize: #E5F0FF;
-  --color-quadrant-eliminate: #FFF8E0;
+  --color-quadrant-do: #ffe5e5;
+  --color-quadrant-schedule: #e5f9e5;
+  --color-quadrant-minimize: #e5f0ff;
+  --color-quadrant-eliminate: #fff8e0;
 
   /* Shadows */
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -45,14 +45,14 @@
   --shadow-button-3d: 0 4px 0 var(--color-primary-dark);
 
   /* Radius */
-  --radius-card: 1rem;       /* 16px — rounded-2xl */
-  --radius-card-lg: 1.5rem;  /* 24px — rounded-3xl */
-  --radius-pill: 9999px;     /* rounded-full */
-  --radius-button: 9999px;   /* rounded-full */
+  --radius-card: 1rem; /* 16px — rounded-2xl */
+  --radius-card-lg: 1.5rem; /* 24px — rounded-3xl */
+  --radius-pill: 9999px; /* rounded-full */
+  --radius-button: 9999px; /* rounded-full */
 
   /* Font Families */
-  --font-heading: var(--font-nunito), 'Quicksand', 'Fredoka', sans-serif;
-  --font-body: var(--font-nunito), 'Quicksand', sans-serif;
+  --font-heading: var(--font-nunito), "Quicksand", "Fredoka", sans-serif;
+  --font-body: var(--font-nunito), "Quicksand", sans-serif;
 }
 
 body {
@@ -67,9 +67,19 @@ body {
   min-height: 100vh;
 }
 
-.app-layout--two-col {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  min-height: 100vh;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
 }
 
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}

@@ -8,18 +8,16 @@ import {
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 
-const mockNotes = [
-  { id: "1", title: "Calculus Integrals", category: "MATHEMATICS" },
-  { id: "2", title: "Linear Algebra Matrix", category: "MATHEMATICS" },
-  { id: "3", title: "JLPT N5 Kanji", category: "LANGUAGES" },
-  { id: "4", title: "React.js App Router", category: "COMPUTER SCIENCE" },
-];
+import { useRouter } from "next/navigation";
+import { useExplorerStore } from "@/store/useExplorerStore";
 
 export default function SearchBar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const { noteNodes } = useExplorerStore();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -43,8 +41,8 @@ export default function SearchBar() {
   };
 
   const filteredNotes = query
-    ? mockNotes.filter((note) =>
-        note.title.toLowerCase().includes(query.toLowerCase()),
+    ? noteNodes.filter((note) =>
+        note.data.label.toLowerCase().includes(query.toLowerCase()),
       )
     : [];
 
@@ -119,17 +117,24 @@ export default function SearchBar() {
               filteredNotes.map((note) => (
                 <div
                   key={note.id}
+                  onClick={() => {
+                    router.push(`/explorer/editor/${note.id}`);
+                    setIsExpanded(false);
+                    setQuery("");
+                  }}
                   className="w-full text-left px-4 py-3 hover:bg-[#FFF3E0] rounded-2xl cursor-pointer group flex items-center gap-4 transition-colors"
                 >
                   <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-[#AFAFAF] group-hover:text-[#FF9600] group-hover:bg-white shrink-0 transition-colors shadow-sm">
-                    <DocumentTextIcon className="w-5 h-5" />
+                    <span className="text-lg">
+                      {(note.data.icon as string) || "📝"}
+                    </span>
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className="text-[14px] leading-tight font-extrabold text-[#3C3C3C] group-hover:text-[#FF9600] truncate transition-colors">
-                      {note.title}
+                      {note.data.label}
                     </span>
                     <span className="text-[10px] font-bold text-[#AFAFAF] uppercase tracking-wider mt-1">
-                      {note.category}
+                      {(note.data.category as string) || "GENERAL"}
                     </span>
                   </div>
                 </div>
