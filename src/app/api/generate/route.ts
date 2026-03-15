@@ -37,6 +37,26 @@ export async function POST(req: Request) {
         
         Strictly return ONLY the JSON array. Do not include any markdown formatting like \`\`\`json or regular text.
       `;
+    } else if (type === "Optimize") {
+      prompt = `
+        You are an expert editor and subject matter expert. Your goal is to optimize the following learning notes.
+        
+        Task:
+        1.  **Factual Verification**: Check the notes for any factual inaccuracies.
+        2.  **Correction Notice**: If you find any factual errors, you MUST prepend a notification at the very beginning of the HTML. Use this exact Indonesian format:
+            <div style="background-color: #FFF9C4; border: 2px solid #FBC02D; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-weight: bold; color: #455A64;">
+                ⚠️ AI Correction: Catatan kamu yang "[bagian yang salah]" kurang tepat. AI telah mengoreksinya menjadi "[koreksinya]".
+            </div>
+        3.  **Refine Content**: Improve grammar, punctuation, and flow.
+        4.  **Enhance Formatting**: Use HTML tags properly (<strong>, <em>, <u>, <ul>, <ol>, <li>, <h2>).
+        5.  **Preserve Meaning**: Keep all original information, but ensure it is factually correct.
+        6.  **Style**: Professional, clean, and extremely easy to read.
+        
+        Original Note Content:
+        ${noteContent}
+        
+        Return ONLY the resulting HTML string. Do not include markdown code blocks.
+      `;
     } else {
       prompt = `
         You are an expert tutor. Based on the following note content about "${topic}", generate exactly 5 multiple-choice questions.
@@ -68,10 +88,15 @@ export async function POST(req: Request) {
     const text = response.text();
 
     // Attempt to clean the response if Gemini includes markdown blocks
-    const cleanText = text
+    let cleanText = text
       .replace(/```json/g, "")
+      .replace(/```html/g, "")
       .replace(/```/g, "")
       .trim();
+
+    if (type === "Optimize") {
+      return NextResponse.json({ optimizedContent: cleanText });
+    }
 
     try {
       const parsedData = JSON.parse(cleanText);

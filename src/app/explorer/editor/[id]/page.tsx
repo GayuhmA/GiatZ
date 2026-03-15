@@ -141,6 +141,7 @@ export default function NoteEditorPage({
   const [newLink, setNewLink] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isOptimizing, setIsOptimizing] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
 
   const isMobile = useMediaQuery("(max-width: 1024px)");
@@ -149,9 +150,41 @@ export default function NoteEditorPage({
   const handleManualSave = async () => {
     if (!user?.uid || !noteId) return;
     setIsRefreshing(true);
+
+    let contentToSave = editorRef.current?.innerHTML || "";
+
+    if (aiOptimize) {
+      setIsOptimizing(true);
+      try {
+        const res = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            noteContent: contentToSave,
+            type: "Optimize",
+            topic: title || "General Note",
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.optimizedContent) {
+            contentToSave = data.optimizedContent;
+            if (editorRef.current) {
+              editorRef.current.innerHTML = data.optimizedContent;
+            }
+          }
+        }
+      } catch (err) {
+        console.error("AI Optimization Error:", err);
+      } finally {
+        setIsOptimizing(false);
+      }
+    }
+
     const savedId = await updateNote(noteId, {
       title,
-      content: editorRef.current?.innerHTML || "",
+      content: contentToSave,
       quadrant: matrixStatus?.id || null,
     });
 
@@ -486,6 +519,28 @@ export default function NoteEditorPage({
                     <circle cx="2" cy="17" r="1.5" />
                   </svg>
                 </ToolbarBtn>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* AI Optimization Loading Overlay */}
+          <AnimatePresence>
+            {isOptimizing && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 z-[60] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center p-10 text-center"
+              >
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#FF9600] to-[#E65100] flex items-center justify-center text-white mb-6 shadow-2xl animate-pulse">
+                  <SparklesIcon className="w-10 h-10" />
+                </div>
+                <h3 className="text-2xl font-black text-[#3C3C3C] mb-2 uppercase italic tracking-tight">
+                  your notes sedang di optimize
+                </h3>
+                <p className="text-[#AFAFAF] font-bold uppercase text-xs tracking-widest">
+                  harap jangan tutup, AI sedang bekerja...
+                </p>
               </motion.div>
             )}
           </AnimatePresence>
