@@ -16,6 +16,33 @@ export const getIconMap = (id: string, className = "w-6 h-6") => {
   }
 };
 
+export const getSoundColorClass = (id: string) => {
+  switch (id) {
+    case 'rain': return 'text-secondary';
+    case 'cafe': return 'text-cafe';
+    case 'forest': return 'text-success';
+    default: return 'text-text-primary';
+  }
+};
+
+export const getSoundBorderClass = (id: string) => {
+  switch (id) {
+    case 'rain': return 'border-secondary';
+    case 'cafe': return 'border-cafe';
+    case 'forest': return 'border-success';
+    default: return 'border-primary';
+  }
+};
+
+export const getSoundBgClass = (id: string) => {
+  switch (id) {
+    case 'rain': return 'bg-secondary-light';
+    case 'cafe': return 'bg-cafe-light';
+    case 'forest': return 'bg-success-light';
+    default: return 'bg-white';
+  }
+};
+
 interface DraggableSoundIconProps {
   id: SoundId;
   label: string;
@@ -88,7 +115,7 @@ interface OrbitingSatelliteProps {
 }
 
 export function OrbitingSatellite({ id, index, total, timerLengthSecs = 15 }: OrbitingSatelliteProps) {
-  const { isTimerRunning, toggleSound } = useOrbitStore();
+  const { sessionState, toggleSound } = useOrbitStore();
   
   const offsetAngle = (360 / total) * index;
   
@@ -102,16 +129,20 @@ export function OrbitingSatellite({ id, index, total, timerLengthSecs = 15 }: Or
     transform: CSS.Translate.toString(transform),
   } : undefined;
   
+  const isRunning = sessionState === 'running';
+  
   return (
     <motion.div
       initial={{ rotate: offsetAngle }}
-      animate={{ rotate: isTimerRunning && !isDragging ? offsetAngle + 360 : offsetAngle }}
-      transition={{ 
+      animate={{ rotate: isRunning && !isDragging ? offsetAngle + 360 : offsetAngle }}
+      transition={isRunning && !isDragging ? { 
         duration: timerLengthSecs, 
         ease: "linear", 
         repeat: Infinity,
         repeatType: "loop",
-        bounce: 0
+      } : {
+        duration: 0.3,
+        ease: "easeOut",
       }}
       className="absolute top-1/2 left-1/2 w-0 h-0 flex items-center justify-center z-50 origin-center"
     >
@@ -119,9 +150,10 @@ export function OrbitingSatellite({ id, index, total, timerLengthSecs = 15 }: Or
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className={`absolute w-10 h-10 rounded-full bg-white border-2 border-primary shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center text-primary cursor-grab active:cursor-grabbing touch-none
+        className={`absolute w-10 h-10 rounded-full border-2 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none
+                   ${getSoundBgClass(id)} ${getSoundColorClass(id)} ${getSoundBorderClass(id)}
                    ${isDragging ? 'scale-125 shadow-xl opacity-90' : ''}`}
-        style={{ ...(style || {}), transform: transform ? CSS.Translate.toString(transform) : `translate(-50%, -50%) translateY(-145px) rotate(-${offsetAngle}deg)` }}
+        style={{ ...(style || {}), transform: transform ? CSS.Translate.toString(transform) : `translate(-50%, -50%) translateY(-120px) rotate(-${offsetAngle}deg)` }}
       >
         {getIconMap(id, "w-5 h-5")}
       </div>

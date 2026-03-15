@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useOrbitStore } from '@/store/useOrbitStore';
 
 export default function AudioMixer() {
-  const { sounds } = useOrbitStore();
+  const { sounds, sessionState } = useOrbitStore();
   
   const rainAudioRef = useRef<HTMLAudioElement>(null);
   const cafeAudioRef = useRef<HTMLAudioElement>(null);
@@ -21,7 +21,7 @@ export default function AudioMixer() {
       ref.current.volume = soundState.volume;
       
       // Play / Pause
-      if (soundState.active) {
+      if (soundState.active && sessionState === 'running') {
         if (ref.current.paused) {
           ref.current.play().catch(e => console.error(`Error playing ${soundState.id} audio:`, e));
         }
@@ -36,7 +36,7 @@ export default function AudioMixer() {
     syncAudio(cafeAudioRef, sounds.cafe);
     syncAudio(forestAudioRef, sounds.forest);
     
-  }, [sounds]);
+  }, [sounds, sessionState]);
 
   return (
     <div style={{ display: 'none' }}>
