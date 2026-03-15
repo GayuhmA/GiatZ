@@ -9,30 +9,34 @@ interface AppLayoutProps {
   children: React.ReactNode;
   showRightPanel?: boolean;
   rightPanel?: React.ReactNode;
+  bgClassName?: string;
+  rightPanelClassName?: string;
 }
 
 export default function AppLayout({
   children,
   showRightPanel = true,
   rightPanel,
+  bgClassName = "bg-bg-page",
+  rightPanelClassName = "bg-bg-card",
 }: AppLayoutProps) {
   const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-bg-page flex flex-col md:flex-row font-body text-text-primary">
+    <div className={`min-h-screen flex flex-col md:flex-row font-body text-text-primary transition-colors duration-1000 ${bgClassName}`}>
       <Sidebar />
 
       <div
         className={`flex-1 flex flex-col md:flex-row w-full md:ml-[240px] ${showRightPanel ? "xl:mr-[380px]" : ""}`}
       >
-        <main className="flex-1 overflow-x-hidden p-4 md:p-6 min-h-screen md:min-h-0 max-w-full">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 max-w-full">
           {children}
         </main>
 
         {showRightPanel && rightPanel && (
           <>
             {/* Desktop Panel */}
-            <aside className="hidden xl:block w-[380px] bg-bg-card border-l border-border p-6 fixed top-0 right-0 h-screen overflow-y-auto z-10">
+            <aside className={`hidden xl:block w-[380px] border-l border-border p-6 fixed top-0 right-0 h-screen overflow-y-auto z-10 transition-colors duration-1000 ${rightPanelClassName}`}>
               {rightPanel}
             </aside>
 
