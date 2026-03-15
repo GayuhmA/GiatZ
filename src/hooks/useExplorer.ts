@@ -1,29 +1,29 @@
-import { useEffect, useCallback } from "react";
-import {
-  collection,
-  query,
-  onSnapshot,
-  doc,
-  addDoc,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  serverTimestamp,
-  Timestamp,
-} from "firebase/firestore";
+import { useDailyStats } from "@/hooks/useDailyStats";
 import { db } from "@/lib/firebase";
 import { useAuthStore } from "@/store/useAuthStore";
 import {
-  useExplorerStore,
   ExplorerNode,
   ExplorerNodeType,
+  useExplorerStore,
 } from "@/store/useExplorerStore";
 import { Edge } from "@xyflow/react";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  serverTimestamp,
+  updateDoc
+} from "firebase/firestore";
+import { useCallback, useEffect } from "react";
 
 export function useExplorer() {
   const { user } = useAuthStore();
   const { setNoteNodes, setCategoryNodes, setEdges, setLoading, setError } =
     useExplorerStore();
+  const { addActivityUnit } = useDailyStats();
 
   // 1. Sync Notes -> NoteNodes
   useEffect(() => {
@@ -234,6 +234,9 @@ export function useExplorer() {
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
           });
+          
+          addActivityUnit(1, 'note');
+          
           return docRef.id;
         } else {
           const noteRef = doc(db, "users", user.uid, "notes", noteId);

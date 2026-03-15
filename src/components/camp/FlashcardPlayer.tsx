@@ -1,21 +1,21 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  animate,
-  AnimatePresence,
-} from "framer-motion";
-import Image from "next/image";
+import { useDailyStats } from "@/hooks/useDailyStats";
 import { FlashcardSet, useCampStore } from "@/store/useCampStore";
 import {
-  TrophyIcon,
   ArrowPathIcon,
+  TrophyIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import {
+  animate,
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface FlashcardPlayerProps {
   set: FlashcardSet;
@@ -47,6 +47,7 @@ export default function FlashcardPlayer({
   const sortingRef = useRef(false);
 
   const updateStats = useCampStore((s) => s.updateFlashcardStats);
+  const { addActivityUnit } = useDailyStats();
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 0, 200], [-12, 0, 12]);
@@ -171,6 +172,7 @@ export default function FlashcardPlayer({
     (async () => {
       try {
         await updateStats(set.id, Math.max(set.masteryPercent, masteryPercent));
+        addActivityUnit(1, 'camp');
       } catch (err) {
         console.error("Failed to update flashcard stats:", err);
       }

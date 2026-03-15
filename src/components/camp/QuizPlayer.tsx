@@ -1,25 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  ResponsiveContainer,
-} from "recharts";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { useDailyStats } from "@/hooks/useDailyStats";
 import { QuizSet, useCampStore } from "@/store/useCampStore";
 import {
-  TrophyIcon,
-  BoltIcon,
-  LightBulbIcon,
-  XMarkIcon,
-  CheckCircleIcon,
   ArrowRightIcon,
+  BoltIcon,
+  CheckCircleIcon,
+  LightBulbIcon,
+  TrophyIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/solid";
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+} from "recharts";
 
 interface QuizPlayerProps {
   set: QuizSet;
@@ -38,6 +39,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
   >([]);
 
   const updateStats = useCampStore((s) => s.updateQuizStats);
+  const { addActivityUnit } = useDailyStats();
 
   const currentQuestion = set.questions[currentIndex];
   const totalQuestions = set.questions.length;
@@ -100,6 +102,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
       updateStats(set.id, finalScore, newRadar).catch((err) =>
         console.error("Failed to update quiz stats:", err),
       );
+      addActivityUnit(1, 'camp');
       setCompleted(true);
       setShowModal(true);
     }

@@ -14,6 +14,7 @@ import {
 import { db } from '@/lib/firebase';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useTaskStore, Task, TaskQuadrant } from '@/store/useTaskStore';
+import { useDailyStats } from '@/hooks/useDailyStats';
 
 export function useTasks() {
   const { user } = useAuthStore();
@@ -27,6 +28,7 @@ export function useTasks() {
     optimisticDeleteTask,
     optimisticUpdateTask
   } = useTaskStore();
+  const { addActivityUnit } = useDailyStats();
 
   // 1. Setup Real-time Listener
   useEffect(() => {
@@ -138,14 +140,21 @@ export function useTasks() {
 
     try {
       const taskRef = doc(db, 'users', user.uid, 'tasks', taskId);
+      const isCompleting = !currentStatus;
+      
       await updateDoc(taskRef, {
-        completed: !currentStatus,
-        completedAt: !currentStatus ? serverTimestamp() : null
+        completed: isCompleting,
+        completedAt: isCompleting ? serverTimestamp() : null
       });
+
+      // If marking as completed, add 1 Activity Unit
+      if (isCompleting) {
+        addActivityUnit(1, 'task');
+      }
     } catch (err) {
       console.error("Error toggling task:", err);
     }
-  }, [user, optimisticToggleTask]);
+  }, [user, optimisticToggleTask, addActivityUnit]);
 
   // 5. Delete Task
   const deleteTask = useCallback(async (taskId: string) => {
