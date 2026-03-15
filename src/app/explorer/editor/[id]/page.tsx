@@ -22,6 +22,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { useExplorer } from "@/hooks/useExplorer";
 import { useExplorerStore } from "@/store/useExplorerStore";
 import { useRouter } from "next/navigation";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 const MATRIX_OPTIONS = [
@@ -141,6 +142,9 @@ export default function NoteEditorPage({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+
+  const isMobile = useMediaQuery("(max-width: 1024px)");
+  const isExtraSmall = useMediaQuery("(max-width: 640px)");
 
   const handleManualSave = async () => {
     if (!user?.uid || !noteId) return;
@@ -379,9 +383,13 @@ export default function NoteEditorPage({
 
   return (
     <AppLayout showRightPanel={false}>
-      <div className="max-w-[1600px] mx-auto w-full h-[calc(100vh-104px)] md:h-[calc(100vh-48px)] overflow-hidden flex flex-col lg:flex-row gap-6 relative px-4 md:px-0">
+      <div
+        className={`max-w-[1600px] mx-auto w-full ${isMobile ? "min-h-screen" : "h-[calc(100vh-48px)] overflow-hidden"} flex flex-col lg:flex-row gap-6 lg:gap-8 relative px-0 md:px-4 lg:px-0 pb-10 lg:pb-0`}
+      >
         {/* Back Link */}
-        <div className="absolute top-0 left-4 md:left-0 -mt-2">
+        <div
+          className={`${isMobile ? "static mb-4 pt-2" : "absolute top-0 left-0 -mt-2"} px-4 md:px-0`}
+        >
           <Link
             href="/explorer"
             className="flex items-center gap-2 text-[#AFAFAF] hover:text-[#3C3C3C] font-bold text-sm transition-colors group"
@@ -394,13 +402,15 @@ export default function NoteEditorPage({
         </div>
 
         {/* ── Editor Column (75%) ── */}
-        <div className="flex-1 min-h-0 min-w-0 flex flex-col gap-6 mt-10 bg-white rounded-[40px] p-8 md:p-14 border border-[#E5E5E5] shadow-[0_4px_30px_rgba(0,0,0,0.02)] relative overflow-hidden">
+        <div
+          className={`flex-1 min-h-0 min-w-0 flex flex-col gap-4 lg:gap-6 ${isMobile ? "mt-0" : "mt-10"} bg-white rounded-[32px] md:rounded-[40px] p-6 text-wrap break-words md:p-10 lg:p-14 border border-[#E5E5E5] shadow-[0_4px_30px_rgba(0,0,0,0.02)] relative overflow-hidden`}
+        >
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
-            className="w-full text-[40px] font-extrabold text-[#3C3C3C] placeholder:text-[#E2E8F0] bg-transparent outline-none border-none font-heading tracking-tight leading-tight shrink-0"
+            className={`w-full ${isExtraSmall ? "text-[24px]" : "text-[40px]"} font-extrabold text-[#3C3C3C] placeholder:text-[#E2E8F0] bg-transparent outline-none border-none font-heading tracking-tight leading-tight shrink-0 min-w-0`}
           />
 
           <div className="h-px w-full bg-[#F1F5F9] shrink-0" />
@@ -412,13 +422,14 @@ export default function NoteEditorPage({
             onPaste={handlePaste}
             onKeyDown={handleKeyDown}
             data-placeholder="Start writing your learning notes here..."
-            className="flex-1 outline-none text-[#3C3C3C] text-[18px] leading-[1.7] font-body overflow-y-auto overflow-x-hidden break-all md:break-words pr-2 custom-scrollbar empty:before:content-[attr(data-placeholder)] empty:before:text-[#CBD5E1] empty:before:pointer-events-none
+            className={`flex-1 outline-none text-[#3C3C3C] ${isExtraSmall ? "text-[14px]" : "text-[18px]"} leading-[1.7] font-body overflow-y-auto overflow-x-hidden break-all md:break-words pr-2 custom-scrollbar empty:before:content-[attr(data-placeholder)] empty:before:text-[#CBD5E1] empty:before:pointer-events-none w-full min-w-0
+              ${isMobile ? "min-h-[300px]" : "h-full"}
               [&_strong]:font-bold [&_em]:italic [&_u]:underline
               [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4
               [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4
               [&_li]:mb-2
               [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:mt-8 [&_h2]:mb-4
-              [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.9em]"
+              [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.9em]`}
           />
 
           {/* Floating Toolbar */}
@@ -481,7 +492,9 @@ export default function NoteEditorPage({
         </div>
 
         {/* ── Right Sidebar Widgets (25%) ── */}
-        <div className="lg:w-[320px] shrink-0 flex flex-col gap-6 mt-12">
+        <div
+          className={`lg:w-[320px] shrink-0 flex flex-col gap-6 ${isMobile ? "mt-0" : "mt-12"} px-4 md:px-0`}
+        >
           {/* Mind Links Widget */}
           <div className="bg-white rounded-[32px] p-6 border border-[#E5E5E5] shadow-sm overflow-hidden relative group min-h-[220px] flex flex-col">
             <div className="flex items-center justify-between mb-4">

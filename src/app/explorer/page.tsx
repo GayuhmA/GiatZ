@@ -19,6 +19,7 @@ import AddCategoryModal from "../../components/explorer/AddCategoryModal";
 import AllNotesModal from "../../components/explorer/AllNotesModal";
 import { useExplorerStore } from "@/store/useExplorerStore";
 import { useExplorer } from "@/hooks/useExplorer";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
 export default function MindGlancePage() {
   const {
@@ -40,6 +41,7 @@ export default function MindGlancePage() {
 
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isAllNotesOpen, setIsAllNotesOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const nodes = getMergedNodes();
 
@@ -92,26 +94,27 @@ export default function MindGlancePage() {
         />
       }
     >
-      <div className="flex flex-col h-[calc(100vh-120px)] md:h-[calc(100vh-60px)]">
+      <div className="flex flex-col h-[calc(100vh-140px)] md:h-[calc(100vh-60px)]">
         {/* Header Content */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full mb-6">
-          <div className="w-full relative z-10 flex flex-col items-start gap-1">
-            <h2 className="text-2xl md:text-[32px] font-extrabold text-[#3C3C3C] flex items-center font-heading tracking-wide">
-              Interactive Graph Canvas
+        <div className="flex flex-row items-start justify-between gap-4 w-full mb-6">
+          <div className="flex-1 relative z-10 flex flex-col items-start gap-1 min-w-0">
+            <h2 className="text-2xl md:text-[32px] font-extrabold text-[#3C3C3C] flex items-center font-heading tracking-wide truncate w-full">
+              {isMobile ? "Explorer" : "Interactive Graph Canvas"}
             </h2>
-            <p className="text-[#AFAFAF] font-bold text-sm mt-1 tracking-wide">
-              Connect the dots of your learning journey
+            <p className="text-[#AFAFAF] font-bold text-[10px] md:text-sm mt-0.5 md:mt-1 tracking-wide uppercase truncate w-full">
+              {isMobile
+                ? "Connect your ideas"
+                : "Connect the dots of your learning journey"}
             </p>
           </div>
 
-          {/* Desktop Only: Top Controls */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
             <SearchBar />
           </div>
         </div>
 
         {/* Canvas Area Container */}
-        <div className="w-full flex-1 relative min-h-[400px]">
+        <div className="w-full flex-1 relative min-h-[calc(100vh-220px)] md:min-h-[400px]">
           <MindGlanceGraph
             nodes={nodes}
             edges={edges}

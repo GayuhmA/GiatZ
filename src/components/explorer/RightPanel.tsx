@@ -57,7 +57,7 @@ export default function RightPanel({
   const todayCount = weeklyStats[6]?.count || 0;
 
   return (
-    <div className="w-full h-full flex flex-col p-6 gap-6 overflow-y-auto hidden lg:flex [&::-webkit-scrollbar]:hidden">
+    <div className="w-full h-full flex flex-col p-4 xl:p-6 xl:pt-6 gap-6 overflow-y-auto [&::-webkit-scrollbar]:hidden">
       <div className="flex items-center justify-between">
         <h2 className="text-xl md:text-2xl font-extrabold text-[#3C3C3C] tracking-wide font-heading leading-tight">
           Your Knowledge Base
@@ -70,10 +70,10 @@ export default function RightPanel({
           {/* Stable Wrapper to prevent layout shift */}
           <button
             onClick={() => router.push("/explorer/editor/new")}
-            className="w-full bg-[#FF9600] text-white font-bold text-sm md:text-base rounded-full py-2.5 px-4 flex items-center justify-center gap-2 border-b-4 border-[#E68600] hover:translate-y-[2px] hover:border-b-[2px] active:translate-y-[4px] active:border-b-0 transition-all cursor-pointer shadow-sm"
+            className="w-full bg-[#FF9600] text-white font-bold text-[13px] md:text-base rounded-full py-2.5 px-3 flex items-center justify-center gap-1.5 border-b-4 border-[#E68600] hover:translate-y-[2px] hover:border-b-[2px] active:translate-y-[4px] active:border-b-0 transition-all cursor-pointer shadow-sm"
           >
             <PlusIcon className="w-5 h-5 flex-shrink-0" strokeWidth={2.5} />
-            <span className="truncate">CREATE NEW NOTE</span>
+            <span className="whitespace-nowrap">CREATE NEW NOTE</span>
           </button>
         </div>
 
