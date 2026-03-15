@@ -325,7 +325,7 @@ export default function OrbitPage() {
 
             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mt-2">
               {sessionState === 'idle' && (
-                <Button className="w-full md:w-auto px-10 py-3 rounded-full font-bold shadow-lg" onClick={handleStartSession}>
+                <Button variant="primary" className="w-full md:w-auto px-10 py-3 rounded-full font-bold shadow-lg" onClick={handleStartSession}>
                   START SESSION
                 </Button>
               )}

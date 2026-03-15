@@ -9,8 +9,9 @@ interface UserProfile {
   displayName: string | null;
   photoURL: string | null;
   photoUrl?: string | null;
-  xp?: number;
-  level?: number;
+  streakDays?: number;
+  lastActiveAt?: any; // Firestore Timestamp
+  dailyGoalUnits?: number;
 }
 
 interface AuthState {
@@ -23,6 +24,7 @@ interface AuthState {
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (name: string, email: string, pass: string) => Promise<void>;
   logout: () => Promise<void>;
+  updateDailyGoal: (units: number) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -47,8 +49,8 @@ export const useAuthStore = create<AuthState>((set) => ({
         email: result.user.email,
         displayName: result.user.displayName,
         photoURL: result.user.photoURL,
-        xp: 0,
-        level: 1,
+        streakDays: 0,
+        lastActiveAt: null,
       };
 
       if (!userDoc.exists()) {
@@ -88,8 +90,8 @@ export const useAuthStore = create<AuthState>((set) => ({
         email: user.email,
         displayName: name,
         photoURL: null,
-        xp: 0,
-        level: 1,
+        streakDays: 0,
+        lastActiveAt: null,
       };
 
       await setDoc(doc(db, 'users', user.uid), userProfile);
@@ -107,6 +109,20 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ user: null, firebaseUser: null, loading: false });
     } catch (error) {
       console.error("Error signing out", error);
+    }
+  },
+
+  updateDailyGoal: async (units: number) => {
+    const { user } = set as unknown as { user: UserProfile | null };
+    // Get current state safely
+    const currentUser = useAuthStore.getState().user;
+    if (!currentUser?.uid) return;
+
+    try {
+      await setDoc(doc(db, 'users', currentUser.uid), { dailyGoalUnits: units }, { merge: true });
+      set({ user: { ...currentUser, dailyGoalUnits: units } });
+    } catch (err) {
+      console.error("Error updating daily goal:", err);
     }
   }
 }));

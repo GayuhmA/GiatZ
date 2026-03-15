@@ -6,6 +6,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useDailyStats } from '@/hooks/useDailyStats';
 
 export type FocusSessionStatus = 'COMPLETED' | 'INTERRUPTED';
 
@@ -18,6 +19,7 @@ export interface FocusSessionData {
 
 export function useFocusSessions() {
   const { user } = useAuthStore();
+  const { addActivityUnit } = useDailyStats();
 
   const saveSession = useCallback(async (
     durationSecs: number,
@@ -40,12 +42,21 @@ export function useFocusSessions() {
 
       const docRef = await addDoc(sessionsRef, sessionData);
       console.log(`Focus session saved (${status}): ${docRef.id}, duration: ${durationSecs}s`);
+
+      // Calculate and add Activity Units if COMPLETED
+      if (status === 'COMPLETED') {
+        const units = Math.floor(durationSecs / 1500);
+        addActivityUnit(units, 'focus', { focusSeconds: durationSecs });
+      } else if (status === 'INTERRUPTED') {
+        addActivityUnit(0, 'focus', { focusSeconds: durationSecs });
+      }
+
       return docRef.id;
     } catch (error) {
       console.error('Error saving focus session:', error);
       return null;
     }
-  }, [user?.uid]);
+  }, [user?.uid, addActivityUnit]);
 
   return { saveSession };
 }
