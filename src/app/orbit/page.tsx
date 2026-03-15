@@ -10,9 +10,15 @@ import { useOrbitStore, SoundId } from "@/store/useOrbitStore";
 import { DndContext, DragEndEvent, DragStartEvent, useSensors, useSensor, PointerSensor, KeyboardSensor, DragOverlay } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { DraggableSoundIcon, DroppableOrbitZone, OrbitingSatellite, getIconMap } from "@/components/orbit/OrbitComponents";
+import { useFocusSessions } from "@/hooks/useFocusSessions";
+import { SoundState } from "@/store/useOrbitStore";
+import { Pencil, Check, X } from "lucide-react";
 
 export default function OrbitPage() {
-  const { sounds, sessionState, toggleTimer, toggleSound, remainingSeconds, decrementTimer, sessionLengthSecs, resetSession, stopAllSounds, setSessionState } = useOrbitStore();
+  const { sounds, sessionState, toggleTimer, toggleSound, remainingSeconds, decrementTimer, sessionLengthSecs, resetSession, stopAllSounds, setSessionState, getElapsedTotal, sessionTitle, setSessionTitle } = useOrbitStore();
+  const { saveSession } = useFocusSessions();
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(sessionTitle);
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
   const [timeOfDay, setTimeOfDay] = useState<"morning" | "afternoon" | "evening" | "night">("morning");
   const alarmRef = useRef<HTMLAudioElement | null>(null);
@@ -57,6 +63,13 @@ export default function OrbitPage() {
       if ("Notification" in window && Notification.permission === "granted") {
         new Notification("Orbit Session Complete!", { body: "Great job. Time to take a break!" });
       }
+      
+      // Save completed session to Firestore
+      const totalElapsed = getElapsedTotal();
+      if (totalElapsed > 0) {
+        saveSession(totalElapsed, 'COMPLETED', sessionTitle);
+      }
+      
       stopAllSounds();
     } else if (sessionState !== 'finished') {
       hasHandledFinished.current = false;
@@ -87,7 +100,37 @@ export default function OrbitPage() {
   }, [sessionState, remainingSeconds, decrementTimer]);
 
   const handleSkip = () => {
+    // Save as COMPLETED before resetting state
+    const totalElapsed = getElapsedTotal();
+    if (totalElapsed > 0) {
+      saveSession(totalElapsed, 'COMPLETED', sessionTitle);
+    }
     useOrbitStore.setState({ remainingSeconds: 0, sessionState: 'finished' });
+  };
+
+  const handleToggle = () => {
+    if (sessionState === 'running') {
+      // About to pause: log as interrupted
+      const totalElapsed = getElapsedTotal();
+      if (totalElapsed > 0) {
+        saveSession(totalElapsed, 'INTERRUPTED', sessionTitle);
+      }
+    }
+    toggleTimer();
+  };
+
+  const handleSaveTitle = () => {
+    if (editedTitle.trim()) {
+      setSessionTitle(editedTitle.trim());
+    } else {
+      setEditedTitle(sessionTitle);
+    }
+    setIsEditingTitle(false);
+  };
+
+  const handleCancelTitle = () => {
+    setEditedTitle(sessionTitle);
+    setIsEditingTitle(false);
   };
 
   const handleStartSession = async () => {
@@ -139,7 +182,7 @@ export default function OrbitPage() {
     return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
   };
 
-  const activeSounds = Object.values(sounds).filter(s => s.active);
+  const activeSounds = (Object.values(sounds) as SoundState[]).filter(s => s.active);
 
   const getMixWidth = (volume: number, isActive: boolean) => 
     isActive ? `${(volume / 1.0) * 100}%` : '0%';
@@ -210,23 +253,69 @@ export default function OrbitPage() {
               </div>
 
               {/* Orbiting Elements (Dynamic) */}
-              {activeSounds.map((sound, index) => (
+              {activeSounds.map((sound: SoundState, index: number) => (
                 <OrbitingSatellite 
                   key={sound.id} 
                   id={sound.id} 
                   index={index} 
                   total={activeSounds.length} 
-                  timerLengthSecs={15} 
+                  timerLengthSecs={20} 
                 />
               ))}
             </DroppableOrbitZone>
 
-            <h2 className={`text-2xl md:text-3xl font-extrabold mb-2 text-center transition-colors ${isNight ? 'text-white' : 'text-text-primary'}`}>
-              {sessionState === 'idle' && 'Deep Work Orbit'}
-              {sessionState === 'running' && 'Deep Work Orbit'}
-              {sessionState === 'paused' && 'Session Paused'}
-              {sessionState === 'finished' && 'Session Complete!'}
-            </h2>
+            {isEditingTitle && sessionState === 'idle' ? (
+              <div className="flex items-center gap-2 mb-2 w-full max-w-md px-4">
+                <input
+                  type="text"
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                  className={`flex-1 min-w-0 bg-transparent border-b-2 border-primary text-2xl md:text-3xl font-extrabold text-center focus:outline-none transition-colors ${isNight ? 'text-white' : 'text-text-primary'}`}
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveTitle();
+                    if (e.key === 'Escape') handleCancelTitle();
+                  }}
+                />
+                <div className="flex shrink-0 gap-1">
+                  <button onClick={handleSaveTitle} className="p-1 hover:text-primary transition-colors" title="Save">
+                    <Check size={24} />
+                  </button>
+                  <button onClick={handleCancelTitle} className="p-1 hover:text-red-500 transition-colors" title="Cancel">
+                    <X size={24} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="relative group mb-2 flex items-center justify-center w-full">
+                {/* Left Spacer to balance the Edit Button on the right */}
+                <div className="w-8 h-8 shrink-0 invisible" aria-hidden="true" />
+                
+                <h2 
+                  className={`text-2xl md:text-3xl font-extrabold transition-colors px-2 ${isNight ? 'text-white' : 'text-text-primary'}`}
+                >
+                  {sessionState === 'idle' && sessionTitle}
+                  {sessionState === 'running' && sessionTitle}
+                  {sessionState === 'paused' && 'Session Paused'}
+                  {sessionState === 'finished' && 'Session Complete!'}
+                </h2>
+                
+                <div className="w-8 h-8 shrink-0 flex items-center justify-center">
+                  {sessionState === 'idle' && (
+                    <button 
+                      onClick={() => {
+                        setEditedTitle(sessionTitle);
+                        setIsEditingTitle(true);
+                      }}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:text-primary"
+                      title="Edit Title"
+                    >
+                      <Pencil size={18} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
             <p className={`text-sm md:text-base mb-8 text-center max-w-md transition-colors ${isNight ? 'text-gray-300' : 'text-text-secondary'}`}>
               {sessionState === 'idle' && "Ready to enter your focus orbit."}
               {sessionState === 'running' && "You're orbiting success! Keep the momentum going."}
@@ -243,7 +332,7 @@ export default function OrbitPage() {
               
               {(sessionState === 'running' || sessionState === 'paused') && (
                 <>
-                  <Button className="w-full md:w-auto px-10 py-3 rounded-full font-bold shadow-lg" onClick={() => toggleTimer()}>
+                  <Button className="w-full md:w-auto px-10 py-3 rounded-full font-bold shadow-lg" onClick={handleToggle}>
                     {sessionState === 'running' ? 'PAUSE SESSION' : 'RESUME SESSION'}
                   </Button>
                   <Button onClick={handleSkip} variant="ghost" className={`w-full md:w-auto bg-white/20 px-8 py-3 rounded-full font-bold shadow-sm backdrop-blur-sm border ${isNight ? 'border-white/20 text-white hover:bg-white/30' : 'border-black/5 text-text-primary hover:bg-white/40'}`}>SKIP</Button>
