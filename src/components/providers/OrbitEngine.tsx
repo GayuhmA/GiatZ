@@ -55,12 +55,11 @@ export default function OrbitEngine() {
     syncAudio(forestRef, sounds.forest);
   }, [sounds, sessionState]);
 
-  const hasHandledFinished = useRef(false);
+  const prevSessionState = useRef(sessionState);
   const alarmRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (sessionState === "finished" && !hasHandledFinished.current) {
-      hasHandledFinished.current = true;
+    if (sessionState === "finished" && prevSessionState.current !== "finished") {
 
       // Stop any previous alarm
       if (alarmRef.current) {
@@ -106,9 +105,8 @@ export default function OrbitEngine() {
           saveSession(totalElapsed, 'COMPLETED', title);
         }
       }
-    } else if (sessionState !== "finished") {
-      hasHandledFinished.current = false;
     }
+    prevSessionState.current = sessionState;
   }, [sessionState, isBreakMode]);
 
   // Invisible audio elements rendered at the root level

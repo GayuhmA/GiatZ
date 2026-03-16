@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AppLayout from "@/components/layout/AppLayout";
 import Card from "@/components/shared/Card";
 import Button from "@/components/shared/Button";
 import TimerDurationCard from "@/components/orbit/TimerDurationCard";
 import { useOrbitStore, SoundId } from "@/store/useOrbitStore";
-import { DndContext, DragEndEvent, DragStartEvent, useSensors, useSensor, PointerSensor, KeyboardSensor, DragOverlay } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, DragStartEvent, useSensors, useSensor, PointerSensor, KeyboardSensor, DragOverlay, Modifier } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { DraggableSoundIcon, DroppableOrbitZone, OrbitingSatellite, getIconMap } from "@/components/orbit/OrbitComponents";
+import { DraggableSoundIcon, DroppableOrbitZone, OrbitingSatellite, getIconMap, getSoundBgClass, getSoundColorClass, getSoundBorderClass } from "@/components/orbit/OrbitComponents";
 import { useFocusSessions } from "@/hooks/useFocusSessions";
 import { SoundState } from "@/store/useOrbitStore";
 import { Pencil, Check, X } from "lucide-react";
@@ -106,6 +106,19 @@ export default function OrbitPage() {
   const handleDragStart = (event: DragStartEvent) => {
     setActiveDragId(event.active.id as string);
   };
+
+  // Custom modifier: snap overlay center to cursor for satellite drags
+  const snapCenterForSatellite: Modifier = useCallback(({ activatorEvent, draggingNodeRect, transform }) => {
+    if (!activeDragId?.startsWith('satellite-') || !activatorEvent || !draggingNodeRect) {
+      return transform;
+    }
+    const evt = activatorEvent as PointerEvent;
+    return {
+      ...transform,
+      x: evt.clientX - draggingNodeRect.left - draggingNodeRect.width / 2 + transform.x,
+      y: evt.clientY - draggingNodeRect.top - draggingNodeRect.height / 2 + transform.y,
+    };
+  }, [activeDragId]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     setActiveDragId(null);
@@ -307,13 +320,21 @@ export default function OrbitPage() {
         </motion.div>
       </AppLayout>
       </div>
-      <DragOverlay dropAnimation={null}>
+      <DragOverlay dropAnimation={null} modifiers={[snapCenterForSatellite]}>
         {activeDragId && activeDragId.startsWith('sound-') ? (
-          <div className="w-12 h-12 rounded-full border-2 border-primary ring-2 ring-primary ring-offset-2 flex items-center justify-center bg-white shadow-2xl scale-110">
-            {getIconMap(activeDragId.replace('sound-', ''), "w-6 h-6 text-primary")}
+          <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center shadow-2xl scale-110
+            ${getSoundBgClass(activeDragId.replace('sound-', ''))}
+            ${getSoundColorClass(activeDragId.replace('sound-', ''))}
+            ${getSoundBorderClass(activeDragId.replace('sound-', ''))}
+          `}>
+             {getIconMap(activeDragId.replace('sound-', ''), "w-6 h-6")}
           </div>
         ) : activeDragId && activeDragId.startsWith('satellite-') ? (
-          <div className="w-10 h-10 rounded-full bg-white border-2 border-primary shadow-2xl flex items-center justify-center text-primary scale-125">
+          <div className={`w-10 h-10 rounded-full border-2 shadow-2xl flex items-center justify-center scale-125
+            ${getSoundBgClass(activeDragId.replace('satellite-', ''))}
+            ${getSoundColorClass(activeDragId.replace('satellite-', ''))}
+            ${getSoundBorderClass(activeDragId.replace('satellite-', ''))}
+          `}>
              {getIconMap(activeDragId.replace('satellite-', ''), "w-5 h-5")}
           </div>
         ) : null}

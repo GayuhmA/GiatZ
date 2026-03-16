@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -51,10 +53,25 @@ const navItems = [
 import { useAuthStore } from "@/store/useAuthStore";
 import Button from "@/components/shared/Button";
 
+// Module-level cache: remembers URLs that have failed to load
+const failedPhotoUrls = new Set<string>();
+
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuthStore();
+
+  const photoUrl = (user?.photoURL || user?.photoUrl || "") as string;
+  const [imgError, setImgError] = useState(() => !photoUrl || failedPhotoUrls.has(photoUrl));
+
+  useEffect(() => {
+    // When the URL changes, only reset if the new URL hasn't failed before
+    if (photoUrl && !failedPhotoUrls.has(photoUrl)) {
+      setImgError(false);
+    } else {
+      setImgError(true);
+    }
+  }, [photoUrl]);
 
   return (
     <aside className="fixed bottom-0 left-0 w-full h-[72px] md:h-screen md:w-[240px] bg-bg-card flex flex-row md:flex-col border-t md:border-t-0 md:border-r border-border z-50">
@@ -118,10 +135,11 @@ export default function Sidebar() {
         {/* User Profile Info */}
         {user && (
           <div className="flex items-center gap-3 mb-2 px-1">
-            {user.photoURL || user.photoUrl ? (
+            {photoUrl && !imgError ? (
               <img
-                src={user.photoURL || user.photoUrl || ""}
+                src={photoUrl}
                 alt={user.displayName || "Profile"}
+                onError={() => { failedPhotoUrls.add(photoUrl); setImgError(true); }}
                 className="w-10 h-10 rounded-full border-2 border-primary object-cover shrink-0"
               />
             ) : (
