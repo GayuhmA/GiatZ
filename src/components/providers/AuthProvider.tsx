@@ -7,7 +7,11 @@ import { auth, db } from "@/lib/firebase";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter, usePathname } from "next/navigation";
 
-export default function AuthProvider({ children }: { children: React.ReactNode }) {
+export default function AuthProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { user, loading, setUser, setLoading } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
@@ -17,9 +21,9 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       if (firebaseUser) {
         // User is signed in.
         try {
-          const userDocRef = doc(db, 'users', firebaseUser.uid);
+          const userDocRef = doc(db, "users", firebaseUser.uid);
           const userDoc = await getDoc(userDocRef);
-          
+
           let userProfile = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
@@ -37,9 +41,9 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
           setUser(userProfile, firebaseUser);
 
-          // Redirect to home if on auth pages
-          if (pathname === '/login' || pathname === '/signup') {
-            router.push('/');
+          // Redirect to home if on public-only pages
+          if (pathname === "/login" || pathname === "/signup") {
+            router.push("/home");
           }
         } catch (error) {
           console.error("Error fetching user data", error);
@@ -48,9 +52,11 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       } else {
         // User is signed out
         setUser(null, null);
-        // Protect routes (optional: can redirect here if not on auth page)
-        if (pathname !== '/login' && pathname !== '/signup') {
-           router.push('/login');
+        // Protect routes (allow / to be public)
+        const isPublicRoute =
+          pathname === "/" || pathname === "/login" || pathname === "/signup";
+        if (!isPublicRoute) {
+          router.push("/login");
         }
       }
       setLoading(false);
@@ -59,7 +65,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     return () => unsubscribe();
   }, [setUser, setLoading, router, pathname]);
 
-  const isAuthRoute = pathname === '/login' || pathname === '/signup';
+  const isPublicRoute =
+    pathname === "/" || pathname === "/login" || pathname === "/signup";
 
   if (loading) {
     return (
@@ -69,11 +76,11 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     );
   }
 
-  if (!user && !isAuthRoute) {
+  if (!user && !isPublicRoute) {
     return null;
   }
 
-  if (user && isAuthRoute) {
+  if (user && isPublicRoute && pathname !== "/") {
     return null;
   }
 
