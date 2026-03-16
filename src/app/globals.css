@@ -7,9 +7,9 @@
   --color-primary-light: #fff3e0;
 
   /* Cafe (Brown) */
-  --color-cafe: #A0522D;
-  --color-cafe-dark: #8B4513;
-  --color-cafe-light: #FAEBD7;
+  --color-cafe: #a0522d;
+  --color-cafe-dark: #8b4513;
+  --color-cafe-light: #faebd7;
 
   /* Secondary (Info/Blue) */
   --color-secondary: #1cb0f6;
@@ -87,4 +87,13 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
