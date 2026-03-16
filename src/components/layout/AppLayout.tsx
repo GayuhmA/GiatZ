@@ -31,7 +31,7 @@ export default function AppLayout({
       <div
         className={`flex-1 flex flex-col md:flex-row w-full md:pl-[240px] ${showRightPanel ? "xl:pr-[380px]" : ""}`}
       >
-        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 pb-24 md:p-6 md:pb-6 max-w-full">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto scrollbar-hide p-4 pb-24 md:p-6 md:pb-6 max-w-full">
           {children}
         </main>
 
