@@ -165,13 +165,12 @@ export default function OrbitPage() {
         }
       >
         <motion.div
-          className="flex flex-col items-center justify-center p-4 md:p-6 h-full -mt-4"
+          className="flex flex-col items-center justify-center px-2 py-4 md:p-6 h-full -mt-4"
           initial={{ opacity: 0, scale: 0.92, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Card variant="container" className={`w-full max-w-2xl flex flex-col items-center p-8 md:p-12 relative overflow-hidden transition-all duration-1000 ${isNight ? 'bg-white/10! backdrop-blur-xl border-white/20 text-white shadow-2xl' : 'bg-white/60! backdrop-blur-xl border border-white/60 shadow-2xl'}`}>
-
+          <Card variant="container" className={`w-full max-w-2xl flex flex-col items-center p-8 pt-12 md:p-20 relative overflow-visible transition-all duration-1000 ${isNight ? 'bg-white/10! backdrop-blur-xl border-white/20 text-white shadow-2xl' : 'bg-white/60! backdrop-blur-xl border border-white/60 shadow-2xl'}`}>
             <DroppableOrbitZone>
               {/* Center Planet / Timer */}
               <div className={`w-[150px] h-[150px] md:w-[180px] md:h-[180px] bg-primary rounded-full flex flex-col items-center justify-center text-white z-10 transition-shadow duration-500
@@ -218,12 +217,12 @@ export default function OrbitPage() {
                 </div>
               </div>
             ) : (
-              <div className="relative group mb-2 flex items-center justify-center w-full">
+              <div className="relative group mb-2 flex items-center justify-center w-full min-w-0">
                 {/* Left Spacer to balance the Edit Button on the right */}
                 <div className="w-8 h-8 shrink-0 invisible" aria-hidden="true" />
                 
                 <h2 
-                  className={`text-2xl md:text-3xl font-extrabold transition-colors px-2 ${isNight ? 'text-white' : 'text-text-primary'}`}
+                  className={`text-xl md:text-3xl font-extrabold transition-colors px-2 truncate max-w-full mt-4 ${isNight ? 'text-white' : 'text-text-primary'}`}
                 >
                   {sessionState === 'idle' && sessionTitle}
                   {sessionState === 'running' && sessionTitle}
@@ -247,7 +246,7 @@ export default function OrbitPage() {
                 </div>
               </div>
             )}
-            <p className={`text-sm md:text-base mb-8 text-center max-w-md transition-colors ${isNight ? 'text-gray-300' : 'text-text-secondary'}`}>
+            <p className={`text-sm md:text-base mb-2 md:mb-8 text-center max-w-md transition-colors ${isNight ? 'text-gray-300' : 'text-text-secondary'}`}>
               {sessionState === 'idle' && "Ready to enter your focus orbit."}
               {sessionState === 'running' && "You're orbiting success! Keep the momentum going."}
               {sessionState === 'paused' && "Take a deep breath. Ready when you are."}

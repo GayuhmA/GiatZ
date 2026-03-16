@@ -29,7 +29,7 @@ export default function AppLayout({
       <div
         className={`flex-1 flex flex-col md:flex-row w-full md:ml-[240px] ${showRightPanel ? "xl:mr-[380px]" : ""}`}
       >
-        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 max-w-full">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 pb-24 md:p-6 md:pb-6 max-w-full">
           {children}
         </main>
 
@@ -80,7 +80,7 @@ export default function AppLayout({
                         <XMarkIcon className="w-6 h-6" />
                       </button>
                     </div>
-                    <div className="flex-1 overflow-y-auto">{rightPanel}</div>
+                    <div className="flex-1 overflow-y-auto p-4">{rightPanel}</div>
                   </motion.aside>
                 </>
               )}

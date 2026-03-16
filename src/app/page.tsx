@@ -75,7 +75,6 @@ export default function Home() {
           <Card className="flex flex-col items-center justify-center p-6 bg-white border border-gray-100 shadow-sm text-center">
             <div className="w-16 h-16 relative flex items-center justify-center mb-2">
               <Flame size={48} className="text-orange-500" fill="currentColor" />
-              {/* Optional: cute +1 badge if active today */}
               {todayUnits > 0 && (
                 <div className="absolute top-0 right-0 bg-success text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">
                   +1
@@ -147,7 +146,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Today's Quests */}
+        {/* Today's Tasks */}
         <div>
           <div className="flex items-center gap-3 mb-5">
             <h3 className="font-extrabold text-2xl text-text-primary tracking-tight">Today&apos;s Tasks</h3>
@@ -178,7 +177,7 @@ export default function Home() {
                           <p className="text-sm text-text-secondary">Complete to earn Activity Unit</p>
                         </div>
                       </div>
-                      <span className="font-extrabold text-[#D9A05B] flex items-center gap-1.5 text-sm bg-orange-50 px-3 py-1.5 rounded-full">
+                      <span className="font-extrabold text-[#D9A05B] flex items-center gap-1.5 text-sm bg-orange-50 px-3 py-1.5 rounded-full whitespace-nowrap shrink-0">
                         <Trophy size={16} className="text-[#D9A05B]" /> 1 Unit
                       </span>
                     </Card>

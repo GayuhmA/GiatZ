@@ -74,7 +74,7 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 flex flex-row md:flex-col justify-around md:justify-start px-2 md:px-6 py-2 md:py-4 md:space-y-2 w-full">
+      <nav className="flex-1 flex flex-row md:flex-col justify-around md:justify-start px-3 md:px-6 py-2 md:py-4 md:space-y-2 w-full">
         {navItems.map((item) => {
           const isActive =
             item.href === "/"
