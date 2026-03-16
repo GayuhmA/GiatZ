@@ -23,7 +23,9 @@ export default function AppLayout({
   const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
 
   return (
-    <div className={`h-screen flex flex-col md:flex-row font-body text-text-primary transition-colors duration-1000 ${bgClassName}`}>
+    <div
+      className={`h-screen flex flex-col md:flex-row font-body text-text-primary transition-colors duration-1000 ${bgClassName}`}
+    >
       <Sidebar />
 
       <div
@@ -36,7 +38,9 @@ export default function AppLayout({
         {showRightPanel && rightPanel && (
           <>
             {/* Desktop Panel */}
-            <aside className={`hidden xl:block w-[380px] border-l border-border p-6 fixed top-0 right-0 h-screen overflow-y-auto z-10 transition-colors duration-1000 ${rightPanelClassName}`}>
+            <aside
+              className={`hidden xl:block w-[380px] border-l border-border p-6 fixed top-0 right-0 h-screen overflow-y-auto z-10 transition-colors duration-1000 ${rightPanelClassName}`}
+            >
               {rightPanel}
             </aside>
 
@@ -67,10 +71,10 @@ export default function AppLayout({
                     animate={{ x: 0 }}
                     exit={{ x: "100%" }}
                     transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                    className="xl:hidden fixed top-0 right-0 w-[85%] md:w-[400px] h-full bg-white z-[70] shadow-2xl flex flex-col"
+                    className="xl:hidden fixed top-0 right-0 w-[85%] md:w-[400px] h-full bg-white text-slate-800 z-[70] shadow-2xl flex flex-col"
                   >
                     <div className="flex items-center justify-between p-4 border-b border-border bg-gray-50/50">
-                      <h3 className="text-xl font-bold text-text-primary tracking-tight">
+                      <h3 className="text-xl font-bold text-slate-800 tracking-tight">
                         Info & Stats
                       </h3>
                       <button
@@ -80,7 +84,9 @@ export default function AppLayout({
                         <XMarkIcon className="w-6 h-6" />
                       </button>
                     </div>
-                    <div className="flex-1 overflow-y-auto p-4">{rightPanel}</div>
+                    <div className="flex-1 overflow-y-auto p-4">
+                      {rightPanel}
+                    </div>
                   </motion.aside>
                 </>
               )}

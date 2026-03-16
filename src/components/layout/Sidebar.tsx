@@ -82,7 +82,7 @@ export default function Sidebar() {
   }, [photoUrl]);
 
   return (
-    <aside className="fixed bottom-0 left-0 w-full h-[72px] md:h-screen md:w-[240px] bg-bg-card flex flex-row md:flex-col border-t md:border-t-0 md:border-r border-border z-50">
+    <aside className="fixed bottom-0 left-0 w-full h-[72px] md:h-screen md:w-[240px] bg-bg-card text-slate-600 flex flex-row md:flex-col border-t md:border-t-0 md:border-r border-border z-50">
       {/* Logo Area (Hidden on mobile) */}
       <Link
         href="/"
@@ -135,7 +135,9 @@ export default function Sidebar() {
 
               {/* Icon & label (above the pill) */}
               <Icon className="w-6 h-6 md:w-[22px] md:h-[22px] relative z-10" />
-              <span className="text-center relative z-10">{item.name}</span>
+              <span className="hidden min-[425px]:inline-block text-center relative z-10">
+                {item.name}
+              </span>
             </Link>
           );
         })}
