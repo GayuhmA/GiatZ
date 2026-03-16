@@ -55,12 +55,12 @@ export default function LoginPage() {
       
       {/* Left Side - Image Panel */}
       <div className="hidden md:flex flex-col w-1/2 p-10 relative items-center justify-center text-center">
-        <div className="w-full max-w-[320px] aspect-4/5 relative rounded-3xl overflow-hidden shadow-2xl mb-8">
+        <div className="w-full max-w-[320px] aspect-4/5 relative mb-8">
           <Image 
-            src="/images/gia-mascot.webp" 
+            src="/images/gia-mascot.png" 
             alt="Gia Mascot" 
             fill 
-            className="object-cover"
+            className="object-cover drop-shadow-2xl"
             priority
           />
         </div>

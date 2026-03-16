@@ -270,9 +270,9 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                   src={
                     isAnswered
                       ? isCorrect
-                        ? "/images/gia-mascot.webp"
-                        : "/images/gia-confused.webp"
-                      : "/images/gia-mascot.webp"
+                        ? "/images/gia-mascot.png"
+                        : "/images/gia-confused.png"
+                      : "/images/gia-mascot.png"
                   }
                   alt="Gia"
                   fill
