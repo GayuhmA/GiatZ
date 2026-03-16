@@ -9,7 +9,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "GiatZ - Gamified Productivity",
+  title: "GiatZ - Productivity Tools for Gen Z",
   description: "Level up your productivity with GiatZ.",
 };
 

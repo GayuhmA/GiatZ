@@ -70,9 +70,9 @@ export default function ActivityHeatmap({ heatmapData }: ActivityHeatmapProps) {
       <div className="flex justify-between items-center mb-6">
          <div>
             <h3 className="font-extrabold text-xl lg:text-2xl text-text-primary capitalize mb-1">
-               {totalContributions} units in {selectedYear}
+               {totalContributions} units di {selectedYear}
             </h3>
-            <p className="text-text-secondary text-sm">Productivity Heatmap</p>
+            <p className="text-text-secondary text-sm">Heatmap Produktivitas</p>
          </div>
       </div>
 
@@ -96,11 +96,11 @@ export default function ActivityHeatmap({ heatmapData }: ActivityHeatmapProps) {
                {/* Days Label Column */}
                <div className="flex flex-col gap-1 text-[10px] text-text-secondary w-8 pr-1 pt-0.5">
                   <span className="h-3"></span>
-                  <span className="h-3 leading-3">Mon</span>
+                  <span className="h-3 leading-3">Sen</span>
                   <span className="h-3"></span>
-                  <span className="h-3 leading-3">Wed</span>
+                  <span className="h-3 leading-3">Rab</span>
                   <span className="h-3"></span>
-                  <span className="h-3 leading-3">Fri</span>
+                  <span className="h-3 leading-3">Jum</span>
                   <span className="h-3"></span>
                </div>
                
@@ -123,7 +123,7 @@ export default function ActivityHeatmap({ heatmapData }: ActivityHeatmapProps) {
                           />
                           {!isFuture && (
                             <div className="absolute z-[100] invisible group-hover/cell:visible opacity-0 group-hover/cell:opacity-100 transition-opacity duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-xs whitespace-nowrap rounded font-medium shadow-xl pointer-events-none flex flex-col items-center">
-                              <span>{units === 0 ? "No activity" : `${units} units`} on {day.toLocaleString('default', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                              <span>{units === 0 ? "Nggak ada aktivitas" : `${units} units`} pada {day.toLocaleString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                               {/* Arrow */}
                               <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-slate-800"></div>
                             </div>
@@ -137,13 +137,13 @@ export default function ActivityHeatmap({ heatmapData }: ActivityHeatmapProps) {
             
             {/* Legend inside grid area below */}
             <div className="flex items-center gap-1.5 mt-4 text-xs text-text-secondary ml-9">
-               <span>Less</span>
+               <span>Sedikit</span>
                <div className="w-3 h-3 rounded-[2px] border border-black/5 bg-[#ebedf0]"></div>
                <div className="w-3 h-3 rounded-[2px] border border-black/5 bg-[#9be9a8]"></div>
                <div className="w-3 h-3 rounded-[2px] border border-black/5 bg-[#40c463]"></div>
                <div className="w-3 h-3 rounded-[2px] border border-black/5 bg-[#30a14e]"></div>
                <div className="w-3 h-3 rounded-[2px] border border-black/5 bg-[#216e39]"></div>
-               <span>More</span>
+               <span>Banyak</span>
             </div>
          </div>
 

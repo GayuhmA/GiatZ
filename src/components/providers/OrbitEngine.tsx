@@ -80,8 +80,8 @@ export default function OrbitEngine() {
             await Notification.requestPermission();
           }
           if (Notification.permission === "granted") {
-            const titleMsg = isBreakMode ? "Break Complete!" : "Orbit Session Complete!";
-            const bodyMsg = isBreakMode ? "Time to return to focus!" : "Great job. Time to take a break!";
+            const titleMsg = isBreakMode ? "Break Selesai!" : "Sesi Orbit Selesai!";
+            const bodyMsg = isBreakMode ? "Waktunya fokus kembali!" : "Bagus banget! Waktunya istirahat sejenak!";
             
             new Notification(titleMsg, {
               body: bodyMsg,

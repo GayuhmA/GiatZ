@@ -71,13 +71,13 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
     <Card className={`w-full ${className}`}>
       <div className="flex items-center gap-2 mb-6">
         <Clock className="w-5 h-5 opacity-70" />
-        <h3 className="font-bold text-lg">Timer Duration</h3>
+        <h3 className="font-bold text-lg">Durasi Timer</h3>
       </div>
 
       <div className="space-y-6">
         {/* Slider Section */}
         <div>
-          <label className="text-xs font-bold text-text-label block mb-4 uppercase">Session Length</label>
+          <label className="text-xs font-bold text-text-label block mb-4 uppercase">Durasi Sesi</label>
           <div className="relative pt-2 pb-6">
             <input 
               type="range" 
@@ -111,7 +111,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
         {/* Custom Input */}
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-shadow">
-            <span className="text-sm font-medium mr-2 opacity-70">Custom:</span>
+            <span className="text-sm font-medium mr-2 opacity-70">Kustom:</span>
             <input 
               type="text" 
               value={localMinutes || ""} 
@@ -119,7 +119,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
               onBlur={() => { if (!localMinutes || localMinutes < 1) setLocalMinutes(25); }}
               className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12"
             />
-            <span className="text-sm font-medium ml-2 opacity-70">min</span>
+            <span className="text-sm font-medium ml-2 opacity-70">menit</span>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
 
         {/* Break Slider Section */}
         <div>
-          <label className="text-xs font-bold text-text-label block mb-4 uppercase">Break Length</label>
+          <label className="text-xs font-bold text-text-label block mb-4 uppercase">Durasi Break</label>
           <div className="relative pt-2 pb-6">
             <input 
               type="range" 
@@ -161,7 +161,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
         {/* Custom Break Input */}
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-success focus-within:border-success transition-shadow">
-            <span className="text-sm font-medium mr-2 opacity-70">Custom:</span>
+            <span className="text-sm font-medium mr-2 opacity-70">Kustom:</span>
             <input 
               type="text" 
               value={localBreakMinutes || ""} 
@@ -169,7 +169,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
               onBlur={() => { if (!localBreakMinutes || localBreakMinutes < 1) setLocalBreakMinutes(5); }}
               className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12 text-success"
             />
-            <span className="text-sm font-medium ml-2 opacity-70">min</span>
+            <span className="text-sm font-medium ml-2 opacity-70">menit</span>
           </div>
         </div>
 
@@ -179,7 +179,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
           className="w-full font-bold bg-white/50 hover:bg-white border-border shadow-sm focus:ring-0 active:scale-95"
           onClick={handleApply}
         >
-          APPLY SETTINGS
+          TERAPKAN
         </Button>
 
       </div>

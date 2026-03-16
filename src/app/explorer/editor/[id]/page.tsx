@@ -1,38 +1,37 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback, use } from "react";
 import AppLayout from "@/components/layout/AppLayout";
+import { useExplorer } from "@/hooks/useExplorer";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { db } from "@/lib/firebase";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useExplorerStore } from "@/store/useExplorerStore";
 import {
-  TagIcon,
-  LinkIcon,
-  Squares2X2Icon,
-  SparklesIcon,
-  CheckBadgeIcon,
   ArrowLeftIcon,
   BoltIcon,
+  CheckBadgeIcon,
   ExclamationCircleIcon,
-  TrashIcon,
-  PlusSmallIcon,
+  LinkIcon,
+  SparklesIcon,
+  Squares2X2Icon,
+  TagIcon,
+  TrashIcon
 } from "@heroicons/react/24/outline";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
-import { db } from "@/lib/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
-import { useAuthStore } from "@/store/useAuthStore";
-import { useExplorer } from "@/hooks/useExplorer";
-import { useExplorerStore } from "@/store/useExplorerStore";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { use, useCallback, useEffect, useRef, useState } from "react";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 const MATRIX_OPTIONS = [
-  { id: "DO_FIRST", label: "URGENT & IMPORTANT", color: "bg-[#FF4B4B]" },
-  { id: "SCHEDULE", label: "NOT URGENT & IMPORTANT", color: "bg-[#FF9600]" },
-  { id: "DELEGATE", label: "URGENT & NOT IMPORTANT", color: "bg-[#1CB0F6]" },
+  { id: "DO_FIRST", label: "MENDESAK & PENTING", color: "bg-red-500" },
+  { id: "SCHEDULE", label: "TIDAK MENDESAK & PENTING", color: "bg-green-500" },
+  { id: "DELEGATE", label: "MENDESAK & TIDAK PENTING", color: "bg-blue-500" },
   {
     id: "ELIMINATE",
-    label: "NOT URGENT & NOT IMPORTANT",
-    color: "bg-[#AFAFAF]",
+    label: "TIDAK MENDESAK & TIDAK PENTING",
+    color: "bg-yellow-500",
   },
 ];
 
@@ -430,7 +429,7 @@ export default function NoteEditorPage({
             <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center group-hover:bg-slate-100 transition-colors">
               <ArrowLeftIcon className="w-4 h-4" />
             </div>
-            BACK TO EXPLORER
+            KEMBALI KE EXPLORER
           </Link>
         </div>
 
@@ -442,7 +441,7 @@ export default function NoteEditorPage({
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
+            placeholder="Judul"
             className={`w-full ${isExtraSmall ? "text-[24px]" : "text-[40px]"} font-extrabold text-[#3C3C3C] placeholder:text-[#E2E8F0] bg-transparent outline-none border-none font-heading tracking-tight leading-tight shrink-0 min-w-0`}
           />
 
@@ -454,7 +453,7 @@ export default function NoteEditorPage({
             suppressContentEditableWarning
             onPaste={handlePaste}
             onKeyDown={handleKeyDown}
-            data-placeholder="Start writing your learning notes here..."
+            data-placeholder="Mulai tulis catatan belajar di sini..."
             className={`flex-1 outline-none text-[#3C3C3C] ${isExtraSmall ? "text-[14px]" : "text-[18px]"} leading-[1.7] font-body overflow-y-auto overflow-x-hidden break-all md:break-words pr-2 custom-scrollbar empty:before:content-[attr(data-placeholder)] empty:before:text-[#CBD5E1] empty:before:pointer-events-none w-full min-w-0
               ${isMobile ? "min-h-[300px]" : "h-full"}
               [&_strong]:font-bold [&_em]:italic [&_u]:underline
@@ -536,10 +535,10 @@ export default function NoteEditorPage({
                   <SparklesIcon className="w-10 h-10" />
                 </div>
                 <h3 className="text-2xl font-black text-[#3C3C3C] mb-2 uppercase italic tracking-tight">
-                  your notes sedang di optimize
+                  Notes-mu sedang dioptimasi
                 </h3>
                 <p className="text-[#AFAFAF] font-bold uppercase text-xs tracking-widest">
-                  harap jangan tutup, AI sedang bekerja...
+                  Harap jangan tutup, AI sedang bekerja...
                 </p>
               </motion.div>
             )}
@@ -586,7 +585,7 @@ export default function NoteEditorPage({
                 <div className="flex flex-col items-center justify-center py-4 text-center opacity-40">
                   <ExclamationCircleIcon className="w-8 h-8 text-[#FF9600] mb-1" />
                   <p className="text-[10px] font-bold text-[#FF9600]">
-                    NO LINKED NOTES YET
+                    BELUM ADA NOTE TERHUBUNG
                   </p>
                 </div>
               )}
@@ -636,7 +635,7 @@ export default function NoteEditorPage({
                     handleAddLink();
                   }
                 }}
-                placeholder="+ Link existing note..."
+                placeholder="+ Hubungkan note..."
                 className="w-full bg-slate-50 focus:bg-white border border-slate-200 focus:border-[#FF9600]/30 rounded-2xl py-2.5 px-4 text-xs font-bold text-[#3C3C3C] placeholder:text-[#AFAFAF] outline-none transition-all"
               />
             </div>
@@ -651,10 +650,10 @@ export default function NoteEditorPage({
                 </div>
                 <div>
                   <h3 className="text-[#3C3C3C] font-extrabold text-[15px]">
-                    Send to
+                    Kirim ke
                   </h3>
                   <p className="text-[#3C3C3C] font-extrabold text-[15px] -mt-1">
-                    Matrix
+                    Task Matrix
                   </p>
                 </div>
               </div>
@@ -673,9 +672,9 @@ export default function NoteEditorPage({
                       </>
                     ) : (
                       <>
-                        SELECT
+                        PILIH
                         <br />
-                        PRIORITY
+                        PRIORITAS
                       </>
                     )}
                   </button>
@@ -727,7 +726,7 @@ export default function NoteEditorPage({
                       className="flex items-center gap-2"
                     >
                       <CheckBadgeIcon className="w-5 h-5 text-[#58CC02]" />
-                      ADDED TO MATRIX
+                      SUDAH DITAMBAHKAN
                     </motion.span>
                   ) : (
                     <motion.span
@@ -737,7 +736,7 @@ export default function NoteEditorPage({
                       className="flex items-center gap-2"
                     >
                       <CheckBadgeIcon className="w-5 h-5" />
-                      ADD AS QUEST
+                      TAMBAH KE TASK
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -790,12 +789,12 @@ export default function NoteEditorPage({
                 <CheckBadgeIcon
                   className={`w-5 h-5 transition-transform ${isRefreshing ? "animate-spin" : ""}`}
                 />
-                {isRefreshing ? "SAVING..." : "SAVE NOTE"}
+                {isRefreshing ? "MENYIMPAN..." : "SIMPAN NOTE"}
               </button>
             </div>
 
             <p className="text-[#AFAFAF] text-[9px] text-center mt-3 font-bold uppercase tracking-widest relative z-10 flex-shrink-0">
-              Last saved:{" "}
+              Terakhir disimpan:{" "}
               {lastSavedAt ? lastSavedAt.toLocaleTimeString() : "Just now"}
             </p>
           </div>

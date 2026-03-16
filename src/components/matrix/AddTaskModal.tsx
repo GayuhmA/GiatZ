@@ -77,7 +77,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
                     as="h3"
                     className="text-lg font-bold leading-6 text-text-primary"
                   >
-                    {initialTask ? "Edit Task" : "Add New Task"}
+                    {initialTask ? "Edit Task" : "Tambah Task Baru"}
                   </Dialog.Title>
                   <button onClick={onClose} className="text-text-secondary hover:text-text-primary">
                     <XMarkIcon className="w-5 h-5" />
@@ -86,19 +86,19 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Task Title *</label>
+                    <label className="block text-sm font-bold text-text-primary mb-1">Judul Task *</label>
                     <input
                       type="text"
                       required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-3 py-2 rounded-xl border border-border focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                      placeholder="e.g. Finish Calculus Homework"
+                      placeholder="contoh: Selesaikan PR Kalkulus"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Quadrant Priority</label>
+                    <label className="block text-sm font-bold text-text-primary mb-1">Prioritas Kuadran</label>
                     <div className="grid grid-cols-2 gap-2">
                       <label className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === 'DO_FIRST' ? 'bg-danger text-white border-danger' : 'border-border text-text-secondary hover:bg-gray-50'}`}>
                         <input type="radio" className="hidden" checked={quadrant === 'DO_FIRST'} onChange={() => setQuadrant('DO_FIRST')} />
@@ -124,27 +124,27 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Description (Optional)</label>
+                    <label className="block text-sm font-bold text-text-primary mb-1">Deskripsi (Opsional)</label>
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-3 py-2 rounded-xl border border-border focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-none h-20"
-                      placeholder="Add supplementary details..."
+                      placeholder="Tambahkan detail tambahan..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Due Date (Optional)</label>
+                    <label className="block text-sm font-bold text-text-primary mb-1">Deadline (Opsional)</label>
                     <CustomDatePicker 
                       selected={dueDate}
                       onSelect={setDueDate}
-                      placeholder="Select a deadline..."
+                      placeholder="Pilih deadline..."
                     />
                   </div>
 
                   <div className="pt-4">
                     <Button type="submit" className="w-full">
-                      {initialTask ? "Update Task" : "Save Task"}
+                      {initialTask ? "Update Task" : "Simpan Task"}
                     </Button>
                   </div>
                 </form>

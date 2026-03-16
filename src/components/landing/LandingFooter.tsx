@@ -20,7 +20,7 @@ export default function LandingFooter() {
         </div>
 
         <div className="flex items-center gap-8 text-[11px] font-black uppercase tracking-[0.3em] text-text-secondary">
-          <p>© 2026 GiatZ. Tingkatkan Ilmu Pengetahuan.</p>
+          <p>© 2026 GiatZ. Productivity Tools for Gen Z.</p>
         </div>
 
         <div className="flex items-center gap-4">

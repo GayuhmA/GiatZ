@@ -21,7 +21,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     if (!email || !password) {
-      setError("Please fill in all fields");
+      setError("Isi semua kolom ya!");
       return;
     }
     
@@ -30,9 +30,9 @@ export default function LoginPage() {
       // AuthProvider will redirect
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || "Failed to log in");
+        setError(err.message || "Gagal login");
       } else {
-        setError("Failed to log in");
+        setError("Gagal login");
       }
     }
   };
@@ -43,19 +43,19 @@ export default function LoginPage() {
       // AuthProvider will redirect
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || "Failed to log in with Google");
+        setError(err.message || "Gagal login dengan Google");
       } else {
-        setError("Failed to log in with Google");
+        setError("Gagal login dengan Google");
       }
     }
   };
 
   return (
-    <div className="w-full max-w-5xl bg-white/50 rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row min-h-150">
+    <div className="w-full max-w-5xl bg-white/50 rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
       
       {/* Left Side - Image Panel */}
-      <div className="hidden md:flex flex-col w-1/2 p-10 relative items-center justify-center text-center">
-        <div className="w-full max-w-[320px] aspect-4/5 relative mb-8">
+      <div className="hidden md:flex flex-col w-1/2 p-8 relative items-center justify-center text-center">
+        <div className="w-full max-w-[260px] aspect-4/5 relative mb-4">
           <Image 
             src="/images/gia-mascot.png" 
             alt="Gia Mascot" 
@@ -64,18 +64,18 @@ export default function LoginPage() {
             priority
           />
         </div>
-        <h2 className="text-3xl font-extrabold mb-3 font-heading">
-          Learn with GiatZ
+        <h2 className="text-2xl font-extrabold mb-2 font-heading">
+          Belajar Bareng GiatZ
         </h2>
-        <p className="text-lg font-medium">
-          Your smart companion for every subject.
+        <p className="text-base font-medium">
+          Partner produktif kamu setiap hari.
         </p>
       </div>
 
       {/* Right Side - Form Panel */}
-      <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center bg-white">
+      <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center bg-white">
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-10">
+        <div className="flex items-center gap-3 mb-6">
           <Image 
             src="/images/logo.webp" 
             alt="GiatZ Logo" 
@@ -88,17 +88,17 @@ export default function LoginPage() {
         </div>
 
         {/* Header */}
-        <div className="mb-10">
-          <h2 className="text-3xl font-extrabold text-text-primary mb-2 flex items-center gap-2">
-            Welcome Back! <Hand className="w-8 h-8 text-primary-dark" />
+        <div className="mb-6">
+          <h2 className="text-2xl font-extrabold text-text-primary mb-1 flex items-center gap-2">
+            Selamat Datang! <Hand className="w-7 h-7 text-primary-dark" />
           </h2>
-          <p className="text-text-secondary font-medium">
-            Ready to continue your learning journey?
+          <p className="text-text-secondary font-medium text-sm">
+            Siap lanjut produktif hari ini?
           </p>
         </div>
 
         {/* Form */}
-        <form className="flex flex-col gap-6" onSubmit={handleEmailLogin}>
+        <form className="flex flex-col gap-4" onSubmit={handleEmailLogin}>
           {error && (
             <div className="bg-danger-light text-danger p-3 rounded-lg text-sm font-bold">
               {error}
@@ -106,7 +106,7 @@ export default function LoginPage() {
           )}
           
           <Input 
-            label="EMAIL ADDRESS"
+            label="ALAMAT EMAIL"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -131,7 +131,7 @@ export default function LoginPage() {
               href="/forgot-password" 
               className="absolute right-0 top-0 text-[11px] font-bold text-primary uppercase tracking-wider hover:text-primary-dark transition-colors"
             >
-              FORGOT?
+              LUPA?
             </Link>
           </div>
 
@@ -142,15 +142,15 @@ export default function LoginPage() {
             variant="primary"
             className="mt-2"
           >
-            {loading ? "LOGGING IN..." : "LOG IN"}
+            {loading ? "MASUK..." : "MASUK"}
           </Button>
         </form>
 
         {/* Divider */}
-        <div className="my-8 flex items-center">
+        <div className="my-5 flex items-center">
           <div className="flex-1 border-t border-border"></div>
           <span className="px-4 text-xs font-bold text-text-secondary uppercase tracking-wider">
-            OR CONNECT WITH
+            ATAU LANJUT DENGAN
           </span>
           <div className="flex-1 border-t border-border"></div>
         </div>
@@ -177,10 +177,10 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <p className="mt-10 text-center text-sm text-text-secondary font-medium">
-          Don&apos;t have an account?{" "}
+        <p className="mt-6 text-center text-sm text-text-secondary font-medium">
+          Belum punya akun?{" "}
           <Link href="/signup" className="text-primary font-bold hover:underline">
-            Sign up here
+            Daftar di sini
           </Link>
         </p>
       </div>

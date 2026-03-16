@@ -104,7 +104,7 @@ export default function CampPage() {
               Training Camp
             </h2>
             <p className="text-text-secondary mt-1 flex items-center gap-2 font-medium">
-              Make Flashcards to build memory, or take a Quiz to push your limits!
+              Buat Flashcard buat memperkuat ingatan, atau coba Quiz buat menguji kemampuanmu!
             </p>
           </div>
         </div>
@@ -123,20 +123,20 @@ export default function CampPage() {
 
             <CpuChipIcon className="w-16 h-16 text-primary mb-6 animate-bounce" />
             <h3 className="text-2xl font-bold text-text-primary mb-2">
-              AI is Generating your {generatingType}...
+              AI sedang membuat {generatingType}-mu...
             </h3>
             <p className="text-text-secondary">
-              Scanning complex concepts and simplifying them into{" "}
+              Memindai konsep rumit dan menyederhanakannya jadi{" "}
               {generatingType === "Flashcard"
-                ? "bite-sized cards"
-                : "test questions"}
+                ? "kartu ringkas"
+                : "soal ujian"}
               .
             </p>
 
             <div className="flex items-center gap-2 mt-8 bg-primary-light px-4 py-2 rounded-full">
               <div className="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
               <span className="text-xs font-bold text-primary uppercase tracking-widest">
-                Processing Knowledge
+                Memproses Pengetahuan
               </span>
             </div>
           </div>
@@ -164,12 +164,12 @@ export default function CampPage() {
             <div className="bg-white p-5 md:p-6 rounded-3xl border border-border shadow-card flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex-1">
                 <h3 className="font-bold text-xl text-text-primary flex items-center gap-2 mb-2">
-                  <SparklesIcon className="w-6 h-6 text-primary" /> Turn Notes
-                  into Magic
+                  <SparklesIcon className="w-6 h-6 text-primary" /> Ubah Catatan
+                  Jadi Hal Ajaib
                 </h3>
                 <p className="text-text-secondary text-sm">
-                  Select any note from your knowledge base to instantly generate
-                  interactive Study Sets using AI.
+                  Pilih note mana aja dari knowledge base kamu buat langsung
+                  generate Study Sets interaktif pakai AI.
                 </p>
               </div>
 
@@ -185,7 +185,7 @@ export default function CampPage() {
                         {selectedNoteId
                           ? (noteNodes.find((n) => n.id === selectedNoteId)
                               ?.data.label as string)
-                          : "Select a Note..."}
+                          : "Pilih Note..."}
                       </span>
                     </div>
                     <ChevronDownIcon
@@ -211,7 +211,7 @@ export default function CampPage() {
                         >
                           {noteNodes.length === 0 ? (
                             <div className="px-4 py-3 text-xs text-text-secondary italic">
-                              No notes found in Explorer
+                              Belum ada note di Explorer
                             </div>
                           ) : (
                             noteNodes.map((node) => (

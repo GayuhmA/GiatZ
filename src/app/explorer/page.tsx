@@ -102,7 +102,7 @@ export default function MindGlancePage() {
               Explorer
             </h2>
             <p className="text-text-secondary flex items-center gap-2 font-medium">
-              Centralized Notebook & Mind-Glance
+              Pusat Catatan & Mind-Glance
             </p>
           </div>
 

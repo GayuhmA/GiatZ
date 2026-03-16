@@ -53,10 +53,10 @@ export default function AllNotesModal({
             <div className="p-8 pb-4 flex items-center justify-between shrink-0">
               <div>
                 <h2 className="text-2xl font-black text-[#3C3C3C] tracking-tight uppercase italic">
-                  All Knowledge
+                  Semua Pengetahuan
                 </h2>
                 <p className="text-[#AFAFAF] font-bold text-xs uppercase tracking-widest mt-1">
-                  Searching through {notes.length} notes
+                  Mencari dari {notes.length} note
                 </p>
               </div>
               <button
@@ -74,7 +74,7 @@ export default function AllNotesModal({
                 <input
                   autoFocus
                   type="text"
-                  placeholder="Find a specific note..."
+                  placeholder="Cari note tertentu..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#FF9600]/20 focus:bg-white rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-[#3C3C3C] transition-all outline-none"
@@ -121,7 +121,7 @@ export default function AllNotesModal({
                 <div className="py-12 flex flex-col items-center justify-center text-center opacity-40">
                   <MagnifyingGlassIcon className="w-12 h-12 text-[#FF9600] mb-2" />
                   <p className="font-black text-sm text-[#FF9600] uppercase tracking-widest">
-                    No results found
+                    Nggak ada hasil
                   </p>
                 </div>
               )}

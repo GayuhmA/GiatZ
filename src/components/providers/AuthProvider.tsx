@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
@@ -15,11 +15,17 @@ export default function AuthProvider({
   const { user, loading, setUser, setLoading } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
+  const pathnameRef = useRef(pathname);
 
+  // Keep ref in sync
+  useEffect(() => {
+    pathnameRef.current = pathname;
+  }, [pathname]);
+
+  // Auth state listener — only subscribe once
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // User is signed in.
         try {
           const userDocRef = doc(db, "users", firebaseUser.uid);
           const userDoc = await getDoc(userDocRef);
@@ -42,7 +48,8 @@ export default function AuthProvider({
           setUser(userProfile, firebaseUser);
 
           // Redirect to home if on public-only pages
-          if (pathname === "/login" || pathname === "/signup") {
+          const currentPath = pathnameRef.current;
+          if (currentPath === "/login" || currentPath === "/signup") {
             router.push("/home");
           }
         } catch (error) {
@@ -50,11 +57,11 @@ export default function AuthProvider({
           setUser(null, null);
         }
       } else {
-        // User is signed out
         setUser(null, null);
         // Protect routes (allow / to be public)
+        const currentPath = pathnameRef.current;
         const isPublicRoute =
-          pathname === "/" || pathname === "/login" || pathname === "/signup";
+          currentPath === "/" || currentPath === "/login" || currentPath === "/signup";
         if (!isPublicRoute) {
           router.push("/login");
         }
@@ -63,7 +70,18 @@ export default function AuthProvider({
     });
 
     return () => unsubscribe();
-  }, [setUser, setLoading, router, pathname]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setUser, setLoading, router]);
+
+  // Route protection on navigation (no re-subscribing auth)
+  useEffect(() => {
+    if (loading) return;
+    const isPublicRoute =
+      pathname === "/" || pathname === "/login" || pathname === "/signup";
+    if (!user && !isPublicRoute) {
+      router.push("/login");
+    }
+  }, [pathname, user, loading, router]);
 
   const isPublicRoute =
     pathname === "/" || pathname === "/login" || pathname === "/signup";
@@ -86,3 +104,4 @@ export default function AuthProvider({
 
   return <>{children}</>;
 }
+

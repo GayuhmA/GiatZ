@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState, useEffect } from 'react';
-import { X, Settings2 } from 'lucide-react';
+import { X, Settings } from 'lucide-react';
 import Button from '../shared/Button';
 import { useAuthStore } from '@/store/useAuthStore';
 
@@ -64,8 +64,8 @@ export default function DailyGoalSettingsModal({ isOpen, onClose }: DailyGoalSet
                     as="h3"
                     className="text-lg font-extrabold leading-6 text-text-primary flex items-center gap-2"
                   >
-                    <Settings2 className="w-6 h-6 text-orange-500" />
-                    Set Daily Goal
+                    <Settings className="w-6 h-6 text-orange-500" />
+                    Atur Daily Goal
                   </Dialog.Title>
                   <button
                     onClick={onClose}
@@ -77,7 +77,7 @@ export default function DailyGoalSettingsModal({ isOpen, onClose }: DailyGoalSet
 
                 <div className="mt-4">
                   <p className="text-sm text-text-secondary mb-4">
-                    Choose how many Activity Units you want to target each day.
+                    Pilih berapa Activity Units yang mau kamu targetkan tiap hari.
                   </p>
 
                   <div className="flex items-center justify-center gap-6 my-6">
@@ -106,7 +106,7 @@ export default function DailyGoalSettingsModal({ isOpen, onClose }: DailyGoalSet
                     variant="primary"
                     className="w-full justify-center disabled:opacity-50 font-bold"
                   >
-                    {isSaving ? "Saving..." : "Save Goal"}
+                    {isSaving ? "Menyimpan..." : "Simpan Goal"}
                   </Button>
                 </div>
               </Dialog.Panel>

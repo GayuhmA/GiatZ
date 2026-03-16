@@ -23,7 +23,7 @@ export default function SignupPage() {
     e.preventDefault();
     setError("");
     if (!name || !email || !password) {
-      setError("Please fill in all fields");
+      setError("Isi semua kolom ya!");
       return;
     }
 
@@ -32,9 +32,9 @@ export default function SignupPage() {
       // AuthProvider will redirect
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || "Failed to create account");
+        setError(err.message || "Gagal buat akun");
       } else {
-        setError("Failed to create account");
+        setError("Gagal buat akun");
       }
     }
   };
@@ -45,18 +45,18 @@ export default function SignupPage() {
       // AuthProvider will redirect
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || "Failed to sign up with Google");
+        setError(err.message || "Gagal daftar dengan Google");
       } else {
-        setError("Failed to sign up with Google");
+        setError("Gagal daftar dengan Google");
       }
     }
   };
 
   return (
-    <div className="w-full max-w-5xl bg-white/50 rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row min-h-150">
+    <div className="w-full max-w-5xl bg-white/50 rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row max-h-[92vh]">
       {/* Left Side - Image Panel */}
-      <div className="hidden md:flex flex-col w-1/2 p-10 relative items-center justify-center text-center">
-        <div className="w-full max-w-[320px] aspect-4/5 relative mb-8">
+      <div className="hidden md:flex flex-col w-1/2 p-8 relative items-center justify-center text-center">
+        <div className="w-full max-w-[260px] aspect-4/5 relative mb-4">
           <Image
             src="/images/gia-mascot.png"
             alt="Gia Mascot"
@@ -65,18 +65,18 @@ export default function SignupPage() {
             priority
           />
         </div>
-        <h2 className="text-3xl font-extrabold mb-3 font-heading">
-          Join GiatZ Today
+        <h2 className="text-2xl font-extrabold mb-2 font-heading">
+          Gabung GiatZ Sekarang
         </h2>
-        <p className="text-lg font-medium">
-          Start your gamified learning adventure.
+        <p className="text-base font-medium">
+          Mulai perjalanan produktifmu di sini.
         </p>
       </div>
 
       {/* Right Side - Form Panel */}
-      <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center bg-white">
+      <div className="w-full md:w-1/2 p-6 md:py-8 md:px-10 flex flex-col justify-center bg-white overflow-y-auto">
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-4">
           <Image
             src="/images/logo.webp"
             alt="GiatZ Logo"
@@ -91,18 +91,18 @@ export default function SignupPage() {
         </div>
 
         {/* Header */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-extrabold text-text-primary mb-2 flex items-center gap-2">
-            Create Account{" "}
-            <RocketLaunchIcon className="w-8 h-8 text-secondary-dark" />
+        <div className="mb-4">
+          <h2 className="text-2xl font-extrabold text-text-primary mb-1 flex items-center gap-2">
+            Buat Akun{" "}
+            <RocketLaunchIcon className="w-7 h-7 text-secondary-dark" />
           </h2>
-          <p className="text-text-secondary font-medium">
-            Join thousands of scholars leveling up.
+          <p className="text-text-secondary font-medium text-sm">
+            Gabung ribuan pengguna yang makin produktif.
           </p>
         </div>
 
         {/* Form */}
-        <form className="flex flex-col gap-5" onSubmit={handleEmailSignup}>
+        <form className="flex flex-col gap-3" onSubmit={handleEmailSignup}>
           {error && (
             <div className="bg-danger-light text-danger p-3 rounded-lg text-sm font-bold">
               {error}
@@ -110,7 +110,7 @@ export default function SignupPage() {
           )}
 
           <Input
-            label="FULL NAME"
+            label="NAMA LENGKAP"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -119,7 +119,7 @@ export default function SignupPage() {
           />
 
           <Input
-            label="EMAIL ADDRESS"
+            label="ALAMAT EMAIL"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -155,17 +155,17 @@ export default function SignupPage() {
             disabled={loading}
             fullWidth
             variant="primary"
-            className="mt-3"
+            className="mt-1"
           >
-            {loading ? "CREATING..." : "CREATE ACCOUNT"}
+            {loading ? "MEMBUAT AKUN..." : "BUAT AKUN"}
           </Button>
         </form>
 
         {/* Divider */}
-        <div className="my-6 flex items-center">
+        <div className="my-3 flex items-center">
           <div className="flex-1 border-t border-border"></div>
           <span className="px-4 text-xs font-bold text-text-secondary uppercase tracking-wider">
-            OR CONNECT WITH
+            ATAU LANJUT DENGAN
           </span>
           <div className="flex-1 border-t border-border"></div>
         </div>
@@ -209,13 +209,13 @@ export default function SignupPage() {
         </div>
 
         {/* Footer */}
-        <p className="mt-8 text-center text-sm text-text-secondary font-medium">
-          Already have an account?{" "}
+        <p className="mt-4 text-center text-sm text-text-secondary font-medium">
+          Sudah punya akun?{" "}
           <Link
             href="/login"
             className="text-primary font-bold hover:underline"
           >
-            Log in here
+            Masuk di sini
           </Link>
         </p>
       </div>
