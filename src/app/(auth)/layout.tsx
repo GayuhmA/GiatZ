@@ -20,9 +20,12 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [timeOfDay, setTimeOfDay] = useState<"day" | "evening" | "night">("day");
+  const [timeOfDay, setTimeOfDay] = useState<"day" | "evening" | "night">(
+    "day",
+  );
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTimeOfDay(getTimeOfDay());
     const timer = setInterval(() => setTimeOfDay(getTimeOfDay()), 60000);
     return () => clearInterval(timer);

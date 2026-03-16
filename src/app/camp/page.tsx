@@ -80,11 +80,11 @@ export default function CampPage() {
 
       setActiveSetId(newId);
       setSelectedNoteId(""); // reset selection
-    } catch (error: any) {
-      console.error("Generation failed:", error);
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.error("Generation failed:", err);
       alert(
-        error.message ||
-          "Failed to generate content. Please check your API key.",
+        err.message || "Failed to generate content. Please check your API key.",
       );
     } finally {
       setIsGenerating(false);
@@ -104,7 +104,8 @@ export default function CampPage() {
               Training Camp
             </h2>
             <p className="text-text-secondary mt-1 flex items-center gap-2 font-medium">
-              Buat Flashcard buat memperkuat ingatan, atau coba Quiz buat menguji kemampuanmu!
+              Buat Flashcard buat memperkuat ingatan, atau coba Quiz buat
+              menguji kemampuanmu!
             </p>
           </div>
         </div>
@@ -127,10 +128,7 @@ export default function CampPage() {
             </h3>
             <p className="text-text-secondary">
               Memindai konsep rumit dan menyederhanakannya jadi{" "}
-              {generatingType === "Flashcard"
-                ? "kartu ringkas"
-                : "soal ujian"}
-              .
+              {generatingType === "Flashcard" ? "kartu ringkas" : "soal ujian"}.
             </p>
 
             <div className="flex items-center gap-2 mt-8 bg-primary-light px-4 py-2 rounded-full">

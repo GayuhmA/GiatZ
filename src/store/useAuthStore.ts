@@ -1,7 +1,15 @@
-import { create } from 'zustand';
-import { User, signOut, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth, db } from '@/lib/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { create } from "zustand";
+import {
+  User,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth, db } from "@/lib/firebase";
+import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 
 interface UserProfile {
   uid: string;
@@ -10,7 +18,7 @@ interface UserProfile {
   photoURL: string | null;
   photoUrl?: string | null;
   streakDays?: number;
-  lastActiveAt?: any; // Firestore Timestamp
+  lastActiveAt?: Timestamp | null; // Firestore Timestamp
   dailyGoalUnits?: number;
 }
 
@@ -31,7 +39,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   firebaseUser: null,
   loading: true,
-  
+
   setUser: (user, firebaseUser) => set({ user, firebaseUser, loading: false }),
   setLoading: (loading) => set({ loading }),
 
@@ -39,9 +47,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      
+
       // Try to fetch user doc
-      const userDocRef = doc(db, 'users', result.user.uid);
+      const userDocRef = doc(db, "users", result.user.uid);
       const userDoc = await getDoc(userDocRef);
 
       let userProfile: UserProfile = {
@@ -82,9 +90,13 @@ export const useAuthStore = create<AuthState>((set) => ({
   signUpWithEmail: async (name, email, password) => {
     try {
       set({ loading: true });
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       await updateProfile(user, { displayName: name });
-      
+
       const userProfile: UserProfile = {
         uid: user.uid,
         email: user.email,
@@ -94,7 +106,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         lastActiveAt: null,
       };
 
-      await setDoc(doc(db, 'users', user.uid), userProfile);
+      await setDoc(doc(db, "users", user.uid), userProfile);
       // Sync is also handled by onAuthStateChanged
     } catch (error) {
       console.error("Error signing up with Email", error);
@@ -106,9 +118,9 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: async () => {
     try {
       // Pause any running orbit session before signing out
-      const { useOrbitStore } = await import('@/store/useOrbitStore');
+      const { useOrbitStore } = await import("@/store/useOrbitStore");
       const orbitState = useOrbitStore.getState();
-      if (orbitState.sessionState === 'running') {
+      if (orbitState.sessionState === "running") {
         orbitState.toggleTimer(); // pauses and accumulates elapsed time
       }
       orbitState.stopAllSounds();
@@ -127,10 +139,14 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (!currentUser?.uid) return;
 
     try {
-      await setDoc(doc(db, 'users', currentUser.uid), { dailyGoalUnits: units }, { merge: true });
+      await setDoc(
+        doc(db, "users", currentUser.uid),
+        { dailyGoalUnits: units },
+        { merge: true },
+      );
       set({ user: { ...currentUser, dailyGoalUnits: units } });
     } catch (err) {
       console.error("Error updating daily goal:", err);
     }
-  }
+  },
 }));

@@ -4,18 +4,33 @@ import { useEffect, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "@/components/shared/Button";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { ExclamationCircleIcon, CalendarDaysIcon, UserGroupIcon, TrashIcon } from "@heroicons/react/24/solid";
+import {
+  ExclamationCircleIcon,
+  CalendarDaysIcon,
+  UserGroupIcon,
+  TrashIcon,
+} from "@heroicons/react/24/solid";
 import { TaskQuadrant, Task } from "@/store/useTaskStore";
 import CustomDatePicker from "@/components/shared/CustomDatePicker";
 
 interface AddTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (title: string, quadrant: TaskQuadrant, desc?: string, date?: Date) => void;
+  onSave: (
+    title: string,
+    quadrant: TaskQuadrant,
+    desc?: string,
+    date?: Date,
+  ) => void;
   initialTask?: Task;
 }
 
-export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: AddTaskModalProps) {
+export default function AddTaskModal({
+  isOpen,
+  onClose,
+  onSave,
+  initialTask,
+}: AddTaskModalProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [quadrant, setQuadrant] = useState<TaskQuadrant>("DO_FIRST");
@@ -24,6 +39,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
   useEffect(() => {
     if (isOpen) {
       if (initialTask) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setTitle(initialTask.title);
         setDescription(initialTask.description || "");
         setQuadrant(initialTask.quadrant);
@@ -79,14 +95,19 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
                   >
                     {initialTask ? "Edit Task" : "Tambah Task Baru"}
                   </Dialog.Title>
-                  <button onClick={onClose} className="text-text-secondary hover:text-text-primary">
+                  <button
+                    onClick={onClose}
+                    className="text-text-secondary hover:text-text-primary"
+                  >
                     <XMarkIcon className="w-5 h-5" />
                   </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Judul Task *</label>
+                    <label className="block text-sm font-bold text-text-primary mb-1">
+                      Judul Task *
+                    </label>
                     <input
                       type="text"
                       required
@@ -98,25 +119,55 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Prioritas Kuadran</label>
+                    <label className="block text-sm font-bold text-text-primary mb-1">
+                      Prioritas Kuadran
+                    </label>
                     <div className="grid grid-cols-2 gap-2">
-                      <label className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === 'DO_FIRST' ? 'bg-danger text-white border-danger' : 'border-border text-text-secondary hover:bg-gray-50'}`}>
-                        <input type="radio" className="hidden" checked={quadrant === 'DO_FIRST'} onChange={() => setQuadrant('DO_FIRST')} />
+                      <label
+                        className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === "DO_FIRST" ? "bg-danger text-white border-danger" : "border-border text-text-secondary hover:bg-gray-50"}`}
+                      >
+                        <input
+                          type="radio"
+                          className="hidden"
+                          checked={quadrant === "DO_FIRST"}
+                          onChange={() => setQuadrant("DO_FIRST")}
+                        />
                         <ExclamationCircleIcon className="w-5 h-5" />
                         Do First
                       </label>
-                      <label className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === 'SCHEDULE' ? 'bg-success text-white border-success' : 'border-border text-text-secondary hover:bg-gray-50'}`}>
-                        <input type="radio" className="hidden" checked={quadrant === 'SCHEDULE'} onChange={() => setQuadrant('SCHEDULE')} />
+                      <label
+                        className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === "SCHEDULE" ? "bg-success text-white border-success" : "border-border text-text-secondary hover:bg-gray-50"}`}
+                      >
+                        <input
+                          type="radio"
+                          className="hidden"
+                          checked={quadrant === "SCHEDULE"}
+                          onChange={() => setQuadrant("SCHEDULE")}
+                        />
                         <CalendarDaysIcon className="w-5 h-5" />
                         Schedule
                       </label>
-                      <label className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === 'DELEGATE' ? 'bg-secondary text-white border-secondary' : 'border-border text-text-secondary hover:bg-gray-50'}`}>
-                        <input type="radio" className="hidden" checked={quadrant === 'DELEGATE'} onChange={() => setQuadrant('DELEGATE')} />
+                      <label
+                        className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === "DELEGATE" ? "bg-secondary text-white border-secondary" : "border-border text-text-secondary hover:bg-gray-50"}`}
+                      >
+                        <input
+                          type="radio"
+                          className="hidden"
+                          checked={quadrant === "DELEGATE"}
+                          onChange={() => setQuadrant("DELEGATE")}
+                        />
                         <UserGroupIcon className="w-5 h-5" />
                         Delegate
                       </label>
-                      <label className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === 'ELIMINATE' ? 'bg-warning text-white border-warning' : 'border-border text-text-secondary hover:bg-gray-50'}`}>
-                        <input type="radio" className="hidden" checked={quadrant === 'ELIMINATE'} onChange={() => setQuadrant('ELIMINATE')} />
+                      <label
+                        className={`cursor-pointer border rounded-xl p-2 flex flex-col items-center justify-center gap-1 text-xs font-bold uppercase transition-colors ${quadrant === "ELIMINATE" ? "bg-warning text-white border-warning" : "border-border text-text-secondary hover:bg-gray-50"}`}
+                      >
+                        <input
+                          type="radio"
+                          className="hidden"
+                          checked={quadrant === "ELIMINATE"}
+                          onChange={() => setQuadrant("ELIMINATE")}
+                        />
                         <TrashIcon className="w-5 h-5" />
                         Eliminate
                       </label>
@@ -124,7 +175,9 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Deskripsi (Opsional)</label>
+                    <label className="block text-sm font-bold text-text-primary mb-1">
+                      Deskripsi (Opsional)
+                    </label>
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
@@ -134,8 +187,10 @@ export default function AddTaskModal({ isOpen, onClose, onSave, initialTask }: A
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-text-primary mb-1">Deadline (Opsional)</label>
-                    <CustomDatePicker 
+                    <label className="block text-sm font-bold text-text-primary mb-1">
+                      Deadline (Opsional)
+                    </label>
+                    <CustomDatePicker
                       selected={dueDate}
                       onSelect={setDueDate}
                       placeholder="Pilih deadline..."

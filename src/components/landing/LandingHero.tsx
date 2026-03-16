@@ -23,7 +23,7 @@ export default function LandingHero() {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut" as any },
+      transition: { duration: 0.8, ease: "easeOut" },
     },
   };
 
@@ -48,17 +48,15 @@ export default function LandingHero() {
           </span>{" "}
           <br />
           PALING SERU <br />
-          BUAT <span className="text-primary italic relative">
-            GEN Z
-          </span>
+          BUAT <span className="text-primary italic relative">GEN Z</span>
         </motion.h1>
 
         <motion.p
           className="max-w-md text-base md:text-lg text-text-secondary font-medium leading-relaxed"
           variants={itemVariants}
         >
-          Kelola fokus, atur prioritas, dan kuasai materi
-          dengan cara yang seru dan nggak membosankan!
+          Kelola fokus, atur prioritas, dan kuasai materi dengan cara yang seru
+          dan nggak membosankan!
         </motion.p>
 
         <motion.div
@@ -106,7 +104,6 @@ export default function LandingHero() {
               priority
             />
           </motion.div>
-
         </motion.div>
 
         {/* Floating Lucide Icons (No Container) */}

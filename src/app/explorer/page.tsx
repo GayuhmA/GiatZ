@@ -1,23 +1,14 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import {
-  useNodesState,
-  useEdgesState,
-  addEdge,
-  Connection,
-  Edge,
-  Node,
-  OnNodesChange,
-  OnEdgesChange,
-} from "@xyflow/react";
+import { Connection, Edge, Node } from "@xyflow/react";
 import AppLayout from "@/components/layout/AppLayout";
 import MindGlanceGraph from "../../components/explorer/MindGlanceGraph";
 import RightPanel from "../../components/explorer/RightPanel";
 import SearchBar from "../../components/explorer/SearchBar";
 import AddCategoryModal from "../../components/explorer/AddCategoryModal";
 import AllNotesModal from "../../components/explorer/AllNotesModal";
-import { useExplorerStore } from "@/store/useExplorerStore";
+import { useExplorerStore, ExplorerNodeType } from "@/store/useExplorerStore";
 import { useExplorer } from "@/hooks/useExplorer";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 
@@ -41,7 +32,6 @@ export default function MindGlancePage() {
 
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isAllNotesOpen, setIsAllNotesOpen] = useState(false);
-  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const nodes = getMergedNodes();
 
@@ -51,7 +41,7 @@ export default function MindGlancePage() {
 
   const handleNodeDragStop = useCallback(
     (_: React.MouseEvent, node: Node) => {
-      updateNodePosition(node.id, node.type as any, node.position);
+      updateNodePosition(node.id, node.type as ExplorerNodeType, node.position);
     },
     [updateNodePosition],
   );
@@ -72,7 +62,7 @@ export default function MindGlancePage() {
   );
 
   const handleDeleteNode = useCallback(
-    (id: string, type: any) => {
+    (id: string, type: ExplorerNodeType) => {
       deleteNode(id, type);
     },
     [deleteNode],

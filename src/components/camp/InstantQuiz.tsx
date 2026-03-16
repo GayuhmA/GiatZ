@@ -59,8 +59,8 @@ export default function InstantQuiz() {
           <div className="bg-success-light/30 border-2 border-success/20 rounded-2xl p-6 mb-8 relative overflow-hidden shadow-sm">
             <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-success rounded-l-2xl"></div>
             <h4 className="font-extrabold text-xl text-text-primary pl-4 leading-relaxed">
-              Which of the following is an example of a "divide and conquer"
-              algorithm?
+              Which of the following is an example of a &quot;divide and
+              conquer&quot; algorithm?
             </h4>
           </div>
 
@@ -167,8 +167,8 @@ export default function InstantQuiz() {
               </h5>
             </div>
             <p className="text-secondary-dark text-sm italic font-medium leading-relaxed">
-              "Think about which algorithm breaks the problem into smaller
-              sub-problems recursively!"
+              &quot;Think about which algorithm breaks the problem into smaller
+              sub-problems recursively!&quot;
             </p>
           </div>
         </div>

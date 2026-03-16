@@ -84,7 +84,7 @@ export default function SetList({
       const d = new Date(date);
       if (isNaN(d.getTime())) return "Recently";
       return formatDistanceToNow(d, { addSuffix: true });
-    } catch (e) {
+    } catch {
       return "Baru-baru ini";
     }
   };
@@ -489,8 +489,8 @@ export default function SetList({
               </h3>
               <p className="text-xs text-text-secondary mb-6 font-medium leading-relaxed">
                 Yakin mau hapus{" "}
-                <strong>"{deleteConfirm.topic}"</strong>? Aksi ini nggak bisa
-                di-undo.
+                <strong>&quot;{deleteConfirm.topic}&quot;</strong>? Aksi ini
+                nggak bisa di-undo.
               </p>
 
               <div className="flex gap-2">
@@ -505,7 +505,7 @@ export default function SetList({
                   onClick={handleConfirmDelete}
                   className="flex-1 py-3 bg-danger text-white font-bold rounded-xl shadow-lg shadow-danger/20 uppercase tracking-widest text-[10px]"
                 >
-                    Hapus Sekarang
+                  Hapus Sekarang
                 </button>
               </div>
             </motion.div>

@@ -74,6 +74,7 @@ export default function Sidebar() {
   useEffect(() => {
     // When the URL changes, only reset if the new URL hasn't failed before
     if (photoUrl && !failedPhotoUrls.has(photoUrl)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setImgError(false);
     } else {
       setImgError(true);
