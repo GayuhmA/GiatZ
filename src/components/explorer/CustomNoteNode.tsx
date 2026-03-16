@@ -40,7 +40,7 @@ export default memo(function CustomNoteNode({
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-gray-900 text-white rounded-lg px-3 py-1.5 text-[9px] font-bold whitespace-nowrap pointer-events-none drop-shadow-lg"
             style={{ zIndex: 100 }}
           >
-            Click to open notes!
+            Klik untuk membuka note!
             {/* Tooltip Arrow */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] border-[6px] border-transparent border-t-gray-900" />
           </motion.div>

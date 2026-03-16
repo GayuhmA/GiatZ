@@ -23,11 +23,11 @@ export default function AppLayout({
   const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
 
   return (
-    <div className={`min-h-screen flex flex-col md:flex-row font-body text-text-primary transition-colors duration-1000 ${bgClassName}`}>
+    <div className={`h-screen flex flex-col md:flex-row font-body text-text-primary transition-colors duration-1000 ${bgClassName}`}>
       <Sidebar />
 
       <div
-        className={`flex-1 flex flex-col md:flex-row w-full md:ml-[240px] ${showRightPanel ? "xl:mr-[380px]" : ""}`}
+        className={`flex-1 flex flex-col md:flex-row w-full md:pl-[240px] ${showRightPanel ? "xl:pr-[380px]" : ""}`}
       >
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 pb-24 md:p-6 md:pb-6 max-w-full">
           {children}

@@ -75,7 +75,7 @@ export function DraggableSoundIcon({ id, label, colorClass, bgClass }: Draggable
         {getIconMap(id, "w-6 h-6")}
       </div>
       <span className="text-xs font-bold uppercase text-text-label">{label}</span>
-      {isActive && <span className="absolute -bottom-4 text-[10px] text-primary font-bold">ACTIVE</span>}
+      {isActive && <span className="absolute -bottom-4 text-[10px] text-primary font-bold">AKTIF</span>}
     </div>
   );
 }

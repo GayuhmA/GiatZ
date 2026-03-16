@@ -362,7 +362,7 @@ export default function FlashcardPlayer({
                         <path d="M10.5 1.875a6.375 6.375 0 0 0-6.375 6.375v.75c0 .414.336.75.75.75h.75a.75.75 0 0 0 .75-.75v-.75a4.125 4.125 0 0 1 8.25 0v.75c0 .414.336.75.75.75h.75a.75.75 0 0 0 .75-.75v-.75A6.375 6.375 0 0 0 10.5 1.875ZM3 12.75a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 .75.75v8.25a.75.75 0 0 1-.75.75H3.75a.75.75 0 0 1-.75-.75v-8.25Z" />
                       </svg>
                       <span className="text-xs font-bold text-text-secondary/50 uppercase tracking-widest">
-                        Press SPACE to reveal
+                        Tekan SPASI untuk buka jawaban
                       </span>
                     </div>
                   </div>
@@ -381,7 +381,7 @@ export default function FlashcardPlayer({
                     </h3>
                     <div className="absolute bottom-5 left-0 right-0 text-center">
                       <span className="text-xs font-bold text-white/50 uppercase tracking-widest">
-                        ← Drag left or right →
+                        ← Geser kiri atau kanan →
                       </span>
                     </div>
                   </div>
@@ -409,10 +409,10 @@ export default function FlashcardPlayer({
             onClick={handleShuffle}
             className="mt-5 flex items-center gap-2 px-6 py-2.5 bg-white border-2 border-primary text-primary font-bold rounded-full uppercase tracking-wide text-sm hover:bg-primary-light transition-colors cursor-pointer"
           >
-            <ArrowPathIcon className="w-5 h-5" /> Shuffle Cards
+            <ArrowPathIcon className="w-5 h-5" /> Acak Kartu
           </button>
           <p className="text-xs text-text-secondary mt-2 font-medium">
-            Press SPACE to reveal answer
+            Tekan SPASI untuk buka jawaban
           </p>
         </div>
 
@@ -421,7 +421,7 @@ export default function FlashcardPlayer({
           <div className="p-3 lg:p-4 pb-2 lg:pb-3 border-b border-border/50">
             <div>
               <h4 className="text-xs lg:text-sm font-black text-success uppercase tracking-wider">
-                Perfected
+                Dikuasai
               </h4>
               <div className="text-base lg:text-lg font-extrabold text-success leading-none mt-0.5">
                 {perfectedCards.length}
@@ -433,7 +433,7 @@ export default function FlashcardPlayer({
               <div className="flex flex-col items-center justify-center h-full text-center py-6 opacity-40">
                 <CheckCircleIcon className="w-7 h-7 text-text-secondary mb-1.5" />
                 <p className="text-[10px] text-text-secondary font-bold uppercase tracking-wide">
-                  Swipe right here
+                  Geser ke kanan
                 </p>
               </div>
             ) : (
@@ -459,7 +459,7 @@ export default function FlashcardPlayer({
                 onClick={handleChallengeAgain}
                 className="w-full py-2 bg-success text-white font-bold rounded-full uppercase tracking-wide text-[10px] border-b-3 border-success-dark hover:translate-y-[1px] hover:border-b-2 transition-all cursor-pointer"
               >
-                Challenge Again
+                Tantang Lagi
               </button>
             </div>
           )}
@@ -468,17 +468,17 @@ export default function FlashcardPlayer({
         {/* Mobile: Still Learning & Perfected */}
         <div className="flex lg:hidden gap-3 order-last">
           <div className="flex-1 bg-white rounded-2xl border border-border shadow-sm p-3">
-            <h4 className="text-xs font-black text-primary uppercase tracking-wider mb-1">Still Learning</h4>
+            <h4 className="text-xs font-black text-primary uppercase tracking-wider mb-1">Masih Belajar</h4>
             <div className="text-lg font-extrabold text-primary leading-none mb-2">{learningCards.length}</div>
             {learningCards.length > 0 && (
-              <button onClick={handleReviewNow} className="w-full mt-2 py-1.5 bg-primary text-white font-bold rounded-full uppercase tracking-wide text-[10px] border-b-2 border-primary-dark">Review Now</button>
+              <button onClick={handleReviewNow} className="w-full mt-2 py-1.5 bg-primary text-white font-bold rounded-full uppercase tracking-wide text-[10px] border-b-2 border-primary-dark">Review Sekarang</button>
             )}
           </div>
           <div className="flex-1 bg-white rounded-2xl border border-border shadow-sm p-3">
-            <h4 className="text-xs font-black text-success uppercase tracking-wider mb-1">Perfected</h4>
+            <h4 className="text-xs font-black text-success uppercase tracking-wider mb-1">Dikuasai</h4>
             <div className="text-lg font-extrabold text-success leading-none mb-2">{perfectedCards.length}</div>
             {perfectedCards.length > 0 && (
-              <button onClick={handleChallengeAgain} className="w-full mt-2 py-1.5 bg-success text-white font-bold rounded-full uppercase tracking-wide text-[10px] border-b-2 border-success-dark">Challenge Again</button>
+              <button onClick={handleChallengeAgain} className="w-full mt-2 py-1.5 bg-success text-white font-bold rounded-full uppercase tracking-wide text-[10px] border-b-2 border-success-dark">Tantang Lagi</button>
             )}
           </div>
         </div>
@@ -511,10 +511,10 @@ export default function FlashcardPlayer({
               </div>
 
               <h3 className="text-2xl font-extrabold text-text-primary mb-2">
-                Set Completed!
+                Set Selesai!
               </h3>
               <p className="text-text-secondary mb-8 text-sm font-medium opacity-60">
-                You reviewed all {totalOriginal} cards.
+                Kamu udah review semua {totalOriginal} kartu.
               </p>
 
               <div className="flex items-center justify-center gap-12 mb-10">
@@ -523,7 +523,7 @@ export default function FlashcardPlayer({
                     {learningCards.length}
                   </div>
                   <div className="text-xs font-black text-text-secondary uppercase tracking-wider mt-1">
-                    Still Learning
+                    Masih Belajar
                   </div>
                 </div>
                 <div className="w-px h-12 bg-border" />
@@ -532,7 +532,7 @@ export default function FlashcardPlayer({
                     {perfectedCards.length}
                   </div>
                   <div className="text-xs font-black text-text-secondary uppercase tracking-wider mt-1">
-                    Perfected
+                    Dikuasai
                   </div>
                 </div>
               </div>
@@ -542,20 +542,20 @@ export default function FlashcardPlayer({
                   onClick={handleReviewNow}
                   className="w-full py-3.5 bg-warning text-white font-extrabold rounded-2xl uppercase tracking-widest text-xs shadow-lg shadow-warning/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 >
-                  Review Again
+                  Review Lagi
                 </button>
                 <div className="flex gap-3">
                   <button
                     onClick={() => setShowModal(false)}
                     className="flex-1 py-3 text-text-secondary font-bold rounded-2xl border-2 border-border hover:bg-gray-50 transition-all cursor-pointer text-xs uppercase tracking-widest"
                   >
-                    Stay
+                    Tetap di Sini
                   </button>
                   <button
                     onClick={onClose}
                     className="flex-1 py-2.5 text-text-primary font-bold rounded-2xl border-2 border-border hover:border-primary transition-all cursor-pointer text-xs uppercase tracking-widest"
                   >
-                    Back to Library
+                    Kembali ke Pustaka
                   </button>
                 </div>
               </div>

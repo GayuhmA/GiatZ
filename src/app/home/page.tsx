@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { CheckCircle2, Flame, Rocket, Settings, Trophy } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 export default function HomePage() {
   const { user, loading } = useAuthStore();
@@ -44,6 +44,50 @@ export default function HomePage() {
   const [todayUnits, setTodayUnits] = useState(0);
   const [isExplanationOpen, setIsExplanationOpen] = useState(false);
   const [isGoalSettingsOpen, setIsGoalSettingsOpen] = useState(false);
+  const [timeOfDay, setTimeOfDay] = useState<"morning" | "afternoon" | "evening" | "night">("morning");
+
+  useEffect(() => {
+    const checkTime = () => {
+      const hour = new Date().getHours();
+      if (hour >= 5 && hour < 11) setTimeOfDay("morning");
+      else if (hour >= 11 && hour < 15) setTimeOfDay("afternoon");
+      else if (hour >= 15 && hour < 18) setTimeOfDay("evening");
+      else setTimeOfDay("night");
+    };
+    checkTime();
+    const interval = setInterval(checkTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const bannerTheme = useMemo(() => {
+    switch (timeOfDay) {
+      case "morning":
+        return {
+          bg: "from-[#1CB0F6] to-[#0D8ECF]",
+          greeting: "Selamat pagi",
+        };
+      case "afternoon":
+        return {
+          bg: "from-[#1CB0F6] to-[#0D8ECF]",
+          greeting: "Selamat siang",
+        };
+      case "evening":
+        return {
+          bg: "from-[#f97316] to-[#ff9600]",
+          greeting: "Selamat sore",
+        };
+      case "night":
+        return {
+          bg: "from-[#0a1128] to-[#4e184c]",
+          greeting: "Selamat malam",
+        };
+      default:
+        return {
+          bg: "from-[#1CB0F6] to-[#0D8ECF]",
+          greeting: "Halo lagi",
+        };
+    }
+  }, [timeOfDay]);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -111,10 +155,10 @@ export default function HomePage() {
               {user?.streakDays || 0}
             </p>
             <p className="text-xs font-bold uppercase tracking-wider text-text-secondary mb-3">
-              Day Streak!
+              Hari Streak!
             </p>
             <p className="text-xs text-text-secondary/80 max-w-[180px]">
-              Keep studying to maintain your streak and earn units!
+              Terus belajar biar streak-mu nggak putus!
             </p>
           </Card>
 
@@ -129,7 +173,7 @@ export default function HomePage() {
                   Daily Goal
                 </h3>
                 <p className="text-sm font-medium text-orange-700/80 mb-1">
-                  {todayUnits} / {dailyTarget} Units earned today
+                  {todayUnits} / {dailyTarget} Units hari ini
                 </p>
               </div>
               <button
@@ -157,7 +201,7 @@ export default function HomePage() {
               variant="primary"
               className="w-full flex items-center justify-center gap-2 font-bold py-3 mt-1"
             >
-              How to get more units
+              Cara dapetin lebih banyak units
             </Button>
           </Card>
         </div>
@@ -165,17 +209,16 @@ export default function HomePage() {
     >
       <div className="space-y-8 pb-10 w-full">
         {/* Welcome Banner */}
-        <div className="bg-gradient-to-r from-[#1CB0F6] to-[#0D8ECF] rounded-[2rem] p-8 md:p-10 text-white flex justify-between items-center shadow-lg relative overflow-hidden">
+        <div className={`bg-gradient-to-r ${bannerTheme.bg} rounded-[2rem] p-8 md:p-10 text-white flex justify-between items-center shadow-lg relative overflow-hidden transition-all duration-1000`}>
           {/* Decorative shapes */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4 blur-2xl"></div>
 
           <div className="relative z-10 max-w-lg">
             <h2 className="text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">
-              Welcome back, {displayName}!
+              {bannerTheme.greeting}, {displayName}!
             </h2>
             <p className="text-white/90 text-sm md:text-base font-medium leading-relaxed">
-              You&apos;ve completed {weeklyProgressPercent}% of your daily
-              goals. Finish strong!
+              Kamu udah selesaiin {weeklyProgressPercent}% daily goal hari ini. Gas terus!
             </p>
           </div>
 
@@ -193,10 +236,10 @@ export default function HomePage() {
         <div>
           <div className="flex items-center gap-3 mb-5">
             <h3 className="font-extrabold text-2xl text-text-primary tracking-tight">
-              Today&apos;s Tasks
+              Task Hari Ini
             </h3>
             <span className="bg-gray-100 text-gray-600 font-bold text-xs uppercase tracking-wider px-3 py-1 rounded-full">
-              {todayQuests.length} Left
+              {todayQuests.length} Tersisa
             </span>
           </div>
 
@@ -204,11 +247,11 @@ export default function HomePage() {
             {todayQuests.length === 0 && completedTodayQuests.length === 0 ? (
               <Card className="text-center py-10 border-dashed border-2 bg-gray-50/50">
                 <p className="text-text-secondary font-medium mb-3">
-                  You have no pending tasks right now.
+                  Nggak ada task yang menunggu sekarang.
                 </p>
                 <Link href="/matrix">
                   <Button variant="outline" className="font-bold border-2">
-                    Add New Tasks
+                    Tambah Task Baru
                   </Button>
                 </Link>
               </Card>
@@ -226,7 +269,7 @@ export default function HomePage() {
                             {task.title}
                           </p>
                           <p className="text-sm text-text-secondary">
-                            Complete to earn Activity Unit
+                            Selesaikan buat dapetin Activity Unit
                           </p>
                         </div>
                       </div>
@@ -253,12 +296,12 @@ export default function HomePage() {
                             {task.title}
                           </p>
                           <p className="text-sm text-[#74A825] italic">
-                            Nicely done!
+                            Keren!
                           </p>
                         </div>
                       </div>
                       <span className="font-black text-[#85C834] uppercase tracking-wider text-sm">
-                        Done
+                        Selesai
                       </span>
                     </Card>
                   </Link>

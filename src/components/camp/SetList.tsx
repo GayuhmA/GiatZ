@@ -68,7 +68,7 @@ export default function SetList({
 
   // Helper to handle Firestore Timestamps safely
   const safeFormat = (date: any) => {
-    if (!date) return "Just now";
+    if (!date) return "Baru saja";
 
     if (date.toDate && typeof date.toDate === "function") {
       return formatDistanceToNow(date.toDate(), { addSuffix: true });
@@ -85,7 +85,7 @@ export default function SetList({
       if (isNaN(d.getTime())) return "Recently";
       return formatDistanceToNow(d, { addSuffix: true });
     } catch (e) {
-      return "Recently";
+      return "Baru-baru ini";
     }
   };
 
@@ -196,8 +196,8 @@ export default function SetList({
       {/* Flashcard Library */}
       <section>
         <h3 className="font-bold text-sm text-text-primary uppercase tracking-wide flex items-center gap-1.5 mb-4 pl-1">
-          <RectangleStackIcon className="w-4 h-4 text-primary" /> Flashcard
-          Library
+          <RectangleStackIcon className="w-4 h-4 text-primary" /> Pustaka
+          Flashcard
         </h3>
         <div
           className="overflow-hidden transition-all duration-300"
@@ -223,7 +223,7 @@ export default function SetList({
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-xs font-bold text-text-secondary uppercase tracking-wide">
-                        {set.cards.length} cards
+                        {set.cards.length} kartu
                       </span>
                       <span className="text-xs text-text-secondary truncate ml-1">
                         {safeFormat(set.createdAt)}
@@ -255,7 +255,7 @@ export default function SetList({
             >
               <RectangleStackIcon className="w-5 h-5 text-text-secondary/30 mb-2" />
               <p className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em]">
-                Empty Library
+                Pustaka Kosong
               </p>
             </div>
           )}
@@ -267,11 +267,11 @@ export default function SetList({
           >
             {showAllFlashcards ? (
               <>
-                Show Less <ChevronUpIcon className="w-3 h-3" />
+                Tampilkan Sedikit <ChevronUpIcon className="w-3 h-3" />
               </>
             ) : (
               <>
-                See More ({flashcardSets.length - maxVisible}+){" "}
+                Lihat Lagi ({flashcardSets.length - maxVisible}+){" "}
                 <ChevronDownIcon className="w-3 h-3" />
               </>
             )}
@@ -282,7 +282,7 @@ export default function SetList({
       {/* Quiz Library */}
       <section>
         <h3 className="font-bold text-sm text-text-primary uppercase tracking-wide flex items-center gap-1.5 mb-4 pl-1">
-          <BoltIcon className="w-4 h-4 text-success" /> Quiz Library
+          <BoltIcon className="w-4 h-4 text-success" /> Pustaka Quiz
         </h3>
         <div
           className="overflow-hidden transition-all duration-300"
@@ -306,7 +306,7 @@ export default function SetList({
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-xs font-bold text-text-secondary uppercase tracking-wide">
-                        {set.questions.length} Questions
+                        {set.questions.length} Soal
                       </span>
                       <span className="text-xs text-text-secondary truncate ml-1">
                         {safeFormat(set.createdAt)}
@@ -340,7 +340,7 @@ export default function SetList({
             >
               <BoltIcon className="w-5 h-5 text-text-secondary/30 mb-2" />
               <p className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em]">
-                Empty Library
+                Pustaka Kosong
               </p>
             </div>
           )}
@@ -352,11 +352,11 @@ export default function SetList({
           >
             {showAllQuizzes ? (
               <>
-                Show Less <ChevronUpIcon className="w-3 h-3" />
+                Tampilkan Sedikit <ChevronUpIcon className="w-3 h-3" />
               </>
             ) : (
               <>
-                See More ({quizSets.length - maxVisible}+){" "}
+                Lihat Lagi ({quizSets.length - maxVisible}+){" "}
                 <ChevronDownIcon className="w-3 h-3" />
               </>
             )}
@@ -394,7 +394,7 @@ export default function SetList({
               }}
               className="w-full text-left px-4 py-2 text-sm font-bold text-text-primary hover:bg-primary-light hover:text-primary flex items-center gap-2.5 transition-colors"
             >
-              <PencilIcon className="w-4 h-4" /> Rename Set
+              <PencilIcon className="w-4 h-4" /> Ganti Nama
             </button>
             <button
               onClick={(e) => {
@@ -403,7 +403,7 @@ export default function SetList({
               }}
               className="w-full text-left px-4 py-2 text-sm font-bold text-danger hover:bg-danger-light flex items-center gap-2.5 transition-colors"
             >
-              <TrashIcon className="w-4 h-4" /> Delete Set
+              <TrashIcon className="w-4 h-4" /> Hapus Set
             </button>
           </motion.div>
         )}
@@ -427,10 +427,10 @@ export default function SetList({
               className="relative bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl"
             >
               <h3 className="text-lg font-black text-text-primary mb-1">
-                Rename Study Set
+                Ganti Nama Study Set
               </h3>
               <p className="text-xs text-text-secondary mb-4 font-medium italic">
-                Change the title of your {renameConfig.type} set.
+                Ubah judul set {renameConfig.type}-mu.
               </p>
 
               <form onSubmit={handleRenameSubmit} className="space-y-4">
@@ -440,7 +440,7 @@ export default function SetList({
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   className="w-full bg-gray-50 border-2 border-border text-text-primary font-bold rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors"
-                  placeholder="Enter new title..."
+                  placeholder="Masukkan judul baru..."
                 />
 
                 <div className="flex gap-2">
@@ -449,13 +449,13 @@ export default function SetList({
                     onClick={() => setRenameConfig(null)}
                     className="flex-1 py-3 bg-gray-100 text-text-secondary font-bold rounded-xl hover:bg-gray-200 transition-colors uppercase tracking-widest text-[10px]"
                   >
-                    Cancel
+                    Batal
                   </button>
                   <button
                     type="submit"
                     className="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 uppercase tracking-widest text-[10px]"
                   >
-                    Save Changes
+                    Simpan
                   </button>
                 </div>
               </form>
@@ -485,12 +485,12 @@ export default function SetList({
                 <TrashIcon className="w-6 h-6 text-danger" />
               </div>
               <h3 className="text-lg font-black text-text-primary mb-1">
-                Delete Study Set?
+                Hapus Study Set?
               </h3>
               <p className="text-xs text-text-secondary mb-6 font-medium leading-relaxed">
-                Are you sure you want to delete{" "}
-                <strong>"{deleteConfirm.topic}"</strong>? This action cannot be
-                undone.
+                Yakin mau hapus{" "}
+                <strong>"{deleteConfirm.topic}"</strong>? Aksi ini nggak bisa
+                di-undo.
               </p>
 
               <div className="flex gap-2">
@@ -499,13 +499,13 @@ export default function SetList({
                   onClick={() => setDeleteConfirm(null)}
                   className="flex-1 py-3 bg-gray-100 text-text-secondary font-bold rounded-xl hover:bg-gray-200 transition-colors uppercase tracking-widest text-[10px]"
                 >
-                  Cancel
+                  Batal
                 </button>
                 <button
                   onClick={handleConfirmDelete}
                   className="flex-1 py-3 bg-danger text-white font-bold rounded-xl shadow-lg shadow-danger/20 uppercase tracking-widest text-[10px]"
                 >
-                  Delete Now
+                    Hapus Sekarang
                 </button>
               </div>
             </motion.div>

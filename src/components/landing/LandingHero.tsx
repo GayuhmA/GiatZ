@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import Button from "@/components/shared/Button";
 import { Variants, motion } from "framer-motion";
-import { Sparkles, Zap, Star, Brain, Trophy } from "lucide-react";
+import { Brain, Sparkles, Star, Trophy } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function LandingHero() {
   const containerVariants: Variants = {
@@ -30,16 +30,16 @@ export default function LandingHero() {
   return (
     <section
       id="hero"
-      className="pt-32 pb-16 px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-16 max-w-7xl mx-auto min-h-[85vh] relative overflow-hidden"
+      className="pt-24 pb-12 px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-10 max-w-7xl mx-auto min-h-[80vh] relative overflow-visible"
     >
       <motion.div
-        className="flex-1 space-y-10 text-left relative z-10"
+        className="flex-1 space-y-8 text-left relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         <motion.h1
-          className="text-5xl md:text-8xl font-black leading-[1.05] text-text-primary tracking-tighter"
+          className="text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] text-text-primary tracking-tighter"
           variants={itemVariants}
         >
           TOOLS <br />
@@ -57,8 +57,8 @@ export default function LandingHero() {
           className="max-w-md text-base md:text-lg text-text-secondary font-medium leading-relaxed"
           variants={itemVariants}
         >
-          Bergabunglah bersama Gia dalam petualangan ilmu yang mengasyikkan.
-          Kuasai keahlian baru melalui tantangan seru!
+          Kelola fokus, atur prioritas, dan kuasai materi
+          dengan cara yang seru dan nggak membosankan!
         </motion.p>
 
         <motion.div
@@ -71,20 +71,20 @@ export default function LandingHero() {
               size="lg"
               className="px-8 md:px-10 text-[10px] md:text-xs font-black tracking-widest shadow-[0_6px_0_0_var(--color-primary-dark)]"
             >
-              MULAI PETUALANGANMU!
+              MULAI PRODUKTIF!
             </Button>
           </Link>
         </motion.div>
       </motion.div>
 
       <motion.div
-        className="flex-1 relative w-full aspect-square lg:h-[600px] flex items-center justify-center p-4 overflow-visible"
+        className="flex-1 relative w-full aspect-square lg:h-[500px] flex items-center justify-center p-4"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1, delay: 0.5, type: "spring" }}
       >
         {/* Glow Background */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-secondary/10 via-primary/5 to-success/5 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-secondary/10 via-primary/5 to-success/5 rounded-full blur-[100px] animate-pulse z-100"></div>
 
         <motion.div
           className="relative z-10 w-full h-full max-w-[800px] bg-transparent flex flex-col items-center justify-center translate-x-[10%] lg:translate-x-0"
@@ -94,7 +94,7 @@ export default function LandingHero() {
           <div className="absolute inset-10 bg-primary/20 rounded-full blur-[80px] -z-10"></div>
 
           <motion.div
-            className="relative w-full h-full min-h-[400px] md:min-h-[650px]"
+            className="relative w-full h-full min-h-[350px] md:min-h-[450px]"
             animate={{ y: [0, -20, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
@@ -102,16 +102,11 @@ export default function LandingHero() {
               src="/images/gia-mascot.png"
               alt="Gia Mascot"
               fill
-              className="object-contain scale-[1.5]"
+              className="object-contain scale-[1.3]"
               priority
             />
           </motion.div>
 
-          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-text-secondary opacity-40">
-              MASKOT BELAJAR
-            </span>
-          </div>
         </motion.div>
 
         {/* Floating Lucide Icons (No Container) */}

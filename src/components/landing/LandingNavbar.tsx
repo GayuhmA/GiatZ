@@ -67,9 +67,9 @@ export default function LandingNavbar() {
             height={36}
             className="rounded-lg shadow-sm"
           />
-          <span className="text-2xl font-black tracking-tighter text-text-primary uppercase group-hover:text-primary transition-colors">
-            GiatZ
-          </span>
+        <h1 className="text-primary font-extrabold text-3xl tracking-wide font-heading">
+          GiatZ
+        </h1>
         </div>
 
         <div className="hidden md:flex items-center gap-10">
@@ -98,7 +98,7 @@ export default function LandingNavbar() {
                 : "text-text-secondary hover:text-primary"
             }`}
           >
-            Pengguna
+            Testimoni
             <span
               className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all ${
                 activeSection === "testimonials"

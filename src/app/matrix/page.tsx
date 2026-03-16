@@ -101,12 +101,12 @@ export default function MatrixPage() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary">Task Matrix</h2>
-            <p className="text-text-secondary mt-1 flex items-center gap-2 font-medium">Eisenhower 2.0 Productivity System</p>
+            <p className="text-text-secondary mt-1 flex items-center gap-2 font-medium">Sistem Produktivitas Eisenhower 2.0</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
             <Button onClick={() => { setActiveTaskToEdit(undefined); setIsModalOpen(true); }} className="w-full md:w-auto flex items-center justify-center gap-2">
               <PlusIcon className="w-5 h-5" />
-              Add New Task
+              Tambah Task Baru
             </Button>
           </div>
         </div>
@@ -121,14 +121,14 @@ export default function MatrixPage() {
           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 grid-rows-4 md:grid-rows-2 gap-6 md:gap-10 relative min-h-[800px] md:min-h-[600px] mt-8 md:mt-10 ml-4 md:ml-16">
             {/* Column Labels */}
             <div className="hidden md:flex absolute -top-8 left-0 w-full justify-around text-text-label font-bold uppercase tracking-widest text-sm z-0 pointer-events-none">
-              <div className="w-1/2 text-center">Urgent</div>
-              <div className="w-1/2 text-center">Not Urgent</div>
+              <div className="w-1/2 text-center">Mendesak</div>
+              <div className="w-1/2 text-center">Tidak Mendesak</div>
             </div>
 
             {/* Row Labels */}
             <div className="hidden md:flex absolute -left-16 top-0 h-full flex-col justify-around items-center w-12 z-0 pointer-events-none">
-              <div className="h-1/2 flex items-center justify-center -rotate-90 text-text-label font-bold uppercase tracking-widest text-sm whitespace-nowrap">Important</div>
-              <div className="h-1/2 flex items-center justify-center -rotate-90 text-text-label font-bold uppercase tracking-widest text-sm whitespace-nowrap">Not Important</div>
+              <div className="h-1/2 flex items-center justify-center -rotate-90 text-text-label font-bold uppercase tracking-widest text-sm whitespace-nowrap">Penting</div>
+              <div className="h-1/2 flex items-center justify-center -rotate-90 text-text-label font-bold uppercase tracking-widest text-sm whitespace-nowrap">Tidak Penting</div>
             </div>
 
             {/* Do First (Urgent & Important) */}

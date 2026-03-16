@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { X, CheckCircle2, Sparkles, BookOpen, Rocket, Trophy } from 'lucide-react';
+import { X, CheckCircle2, Sparkles, Rocket, Trophy, BookOpen } from 'lucide-react';
 import Button from '../shared/Button';
 
 interface UnitsExplanationModalProps {
@@ -42,7 +42,7 @@ export default function UnitsExplanationModal({ isOpen, onClose }: UnitsExplanat
                     className="text-lg font-extrabold leading-6 text-text-primary flex items-center gap-2"
                   >
                     <Sparkles className="w-6 h-6 text-orange-500" />
-                    How to Earn Activity Units
+                    Cara Dapetin Activity Units
                   </Dialog.Title>
                   <button
                     onClick={onClose}
@@ -54,7 +54,7 @@ export default function UnitsExplanationModal({ isOpen, onClose }: UnitsExplanat
 
                 <div className="mt-4 space-y-4">
                   <p className="text-sm text-text-secondary">
-                    Activity Units are a measure of your daily productivity. You can earn them by consistently completing tasks and study sessions.
+                    Activity Units adalah ukuran produktivitas harian kamu. Kamu bisa dapetin mereka dengan konsisten menyelesaikan task dan sesi belajar.
                   </p>
 
                   <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 flex gap-4">
@@ -62,7 +62,7 @@ export default function UnitsExplanationModal({ isOpen, onClose }: UnitsExplanat
                     <div>
                       <h4 className="font-bold tracking-tight text-text-primary text-sm">Task Matrix</h4>
                       <p className="text-xs text-text-secondary mt-1">
-                        Complete 1 task from any quadrant to earn <strong className="text-primary font-bold">1 Unit</strong>.
+                        Selesaikan 1 task dari kuadran mana pun buat dapetin <strong className="text-primary font-bold">1 Unit</strong>.
                       </p>
                     </div>
                   </div>
@@ -72,7 +72,7 @@ export default function UnitsExplanationModal({ isOpen, onClose }: UnitsExplanat
                     <div>
                       <h4 className="font-bold tracking-tight text-text-primary text-sm">Focus Orbit</h4>
                       <p className="text-xs text-text-secondary mt-1">
-                        Complete a 25-minute Pomodoro focus session to earn <strong className="text-primary font-bold">1 Unit</strong>.
+                        Selesaikan sesi fokus Pomodoro 25 menit buat dapetin <strong className="text-primary font-bold">1 Unit</strong>.
                       </p>
                     </div>
                   </div>
@@ -82,7 +82,7 @@ export default function UnitsExplanationModal({ isOpen, onClose }: UnitsExplanat
                     <div>
                       <h4 className="font-bold tracking-tight text-text-primary text-sm">Mind Glance</h4>
                       <p className="text-xs text-text-secondary mt-1">
-                        Create a new note or node to reinforce your learning and earn <strong className="text-primary font-bold">1 Unit</strong>.
+                        Buat note atau node baru buat memperkuat belajar dan dapetin <strong className="text-primary font-bold">1 Unit</strong>.
                       </p>
                     </div>
                   </div>
@@ -92,7 +92,7 @@ export default function UnitsExplanationModal({ isOpen, onClose }: UnitsExplanat
                     <div>
                       <h4 className="font-bold tracking-tight text-text-primary text-sm">Train Camp</h4>
                       <p className="text-xs text-text-secondary mt-1">
-                        Complete a Quiz or review a Flashcard set to test your knowledge and earn <strong className="text-primary font-bold">1 Unit</strong>.
+                        Selesaikan Quiz atau review set Flashcard buat menguji pengetahuan dan dapetin <strong className="text-primary font-bold">1 Unit</strong>.
                       </p>
                     </div>
                   </div>
@@ -104,7 +104,7 @@ export default function UnitsExplanationModal({ isOpen, onClose }: UnitsExplanat
                     variant="primary"
                     className="w-full flex items-center justify-center font-bold font-heading"
                   >
-                    Got it!
+                    Oke, paham!
                   </Button>
                 </div>
               </Dialog.Panel>

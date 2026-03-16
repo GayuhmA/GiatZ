@@ -253,8 +253,8 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                     className="group flex items-center gap-3 px-10 py-4 bg-primary text-white font-black rounded-2xl uppercase tracking-widest text-sm shadow-lg shadow-primary/30 border-b-4 border-primary-dark hover:translate-y-[1px] hover:border-b-2 transition-all cursor-pointer"
                   >
                     {currentIndex < totalQuestions - 1
-                      ? "Next Challenge"
-                      : "See Results"}
+                      ? "Tantangan Berikutnya"
+                      : "Lihat Hasil"}
                     <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </motion.div>
@@ -284,7 +284,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <LightBulbIcon className="w-4 h-4 text-secondary" />
                   <h5 className="font-bold text-[10px] text-secondary-dark uppercase tracking-widest">
-                    Gia's Wisdom
+                    Wisdom dari Gia
                   </h5>
                 </div>
 
@@ -294,7 +294,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                   </p>
                 ) : (
                   <p className="text-[10px] text-text-secondary font-bold uppercase tracking-wide opacity-40">
-                    Solve this to see my hint!
+                    Jawab dulu buat lihat hint-ku!
                   </p>
                 )}
               </div>
@@ -303,7 +303,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
             <div className="bg-gray-50 rounded-2xl border border-border/50 p-4 flex-1">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[10px] font-black text-text-secondary uppercase tracking-widest">
-                  Progress
+                  Progres
                 </span>
                 <span className="text-[10px] font-black text-primary">
                   {Math.round(progressPercent)}%
@@ -350,10 +350,10 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                 </div>
 
                 <h3 className="text-3xl font-black text-text-primary mb-2">
-                  Amazing Effort!
+                  Usaha Luar Biasa!
                 </h3>
                 <p className="text-text-secondary mb-8 font-medium">
-                  You completed the {set.topic} quiz.
+                  Kamu selesaiin quiz {set.topic}.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 w-full mb-8">
@@ -362,7 +362,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                       {Math.round((correctAnswers / totalQuestions) * 100)}%
                     </div>
                     <div className="text-[10px] font-black text-primary uppercase tracking-widest mt-1">
-                      Accuracy
+                      Akurasi
                     </div>
                   </div>
                   <div className="bg-success-light/30 rounded-2xl p-4 border border-success/10">
@@ -370,7 +370,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                       {correctAnswers}
                     </div>
                     <div className="text-[10px] font-black text-success uppercase tracking-widest mt-1">
-                      Correct
+                      Benar
                     </div>
                   </div>
                 </div>
@@ -379,7 +379,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                   onClick={onClose}
                   className="w-full py-4 bg-text-primary text-white font-black rounded-2xl uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-all cursor-pointer"
                 >
-                  Return to Library
+                  Kembali ke Pustaka
                 </button>
               </div>
 
@@ -422,7 +422,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
                   </ResponsiveContainer>
                 </div>
                 <p className="text-[10px] text-text-secondary/60 font-bold mt-4 italic">
-                  Based on your performance in this session
+                  Berdasarkan performamu di sesi ini
                 </p>
               </div>
             </motion.div>

@@ -175,9 +175,9 @@ export default function OrbitPage() {
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className={`text-xs font-bold uppercase ${isNight ? 'text-gray-300' : 'text-text-label'}`}>Mix Status</span>
+                  <span className={`text-xs font-bold uppercase ${isNight ? 'text-gray-300' : 'text-text-label'}`}>Status Mix</span>
                   <span className="text-xs font-bold text-primary">
-                    {activeSounds.length > 0 ? "Active" : "Silent"}
+                    {activeSounds.length > 0 ? "Aktif" : "Senyap"}
                   </span>
                 </div>
                 <div className="flex h-3 w-full rounded-full overflow-hidden bg-gray-100/30">
@@ -198,7 +198,7 @@ export default function OrbitPage() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Card variant="container" className={`w-full max-w-2xl flex flex-col items-center p-8 pt-12 md:p-20 relative overflow-visible transition-all duration-1000 ${isNight ? 'bg-white/10! backdrop-blur-xl border-white/20 text-white shadow-2xl' : 'bg-white/60! backdrop-blur-xl border border-white/60 shadow-2xl'}`}>
+          <Card variant="container" className={`w-full max-w-2xl flex flex-col items-center relative overflow-visible transition-all duration-1000 ${isNight ? 'bg-white/10! backdrop-blur-xl border-white/20 text-white shadow-2xl' : 'bg-white/60! backdrop-blur-xl border border-white/60 shadow-2xl'}`}>
             <DroppableOrbitZone>
               {/* Center Planet / Timer */}
               <div className={`w-[150px] h-[150px] md:w-[180px] md:h-[180px] ${isBreakMode ? "bg-success" : "bg-primary"} rounded-full flex flex-col items-center justify-center text-white z-10 transition-shadow duration-500
@@ -208,7 +208,7 @@ export default function OrbitPage() {
                   {formatTime(remainingSeconds)}
                 </span>
                 <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-90 mt-1">
-                  {isBreakMode ? "Break Remaining" : "Remaining"}
+                  {isBreakMode ? "Sisa Break" : "Tersisa"}
                 </span>
               </div>
 
@@ -255,9 +255,9 @@ export default function OrbitPage() {
                   className={`text-xl md:text-3xl font-extrabold transition-colors px-2 truncate max-w-full mt-4 ${isNight ? 'text-white' : 'text-text-primary'}`}
                 >
                   {sessionState === 'idle' && (isBreakMode ? 'Break Time' : sessionTitle)}
-                  {sessionState === 'running' && (isBreakMode ? 'Restoring Energy...' : sessionTitle)}
-                  {sessionState === 'paused' && 'Session Paused'}
-                  {sessionState === 'finished' && (isBreakMode ? 'Break Complete!' : 'Session Complete!')}
+                  {sessionState === 'running' && (isBreakMode ? 'Ngecas Energi...' : sessionTitle)}
+                  {sessionState === 'paused' && 'Sesi Dijeda'}
+                  {sessionState === 'finished' && (isBreakMode ? 'Break Selesai!' : 'Sesi Selesai!')}
                 </h2>
                 
                 <div className="w-8 h-8 shrink-0 flex items-center justify-center">
@@ -277,26 +277,26 @@ export default function OrbitPage() {
               </div>
             )}
             <p className={`text-sm md:text-base mb-2 md:mb-8 text-center max-w-md transition-colors ${isNight ? 'text-gray-300' : 'text-text-secondary'}`}>
-              {sessionState === 'idle' && (isBreakMode ? "Ready for a refreshing break." : "Ready to enter your focus orbit.")}
-              {sessionState === 'running' && (isBreakMode ? "Recharge your mind." : "You're orbiting success! Keep the momentum going.")}
-              {sessionState === 'paused' && "Take a deep breath. Ready when you are."}
-              {sessionState === 'finished' && (isBreakMode ? "Break is over, time to return to focus!" : "Masterful deep work! Take a refreshing break today.")}
+              {sessionState === 'idle' && (isBreakMode ? "Siap istirahat sejenak." : "Siap masuk focus orbit-mu.")}
+              {sessionState === 'running' && (isBreakMode ? "Isi ulang energimu." : "Kamu sedang mengorbit sukses! Jaga momentum-nya.")}
+              {sessionState === 'paused' && "Tarik napas dulu. Lanjut kapan aja."}
+              {sessionState === 'finished' && (isBreakMode ? "Break selesai, saatnya balik fokus!" : "Deep work mantap! Istirahat dulu yuk.")}
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mt-2">
               {sessionState === 'idle' && (
                 <Button variant="primary" className="w-full md:w-auto" onClick={handleStartSession}>
-                  {isBreakMode ? "START BREAK" : "START SESSION"}
+                  {isBreakMode ? "MULAI BREAK" : "MULAI SESI"}
                 </Button>
               )}
               
               {(sessionState === 'running' || sessionState === 'paused') && (
                 <>
                   <Button variant="primary" className="w-full md:w-auto" onClick={handleToggle}>
-                    {sessionState === 'running' ? 'PAUSE SESSION' : 'RESUME SESSION'}
+                    {sessionState === 'running' ? 'JEDA SESI' : 'LANJUT SESI'}
                   </Button>
-                  <Button variant="outline" className="w-full md:w-auto" onClick={handleSkip}>
-                    SKIP
+                  <Button variant="outline" className="w-full md:w-auto bg-white/50 hover:bg-white" onClick={handleSkip}>
+                    LEWATI
                   </Button>
                 </>
               )}
@@ -305,13 +305,13 @@ export default function OrbitPage() {
                 <>
                   {!isBreakMode && (
                     <Button variant="primary" className="w-full md:w-auto" onClick={() => startBreakMode()}>
-                      START BREAK
+                      MULAI BREAK
                     </Button>
                   )}
-                  <Button variant={isBreakMode ? "primary" : "outline"} className="w-full md:w-auto" onClick={() => {
+                  <Button variant={isBreakMode ? "primary" : "outline"} className="w-full md:w-auto bg-white/50 hover:bg-white" onClick={() => {
                      isBreakMode ? exitBreakMode() : handleResetOrbit();
                   }}>
-                    NEW SESSION
+                    SESI BARU
                   </Button>
                 </>
               )}

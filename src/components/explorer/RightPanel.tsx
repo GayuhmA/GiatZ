@@ -60,7 +60,7 @@ export default function RightPanel({
     <div className="w-full h-full flex flex-col p-4 xl:p-6 xl:pt-6 gap-6 overflow-y-auto [&::-webkit-scrollbar]:hidden">
       <div className="flex items-center justify-between">
         <h2 className="text-xl md:text-2xl font-extrabold text-[#3C3C3C] tracking-wide font-heading leading-tight">
-          Your Knowledge Base
+          Knowledge Base Kamu
         </h2>
       </div>
 
@@ -73,7 +73,7 @@ export default function RightPanel({
             className="w-full bg-[#FF9600] text-white font-bold text-[13px] md:text-base rounded-full py-2.5 px-3 flex items-center justify-center gap-1.5 border-b-4 border-[#E68600] hover:translate-y-[2px] hover:border-b-[2px] active:translate-y-[4px] active:border-b-0 transition-all cursor-pointer shadow-sm"
           >
             <PlusIcon className="w-5 h-5 flex-shrink-0" strokeWidth={2.5} />
-            <span className="whitespace-nowrap">CREATE NEW NOTE</span>
+            <span className="whitespace-nowrap">BUAT NOTE BARU</span>
           </button>
         </div>
 
@@ -82,14 +82,14 @@ export default function RightPanel({
           className="w-full bg-white border-2 border-dashed border-[#E5E5E5] text-[#AFAFAF] font-bold text-xs md:text-sm rounded-full py-2 flex items-center justify-center gap-2 hover:border-[#3C3C3C] hover:text-[#3C3C3C] transition-all shrink-0"
         >
           <PlusIcon className="w-4 h-4" strokeWidth={3} />
-          ADD CATEGORY
+          TAMBAH KATEGORI
         </button>
       </div>
 
       <div className="flex-1 flex flex-col gap-6">
         <div>
           <h3 className="text-xs font-bold text-[#AFAFAF] uppercase tracking-widest mb-4">
-            RECENT NOTES
+            NOTE TERBARU
           </h3>
 
           <div className="flex flex-col gap-4">
@@ -115,7 +115,7 @@ export default function RightPanel({
                     </div>
                     <div className="flex items-center justify-between gap-2 mt-auto">
                       <p className="truncate text-[11px] md:text-xs text-[#AFAFAF]">
-                        Last modified:{" "}
+                        Terakhir diubah:{" "}
                         {new Date(
                           (note.data.updatedAt as any)?.seconds * 1000,
                         ).toLocaleDateString()}
@@ -126,7 +126,7 @@ export default function RightPanel({
               ))
             ) : (
               <div className="text-center py-8 opacity-40">
-                <p className="text-xs font-bold text-[#AFAFAF]">No notes yet</p>
+                <p className="text-xs font-bold text-[#AFAFAF]">Belum ada note</p>
               </div>
             )}
           </div>
@@ -136,14 +136,14 @@ export default function RightPanel({
           onClick={onViewAllNotes}
           className="w-full py-3 rounded-full border-2 border-dashed border-[#E5E5E5] text-[#AFAFAF] font-bold text-sm uppercase tracking-wide hover:border-[#FF9600] hover:text-[#FF9600] transition-colors mt-auto"
         >
-          VIEW ALL NOTES
+          LIHAT SEMUA NOTE
         </button>
       </div>
 
       {/* Weekly Progress Widget */}
       <div className="bg-[#FFFFFF] rounded-3xl p-5 shadow-sm border border-[#FF9600] border-opacity-20 relative overflow-hidden shrink-0">
         <h3 className="text-xs font-bold text-[#FF9600] uppercase tracking-widest mb-4">
-          WEEKLY PROGRESS
+          PROGRES MINGGUAN
         </h3>
 
         <div className="flex flex-col gap-2 mt-2">
@@ -161,7 +161,7 @@ export default function RightPanel({
                 {/* Tooltip */}
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 flex flex-col items-center">
                   <div className="bg-[#3C3C3C] text-white text-[10px] font-bold px-2 py-1 rounded-md whitespace-nowrap shadow-md">
-                    {stat.count} Nodes
+                    {stat.count} Node
                   </div>
                   <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[#3C3C3C]"></div>
                 </div>
@@ -182,7 +182,7 @@ export default function RightPanel({
         </div>
 
         <p className="text-xs font-bold text-[#3C3C3C] text-center mt-4">
-          {todayCount} New nodes created today!
+          {todayCount} Node baru dibuat hari ini!
         </p>
       </div>
     </div>
