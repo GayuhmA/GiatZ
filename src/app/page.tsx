@@ -1,9 +1,9 @@
 "use client";
 
-import AppLayout from "@/components/layout/AppLayout";
 import ActivityHeatmap from "@/components/dashboard/ActivityHeatmap";
-import UnitsExplanationModal from "@/components/dashboard/UnitsExplanationModal";
 import DailyGoalSettingsModal from "@/components/dashboard/DailyGoalSettingsModal";
+import UnitsExplanationModal from "@/components/dashboard/UnitsExplanationModal";
+import AppLayout from "@/components/layout/AppLayout";
 import Button from "@/components/shared/Button";
 import Card from "@/components/shared/Card";
 import { useTasks } from "@/hooks/useTasks";
@@ -11,7 +11,7 @@ import { db } from "@/lib/firebase";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useTaskStore } from "@/store/useTaskStore";
 import { collection, limit, onSnapshot, orderBy, query } from "firebase/firestore";
-import { CheckCircle2, Flame, Rocket, Settings, Plus, Trophy } from "lucide-react";
+import { CheckCircle2, Flame, Rocket, Settings, Trophy } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 

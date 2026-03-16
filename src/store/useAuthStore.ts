@@ -105,6 +105,14 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     try {
+      // Pause any running orbit session before signing out
+      const { useOrbitStore } = await import('@/store/useOrbitStore');
+      const orbitState = useOrbitStore.getState();
+      if (orbitState.sessionState === 'running') {
+        orbitState.toggleTimer(); // pauses and accumulates elapsed time
+      }
+      orbitState.stopAllSounds();
+
       await signOut(auth);
       set({ user: null, firebaseUser: null, loading: false });
     } catch (error) {
@@ -126,6 +134,3 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   }
 }));
-
-// We can export an init function to be called centrally, 
-// or let a React component handle the subscription to preserve hooks rules.

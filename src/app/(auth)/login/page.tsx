@@ -4,7 +4,7 @@ import Button from "@/components/shared/Button";
 import Input from "@/components/shared/Input";
 import { useAuthStore } from "@/store/useAuthStore";
 import { AtSymbolIcon, LockClosedIcon } from "@heroicons/react/24/outline";
-import { AcademicCapIcon as AcademicCapIconSolid, HandRaisedIcon } from "@heroicons/react/24/solid";
+import { Hand } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -50,10 +50,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full max-w-5xl bg-white rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row min-h-150">
+    <div className="w-full max-w-5xl bg-white/50 rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row min-h-150">
       
       {/* Left Side - Image Panel */}
-      <div className="hidden md:flex flex-col bg-brand-light w-1/2 p-10 relative items-center justify-center text-center">
+      <div className="hidden md:flex flex-col w-1/2 p-10 relative items-center justify-center text-center">
         <div className="w-full max-w-[320px] aspect-4/5 relative rounded-3xl overflow-hidden shadow-2xl mb-8">
           <Image 
             src="/images/gia-mascot.webp" 
@@ -63,16 +63,16 @@ export default function LoginPage() {
             priority
           />
         </div>
-        <h2 className="text-brand-dark text-3xl font-extrabold mb-3 font-heading">
+        <h2 className="text-3xl font-extrabold mb-3 font-heading">
           Learn with GiatZ
         </h2>
-        <p className="text-brand-dark/80 text-lg font-medium">
+        <p className="text-lg font-medium">
           Your smart companion for every subject.
         </p>
       </div>
 
       {/* Right Side - Form Panel */}
-      <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center">
+      <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center bg-white">
         {/* Logo */}
         <div className="flex items-center gap-3 mb-10">
           <Image 
@@ -89,7 +89,7 @@ export default function LoginPage() {
         {/* Header */}
         <div className="mb-10">
           <h2 className="text-3xl font-extrabold text-text-primary mb-2 flex items-center gap-2">
-            Welcome Back! <HandRaisedIcon className="w-8 h-8 text-primary-dark" />
+            Welcome Back! <Hand className="w-8 h-8 text-primary-dark" />
           </h2>
           <p className="text-text-secondary font-medium">
             Ready to continue your learning journey?
