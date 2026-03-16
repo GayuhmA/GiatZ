@@ -7,18 +7,24 @@ import { useOrbitStore } from "@/store/useOrbitStore";
 import { Clock } from "lucide-react";
 
 export default function TimerDurationCard({ className = "" }: { className?: string }) {
-  const { sessionLengthSecs, setSessionLength } = useOrbitStore();
+  const { sessionLengthSecs, setSessionLength, breakLengthSecs, setBreakLength } = useOrbitStore();
   
   // Local state for the slider and custom input before applying
   const [localMinutes, setLocalMinutes] = useState(sessionLengthSecs / 60);
+  const [localBreakMinutes, setLocalBreakMinutes] = useState(breakLengthSecs / 60);
 
   // Sync local state if global state changes externally
   useEffect(() => {
     setLocalMinutes(sessionLengthSecs / 60);
-  }, [sessionLengthSecs]);
+    setLocalBreakMinutes(breakLengthSecs / 60);
+  }, [sessionLengthSecs, breakLengthSecs]);
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalMinutes(Number(e.target.value));
+  };
+
+  const handleBreakSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalBreakMinutes(Number(e.target.value));
   };
 
   const handleCustomInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,16 +36,36 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
     }
   };
 
+  const handleCustomBreakInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+    if (!isNaN(val)) {
+      setLocalBreakMinutes(val);
+    } else {
+      setLocalBreakMinutes(0);
+    }
+  };
+
   const handleApply = () => {
+    // Validate session minutes
     let finalMins = localMinutes;
     if (finalMins < 1) finalMins = 1; // Min 1 min
     if (finalMins > 180) finalMins = 180; // Max 3 hours
+
+    // Validate break minutes
+    let finalBreakMins = localBreakMinutes;
+    if (finalBreakMins < 1) finalBreakMins = 1; // Min 1 min
+    if (finalBreakMins > 30) finalBreakMins = 30; // Max 30 mins
+
     setSessionLength(finalMins * 60);
+    setBreakLength(finalBreakMins * 60);
+
     setLocalMinutes(finalMins); // ensure local state represents clamped value
+    setLocalBreakMinutes(finalBreakMins);
   };
 
   // Pre-defined markers based on mockup: 25, 45, 60
   const markers = [25, 45, 60];
+  const breakMarkers = [5, 10, 15];
 
   return (
     <Card className={`w-full ${className}`}>
@@ -92,6 +118,56 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
               onChange={handleCustomInput}
               onBlur={() => { if (!localMinutes || localMinutes < 1) setLocalMinutes(25); }}
               className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12"
+            />
+            <span className="text-sm font-medium ml-2 opacity-70">min</span>
+          </div>
+        </div>
+
+        <div className="pt-4 border-t border-border"></div>
+
+        {/* Break Slider Section */}
+        <div>
+          <label className="text-xs font-bold text-text-label block mb-4 uppercase">Break Length</label>
+          <div className="relative pt-2 pb-6">
+            <input 
+              type="range" 
+              min="1" 
+              max="30" 
+              value={localBreakMinutes}
+              onChange={handleBreakSliderChange}
+              className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-success" 
+            />
+            {/* Markers */}
+            <div className="absolute w-full mt-2 text-xs text-text-tertiary" style={{ left: 0, right: 0 }}>
+              <span className="absolute left-0">1</span>
+              {breakMarkers.map(m => {
+                const pos = ((m - 1) / (30 - 1)) * 100;
+                return (
+                  <span 
+                    key={m} 
+                    className={`absolute cursor-pointer hover:text-success transition-colors ${localBreakMinutes === m ? 'text-success font-bold' : ''}`} 
+                    style={{ left: `${pos}%`, transform: 'translateX(-50%)' }}
+                    onClick={() => setLocalBreakMinutes(m)}
+                  >
+                    {m}
+                  </span>
+                );
+              })}
+              <span className="absolute right-0">30</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Custom Break Input */}
+        <div>
+          <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-success focus-within:border-success transition-shadow">
+            <span className="text-sm font-medium mr-2 opacity-70">Custom:</span>
+            <input 
+              type="text" 
+              value={localBreakMinutes || ""} 
+              onChange={handleCustomBreakInput}
+              onBlur={() => { if (!localBreakMinutes || localBreakMinutes < 1) setLocalBreakMinutes(5); }}
+              className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12 text-success"
             />
             <span className="text-sm font-medium ml-2 opacity-70">min</span>
           </div>

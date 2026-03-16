@@ -94,14 +94,15 @@ export function DroppableOrbitZone({ children }: DroppableOrbitZoneProps) {
   const { setNodeRef, isOver } = useDroppable({
     id: 'orbit-zone',
   });
+  const isBreakMode = useOrbitStore((s) => s.isBreakMode);
 
   return (
     <div 
       ref={setNodeRef} 
-      className={`relative w-62.5 h-62.5 md:w-75 md:h-75 flex items-center justify-center mb-8 rounded-full transition-colors ${isOver ? 'bg-primary/20' : ''}`}
+      className={`relative w-62.5 h-62.5 md:w-75 md:h-75 flex items-center justify-center mb-8 rounded-full transition-colors ${isOver ? (isBreakMode ? 'bg-success/20' : 'bg-primary/20') : ''}`}
     >
       {/* Orbit Path */}
-      <div className={`absolute inset-0 rounded-full border-2 border-dashed transition-colors ${isOver ? 'border-primary opacity-100' : 'border-primary opacity-40'}`}></div>
+      <div className={`absolute inset-0 rounded-full border-2 border-dashed transition-colors ${isOver ? (isBreakMode ? 'border-success opacity-100' : 'border-primary opacity-100') : (isBreakMode ? 'border-success opacity-40' : 'border-primary opacity-40')}`}></div>
       {children}
     </div>
   );
