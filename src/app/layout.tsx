@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 import AuthProvider from "@/components/providers/AuthProvider";
+import OrbitEngine from "@/components/providers/OrbitEngine";
 
 export default function RootLayout({
   children,
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.variable} antialiased`} suppressHydrationWarning={true}>
         <AuthProvider>
+          <OrbitEngine />
           {children}
         </AuthProvider>
       </body>

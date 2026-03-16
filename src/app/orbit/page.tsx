@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import AppLayout from "@/components/layout/AppLayout";
 import Card from "@/components/shared/Card";
 import Button from "@/components/shared/Button";
-import AudioMixer from "@/components/orbit/AudioMixer";
 import TimerDurationCard from "@/components/orbit/TimerDurationCard";
 import { useOrbitStore, SoundId } from "@/store/useOrbitStore";
 import { DndContext, DragEndEvent, DragStartEvent, useSensors, useSensor, PointerSensor, KeyboardSensor, DragOverlay } from "@dnd-kit/core";
@@ -15,73 +15,18 @@ import { SoundState } from "@/store/useOrbitStore";
 import { Pencil, Check, X } from "lucide-react";
 
 export default function OrbitPage() {
-  const { sounds, sessionState, toggleTimer, toggleSound, remainingSeconds, decrementTimer, sessionLengthSecs, resetSession, stopAllSounds, setSessionState, getElapsedTotal, sessionTitle, setSessionTitle } = useOrbitStore();
+  const { sounds, sessionState, toggleTimer, toggleSound, remainingSeconds, resetSession, getElapsedTotal, sessionTitle, setSessionTitle } = useOrbitStore();
   const { saveSession } = useFocusSessions();
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState(sessionTitle);
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
-  const [timeOfDay, setTimeOfDay] = useState<"morning" | "afternoon" | "evening" | "night">("morning");
-  const alarmRef = useRef<HTMLAudioElement | null>(null);
-  const hasHandledFinished = useRef(false);
-
-  // Stop alarm helper
-  const stopAlarm = useCallback(() => {
-    if (alarmRef.current) {
-      alarmRef.current.pause();
-      alarmRef.current.currentTime = 0;
-      alarmRef.current = null;
-    }
-  }, []);
-
-  // Cleanup on unmount: stop alarm and reset session if finished
-  useEffect(() => {
-    return () => {
-      if (alarmRef.current) {
-        alarmRef.current.pause();
-        alarmRef.current.currentTime = 0;
-        alarmRef.current = null;
-      }
-      // Reset to idle so alarm doesn't re-trigger when coming back
-      const currentState = useOrbitStore.getState().sessionState;
-      if (currentState === 'finished') {
-        useOrbitStore.setState({ 
-          sessionState: 'idle', 
-          remainingSeconds: useOrbitStore.getState().sessionLengthSecs 
-        });
-      }
-    };
-  }, []);
-
-  // Handle finished state — only fire once per finish event
-  useEffect(() => {
-    if (sessionState === 'finished' && !hasHandledFinished.current) {
-      hasHandledFinished.current = true;
-      stopAlarm();
-      const audio = new Audio('/audio/alarm.mp3');
-      alarmRef.current = audio;
-      audio.play().catch(e => console.error("Could not play alarm", e));
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("Orbit Session Complete!", { body: "Great job. Time to take a break!" });
-      }
-      
-      // Save completed session to Firestore
-      const totalElapsed = getElapsedTotal();
-      if (totalElapsed > 0) {
-        saveSession(totalElapsed, 'COMPLETED', sessionTitle);
-      }
-      
-      stopAllSounds();
-    } else if (sessionState !== 'finished') {
-      hasHandledFinished.current = false;
-    }
-  }, [sessionState, stopAllSounds, stopAlarm]);
+  const [timeOfDay, setTimeOfDay] = useState<"day" | "evening" | "night">("day");
 
   useEffect(() => {
     const checkTime = () => {
       const hour = new Date().getHours();
-      if (hour >= 6 && hour < 12) setTimeOfDay("morning");
-      else if (hour >= 12 && hour < 17) setTimeOfDay("afternoon");
-      else if (hour >= 17 && hour < 19) setTimeOfDay("evening");
+      if (hour >= 6 && hour < 15) setTimeOfDay("day");
+      else if (hour >= 15 && hour < 18) setTimeOfDay("evening");
       else setTimeOfDay("night");
     };
     checkTime();
@@ -89,28 +34,12 @@ export default function OrbitPage() {
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (sessionState === 'running' && remainingSeconds > 0) {
-      interval = setInterval(() => {
-        decrementTimer();
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [sessionState, remainingSeconds, decrementTimer]);
-
   const handleSkip = () => {
-    // Save as COMPLETED before resetting state
-    const totalElapsed = getElapsedTotal();
-    if (totalElapsed > 0) {
-      saveSession(totalElapsed, 'COMPLETED', sessionTitle);
-    }
     useOrbitStore.setState({ remainingSeconds: 0, sessionState: 'finished' });
   };
 
   const handleToggle = () => {
     if (sessionState === 'running') {
-      // About to pause: log as interrupted
       const totalElapsed = getElapsedTotal();
       if (totalElapsed > 0) {
         saveSession(totalElapsed, 'INTERRUPTED', sessionTitle);
@@ -134,22 +63,24 @@ export default function OrbitPage() {
   };
 
   const handleStartSession = async () => {
-    // Request notification permission on first user gesture
-    if ("Notification" in window && Notification.permission === "default") {
-      await Notification.requestPermission();
+    if ("Notification" in window && Notification.permission !== "granted") {
+      try {
+        await Notification.requestPermission();
+      } catch (e) {
+        console.warn("Notification permission request failed:", e);
+      }
     }
     toggleTimer();
   };
 
   const handleResetOrbit = () => {
-    stopAlarm();
     resetSession();
   };
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5, // Ensures clicks act normally and don't trigger drag
+        distance: 5,
       },
     }),
     useSensor(KeyboardSensor, {
@@ -168,10 +99,8 @@ export default function OrbitPage() {
     if (!soundId) return;
 
     if (over && over.id === 'orbit-zone') {
-      // Toggle sound ON if dropped in orbit zone
       if (!sounds[soundId].active) toggleSound(soundId);
     } else {
-      // Toggle sound OFF if dropped OUTSIDE orbit zone
       if (sounds[soundId].active) toggleSound(soundId);
     }
   };
@@ -189,8 +118,7 @@ export default function OrbitPage() {
 
   const getBackgroundStyle = (): React.CSSProperties => {
     switch (timeOfDay) {
-      case "morning": return { background: "linear-gradient(180deg, #8ad1ff 0%, #f0f8ff 100%)", color: "#1e293b" };
-      case "afternoon": return { background: "linear-gradient(180deg, #ff6b3d 0%, #ffe7bd 100%)", color: "#78350f" };
+      case "day": return { background: "linear-gradient(180deg, #8ad1ff 0%, #f0f8ff 100%)", color: "#1e293b" };
       case "evening": return { background: "linear-gradient(180deg, #f97316 0%, #ffdfba 100%)", color: "#451a03" };
       case "night": return { background: "linear-gradient(180deg, #0a1128 0%, #4e184c 100%)", color: "#ffffff" };
     }
@@ -236,10 +164,13 @@ export default function OrbitPage() {
           </div>
         }
       >
-        <div className="flex flex-col items-center justify-center p-4 md:p-6 h-full -mt-4">
+        <motion.div
+          className="flex flex-col items-center justify-center p-4 md:p-6 h-full -mt-4"
+          initial={{ opacity: 0, scale: 0.92, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <Card variant="container" className={`w-full max-w-2xl flex flex-col items-center p-8 md:p-12 relative overflow-hidden transition-all duration-1000 ${isNight ? 'bg-white/10! backdrop-blur-xl border-white/20 text-white shadow-2xl' : 'bg-white/60! backdrop-blur-xl border border-white/60 shadow-2xl'}`}>
-            
-            <AudioMixer />
 
             <DroppableOrbitZone>
               {/* Center Planet / Timer */}
@@ -278,10 +209,10 @@ export default function OrbitPage() {
                   }}
                 />
                 <div className="flex shrink-0 gap-1">
-                  <button onClick={handleSaveTitle} className="p-1 hover:text-primary transition-colors" title="Save">
+                  <button onClick={handleSaveTitle} className="p-1 hover:text-success transition-colors" title="Save">
                     <Check size={24} />
                   </button>
-                  <button onClick={handleCancelTitle} className="p-1 hover:text-red-500 transition-colors" title="Cancel">
+                  <button onClick={handleCancelTitle} className="p-1 hover:text-danger transition-colors" title="Cancel">
                     <X size={24} />
                   </button>
                 </div>
@@ -325,28 +256,30 @@ export default function OrbitPage() {
 
             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mt-2">
               {sessionState === 'idle' && (
-                <Button variant="primary" className="w-full md:w-auto px-10 py-3 rounded-full font-bold shadow-lg" onClick={handleStartSession}>
+                <Button variant="primary" className="w-full md:w-auto" onClick={handleStartSession}>
                   START SESSION
                 </Button>
               )}
               
               {(sessionState === 'running' || sessionState === 'paused') && (
                 <>
-                  <Button className="w-full md:w-auto px-10 py-3 rounded-full font-bold shadow-lg" onClick={handleToggle}>
+                  <Button variant="primary" className="w-full md:w-auto" onClick={handleToggle}>
                     {sessionState === 'running' ? 'PAUSE SESSION' : 'RESUME SESSION'}
                   </Button>
-                  <Button onClick={handleSkip} variant="ghost" className={`w-full md:w-auto bg-white/20 px-8 py-3 rounded-full font-bold shadow-sm backdrop-blur-sm border ${isNight ? 'border-white/20 text-white hover:bg-white/30' : 'border-black/5 text-text-primary hover:bg-white/40'}`}>SKIP</Button>
+                  <Button variant="outline" className="w-full md:w-auto" onClick={handleSkip}>
+                    SKIP
+                  </Button>
                 </>
               )}
 
               {sessionState === 'finished' && (
-                <Button className="w-full md:w-auto px-10 py-3 rounded-full font-bold" onClick={handleResetOrbit}>
+                <Button variant="primary" className="w-full md:w-auto" onClick={handleResetOrbit}>
                   RESET ORBIT
                 </Button>
               )}
             </div>
           </Card>
-        </div>
+        </motion.div>
       </AppLayout>
       </div>
       <DragOverlay dropAnimation={null}>

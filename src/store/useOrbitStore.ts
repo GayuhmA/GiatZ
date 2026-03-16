@@ -132,11 +132,11 @@ export const useOrbitStore = create<OrbitState>()(
 {
   name: 'orbit-timer-storage',
   storage: createJSONStorage(() => localStorage),
-  // Hanya simpan data penting. Jika sedang running saat refresh, ubah ke paused.
   partialize: (state) => ({
-    sessionState: state.sessionState === 'running' ? 'paused' : state.sessionState,
+    sessionState: state.sessionState,
     sessionLengthSecs: state.sessionLengthSecs,
     remainingSeconds: state.remainingSeconds,
+    sessionStartedAt: state.sessionStartedAt,
     elapsedSecs: state.elapsedSecs,
     sessionTitle: state.sessionTitle,
     sounds: state.sounds,

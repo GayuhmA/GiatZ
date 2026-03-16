@@ -4,7 +4,7 @@ import Button from "@/components/shared/Button";
 import Input from "@/components/shared/Input";
 import { useAuthStore } from "@/store/useAuthStore";
 import { AtSymbolIcon, LockClosedIcon, UserIcon } from "@heroicons/react/24/outline";
-import { AcademicCapIcon as AcademicCapIconSolid, RocketLaunchIcon } from "@heroicons/react/24/solid";
+import { RocketLaunchIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -51,10 +51,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="w-full max-w-5xl bg-white rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row min-h-150">
+    <div className="w-full max-w-5xl bg-white/50 rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row min-h-150">
       
       {/* Left Side - Image Panel */}
-      <div className="hidden md:flex flex-col bg-brand-light w-1/2 p-10 relative items-center justify-center text-center">
+      <div className="hidden md:flex flex-col w-1/2 p-10 relative items-center justify-center text-center">
         <div className="w-full max-w-[320px] aspect-4/5 relative rounded-3xl overflow-hidden shadow-2xl mb-8">
           <Image 
             src="/images/gia-mascot.webp" 
@@ -64,16 +64,16 @@ export default function SignupPage() {
             priority
           />
         </div>
-        <h2 className="text-brand-dark text-3xl font-extrabold mb-3 font-heading">
+        <h2 className="text-3xl font-extrabold mb-3 font-heading">
           Join GiatZ Today
         </h2>
-        <p className="text-brand-dark/80 text-lg font-medium">
+        <p className="text-lg font-medium">
           Start your gamified learning adventure.
         </p>
       </div>
 
       {/* Right Side - Form Panel */}
-      <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center">
+      <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center bg-white">
         {/* Logo */}
         <div className="flex items-center gap-3 mb-8">
           <Image 
