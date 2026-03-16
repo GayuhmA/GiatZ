@@ -82,14 +82,14 @@ export default function TimerDurationCard({
   return (
     <Card className={`w-full ${className}`}>
       <div className="flex items-center gap-2 mb-6">
-        <Clock className="w-5 h-5 opacity-70" />
-        <h3 className="font-bold text-lg">Durasi Timer</h3>
+        <Clock className="w-5 h-5 opacity-70 text-slate-600" />
+        <h3 className="font-bold text-lg text-slate-800">Durasi Timer</h3>
       </div>
 
       <div className="space-y-6">
         {/* Slider Section */}
         <div>
-          <label className="text-xs font-bold text-text-label block mb-4 uppercase">
+          <label className="text-xs font-bold text-slate-500 block mb-4 uppercase">
             Durasi Sesi
           </label>
           <div className="relative pt-2 pb-6">
@@ -103,7 +103,7 @@ export default function TimerDurationCard({
             />
             {/* Markers */}
             <div
-              className="absolute w-full mt-2 text-xs text-text-tertiary"
+              className="absolute w-full mt-2 text-xs text-slate-400"
               style={{ left: 0, right: 0 }}
             >
               <span className="absolute left-0">1</span>
@@ -112,7 +112,7 @@ export default function TimerDurationCard({
                 return (
                   <span
                     key={m}
-                    className={`absolute cursor-pointer hover:text-text-primary transition-colors ${localMinutes === m ? "text-primary font-bold" : ""}`}
+                    className={`absolute cursor-pointer hover:text-slate-700 transition-colors ${localMinutes === m ? "text-primary font-bold" : ""}`}
                     style={{ left: `${pos}%`, transform: "translateX(-50%)" }}
                     onClick={() => setLocalMinutes(m)}
                   >
@@ -128,7 +128,9 @@ export default function TimerDurationCard({
         {/* Custom Input */}
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-shadow">
-            <span className="text-sm font-medium mr-2 opacity-70">Kustom:</span>
+            <span className="text-sm font-medium mr-2 text-slate-500">
+              Kustom:
+            </span>
             <input
               type="text"
               value={localMinutes || ""}
@@ -136,9 +138,11 @@ export default function TimerDurationCard({
               onBlur={() => {
                 if (!localMinutes || localMinutes < 1) setLocalMinutes(25);
               }}
-              className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12"
+              className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12 text-slate-800"
             />
-            <span className="text-sm font-medium ml-2 opacity-70">menit</span>
+            <span className="text-sm font-medium ml-2 text-slate-500">
+              menit
+            </span>
           </div>
         </div>
 
@@ -146,7 +150,7 @@ export default function TimerDurationCard({
 
         {/* Break Slider Section */}
         <div>
-          <label className="text-xs font-bold text-text-label block mb-4 uppercase">
+          <label className="text-xs font-bold text-slate-500 block mb-4 uppercase">
             Durasi Break
           </label>
           <div className="relative pt-2 pb-6">
@@ -160,7 +164,7 @@ export default function TimerDurationCard({
             />
             {/* Markers */}
             <div
-              className="absolute w-full mt-2 text-xs text-text-tertiary"
+              className="absolute w-full mt-2 text-xs text-slate-400"
               style={{ left: 0, right: 0 }}
             >
               <span className="absolute left-0">1</span>
@@ -185,7 +189,9 @@ export default function TimerDurationCard({
         {/* Custom Break Input */}
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-success focus-within:border-success transition-shadow">
-            <span className="text-sm font-medium mr-2 opacity-70">Kustom:</span>
+            <span className="text-sm font-medium mr-2 text-slate-500">
+              Kustom:
+            </span>
             <input
               type="text"
               value={localBreakMinutes || ""}
@@ -196,7 +202,9 @@ export default function TimerDurationCard({
               }}
               className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12 text-success"
             />
-            <span className="text-sm font-medium ml-2 opacity-70">menit</span>
+            <span className="text-sm font-medium ml-2 text-slate-500">
+              menit
+            </span>
           </div>
         </div>
 

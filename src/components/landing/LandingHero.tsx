@@ -85,7 +85,7 @@ export default function LandingHero() {
         <div className="absolute inset-0 bg-gradient-to-tr from-secondary/10 via-primary/5 to-success/5 rounded-full blur-[100px] animate-pulse z-100"></div>
 
         <motion.div
-          className="relative z-10 w-full h-full max-w-[800px] bg-transparent flex flex-col items-center justify-center translate-x-[10%] lg:translate-x-0"
+          className="relative z-10 w-full h-full max-w-[800px] bg-transparent flex flex-col items-center justify-center lg:translate-x-[-5%]"
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
