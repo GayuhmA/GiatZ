@@ -42,15 +42,11 @@ export async function POST(req: Request) {
         You are an expert editor and subject matter expert. Your goal is to optimize the following learning notes.
         
         Task:
-        1.  **Factual Verification**: Check the notes for any factual inaccuracies.
-        2.  **Correction Notice**: If you find any factual errors, you MUST prepend a notification at the very beginning of the HTML. Use this exact Indonesian format:
-            <div style="background-color: #FFF9C4; border: 2px solid #FBC02D; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-weight: bold; color: #455A64;">
-                ⚠️ AI Correction: Catatan kamu yang "[bagian yang salah]" kurang tepat. AI telah mengoreksinya menjadi "[koreksinya]".
-            </div>
-        3.  **Refine Content**: Improve grammar, punctuation, and flow.
-        4.  **Enhance Formatting**: Use HTML tags properly (<strong>, <em>, <u>, <ul>, <ol>, <li>, <h2>).
-        5.  **Preserve Meaning**: Keep all original information, but ensure it is factually correct.
-        6.  **Style**: Professional, clean, and extremely easy to read.
+        1.  **Factual Verification & Correction**: Check the notes for any factual inaccuracies. If you find any factual errors, correct them directly in the text smoothly without adding any explicit warning banners or notifications.
+        2.  **Refine Content**: Beautify the notes, improve grammar, punctuation, and flow.
+        3.  **Enhance Formatting**: Use HTML tags properly (<strong>, <em>, <u>, <ul>, <ol>, <li>, <h2>).
+        4.  **Preserve Core Meaning**: DO NOT change the core message or essence of the original notes. Only correct factual errors and improve readability.
+        5.  **Style**: Professional, clean, and extremely easy to read.
         
         Original Note Content:
         ${noteContent}

@@ -15,7 +15,7 @@ import {
   SparklesIcon,
   Squares2X2Icon,
   TagIcon,
-  TrashIcon
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import { doc, onSnapshot } from "firebase/firestore";
 import { AnimatePresence, motion } from "framer-motion";
@@ -454,7 +454,7 @@ export default function NoteEditorPage({
             onPaste={handlePaste}
             onKeyDown={handleKeyDown}
             data-placeholder="Mulai tulis catatan belajar di sini..."
-            className={`flex-1 outline-none text-[#3C3C3C] ${isExtraSmall ? "text-[14px]" : "text-[18px]"} leading-[1.7] font-body overflow-y-auto overflow-x-hidden break-all md:break-words pr-2 custom-scrollbar empty:before:content-[attr(data-placeholder)] empty:before:text-[#CBD5E1] empty:before:pointer-events-none w-full min-w-0
+            className={`flex-1 outline-none text-[#3C3C3C] ${isExtraSmall ? "text-[14px]" : "text-[18px]"} leading-[1.7] font-body overflow-y-auto overflow-x-hidden break-words pr-2 custom-scrollbar empty:before:content-[attr(data-placeholder)] empty:before:text-[#CBD5E1] empty:before:pointer-events-none w-full min-w-0
               ${isMobile ? "min-h-[300px]" : "h-full"}
               [&_strong]:font-bold [&_em]:italic [&_u]:underline
               [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4
