@@ -89,7 +89,7 @@ export default function Home() {
           </Card>
 
           {/* Daily Goal Card */}
-          <Card className="bg-orange-50 border-orange-100 p-6 flex flex-col gap-4">
+          <Card variant="static-content" className="bg-orange-50 border-orange-100 p-6 flex flex-col gap-4">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="font-bold text-lg text-orange-900">Daily Goal</h3>

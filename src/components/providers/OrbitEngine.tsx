@@ -9,6 +9,7 @@ export default function OrbitEngine() {
   const remainingSeconds = useOrbitStore((s) => s.remainingSeconds);
   const decrementTimer = useOrbitStore((s) => s.decrementTimer);
   const sounds = useOrbitStore((s) => s.sounds);
+  const isBreakMode = useOrbitStore((s) => s.isBreakMode);
   const { saveSession } = useFocusSessions();
 
   const rainRef = useRef<HTMLAudioElement | null>(null);
@@ -54,12 +55,11 @@ export default function OrbitEngine() {
     syncAudio(forestRef, sounds.forest);
   }, [sounds, sessionState]);
 
-  const hasHandledFinished = useRef(false);
+  const prevSessionState = useRef(sessionState);
   const alarmRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (sessionState === "finished" && !hasHandledFinished.current) {
-      hasHandledFinished.current = true;
+    if (sessionState === "finished" && prevSessionState.current !== "finished") {
 
       // Stop any previous alarm
       if (alarmRef.current) {
@@ -80,8 +80,11 @@ export default function OrbitEngine() {
             await Notification.requestPermission();
           }
           if (Notification.permission === "granted") {
-            new Notification("Orbit Session Complete!", {
-              body: "Great job. Time to take a break!",
+            const titleMsg = isBreakMode ? "Break Complete!" : "Orbit Session Complete!";
+            const bodyMsg = isBreakMode ? "Time to return to focus!" : "Great job. Time to take a break!";
+            
+            new Notification(titleMsg, {
+              body: bodyMsg,
               icon: "/images/logo.webp",
             });
           }
@@ -94,16 +97,17 @@ export default function OrbitEngine() {
       // Stop all ambient sounds
       useOrbitStore.getState().stopAllSounds();
 
-      // Save the completed session to Firestore
-      const totalElapsed = useOrbitStore.getState().getElapsedTotal();
-      const title = useOrbitStore.getState().sessionTitle;
-      if (totalElapsed > 0) {
-        saveSession(totalElapsed, 'COMPLETED', title);
+      // Save the completed session to Firestore (only if it was a focus session)
+      if (!isBreakMode) {
+        const totalElapsed = useOrbitStore.getState().getElapsedTotal();
+        const title = useOrbitStore.getState().sessionTitle;
+        if (totalElapsed > 0) {
+          saveSession(totalElapsed, 'COMPLETED', title);
+        }
       }
-    } else if (sessionState !== "finished") {
-      hasHandledFinished.current = false;
     }
-  }, [sessionState]);
+    prevSessionState.current = sessionState;
+  }, [sessionState, isBreakMode]);
 
   // Invisible audio elements rendered at the root level
   return (

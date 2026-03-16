@@ -14,18 +14,23 @@ export type SessionState = 'idle' | 'running' | 'paused' | 'finished';
 interface OrbitState {
   sessionState: SessionState;
   sessionLengthSecs: number;
+  breakLengthSecs: number;
   remainingSeconds: number;
   sessionStartedAt: number | null;
   elapsedSecs: number;
   sessionTitle: string;
+  isBreakMode: boolean;
   sounds: Record<SoundId, SoundState>;
   
   toggleTimer: () => void;
   setSessionState: (state: SessionState) => void;
   setSessionLength: (seconds: number) => void;
+  setBreakLength: (seconds: number) => void;
   setSessionTitle: (title: string) => void;
   decrementTimer: () => void;
   resetSession: () => void;
+  startBreakMode: () => void;
+  exitBreakMode: () => void;
   toggleSound: (id: SoundId) => void;
   setVolume: (id: SoundId, volume: number) => void;
   stopAllSounds: () => void;
@@ -37,10 +42,12 @@ export const useOrbitStore = create<OrbitState>()(
     (set, get) => ({
       sessionState: 'idle',
       sessionLengthSecs: 50 * 60,
+      breakLengthSecs: 5 * 60,
       remainingSeconds: 50 * 60,
       sessionStartedAt: null,
       elapsedSecs: 0,
       sessionTitle: 'Deep Work Orbit',
+      isBreakMode: false,
       sounds: {
         rain: { id: 'rain', active: false, volume: 0.5 },
         cafe: { id: 'cafe', active: false, volume: 0.5 },
@@ -73,13 +80,49 @@ export const useOrbitStore = create<OrbitState>()(
     set({ sessionState: newState }),
 
   setSessionLength: (seconds) => 
-    set({ sessionLengthSecs: seconds, remainingSeconds: seconds, sessionState: 'idle', sessionStartedAt: null, elapsedSecs: 0 }),
+    set((state) => ({ 
+      sessionLengthSecs: seconds, 
+      remainingSeconds: state.isBreakMode ? state.breakLengthSecs : seconds, 
+      sessionState: 'idle', 
+      sessionStartedAt: null, 
+      elapsedSecs: 0 
+    })),
+
+  setBreakLength: (seconds) =>
+    set((state) => ({ 
+      breakLengthSecs: seconds,
+      remainingSeconds: (state.isBreakMode && state.sessionState === 'idle') ? seconds : state.remainingSeconds
+    })),
 
   setSessionTitle: (title) => 
     set({ sessionTitle: title }),
 
   resetSession: () =>
-    set((state) => ({ remainingSeconds: state.sessionLengthSecs, sessionState: 'idle', sessionStartedAt: null, elapsedSecs: 0 })),
+    set((state) => ({ 
+      remainingSeconds: state.sessionLengthSecs, 
+      sessionState: 'idle', 
+      sessionStartedAt: null, 
+      elapsedSecs: 0,
+      isBreakMode: false
+    })),
+
+  startBreakMode: () =>
+    set((state) => ({
+      isBreakMode: true,
+      remainingSeconds: state.breakLengthSecs,
+      sessionState: 'running',
+      sessionStartedAt: Date.now(),
+      elapsedSecs: 0
+    })),
+
+  exitBreakMode: () =>
+    set((state) => ({
+      isBreakMode: false,
+      remainingSeconds: state.sessionLengthSecs,
+      sessionState: 'idle',
+      sessionStartedAt: null,
+      elapsedSecs: 0
+    })),
 
   decrementTimer: () =>
     set((state) => {
@@ -135,10 +178,12 @@ export const useOrbitStore = create<OrbitState>()(
   partialize: (state) => ({
     sessionState: state.sessionState,
     sessionLengthSecs: state.sessionLengthSecs,
+    breakLengthSecs: state.breakLengthSecs,
     remainingSeconds: state.remainingSeconds,
     sessionStartedAt: state.sessionStartedAt,
     elapsedSecs: state.elapsedSecs,
     sessionTitle: state.sessionTitle,
+    isBreakMode: state.isBreakMode,
     sounds: state.sounds,
   }),
 }

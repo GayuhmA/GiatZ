@@ -1,21 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AppLayout from "@/components/layout/AppLayout";
 import Card from "@/components/shared/Card";
 import Button from "@/components/shared/Button";
 import TimerDurationCard from "@/components/orbit/TimerDurationCard";
 import { useOrbitStore, SoundId } from "@/store/useOrbitStore";
-import { DndContext, DragEndEvent, DragStartEvent, useSensors, useSensor, PointerSensor, KeyboardSensor, DragOverlay } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, DragStartEvent, useSensors, useSensor, PointerSensor, KeyboardSensor, DragOverlay, Modifier } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { DraggableSoundIcon, DroppableOrbitZone, OrbitingSatellite, getIconMap } from "@/components/orbit/OrbitComponents";
+import { DraggableSoundIcon, DroppableOrbitZone, OrbitingSatellite, getIconMap, getSoundBgClass, getSoundColorClass, getSoundBorderClass } from "@/components/orbit/OrbitComponents";
 import { useFocusSessions } from "@/hooks/useFocusSessions";
 import { SoundState } from "@/store/useOrbitStore";
 import { Pencil, Check, X } from "lucide-react";
 
 export default function OrbitPage() {
-  const { sounds, sessionState, toggleTimer, toggleSound, remainingSeconds, resetSession, getElapsedTotal, sessionTitle, setSessionTitle } = useOrbitStore();
+  const {
+    sessionState,
+    remainingSeconds,
+    sessionTitle,
+    sounds,
+    isBreakMode,
+    toggleTimer,
+    setSessionState,
+    decrementTimer,
+    resetSession,
+    toggleSound,
+    startBreakMode,
+    exitBreakMode,
+    getElapsedTotal,
+    setSessionTitle
+  } = useOrbitStore();
   const { saveSession } = useFocusSessions();
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState(sessionTitle);
@@ -91,6 +106,19 @@ export default function OrbitPage() {
   const handleDragStart = (event: DragStartEvent) => {
     setActiveDragId(event.active.id as string);
   };
+
+  // Custom modifier: snap overlay center to cursor for satellite drags
+  const snapCenterForSatellite: Modifier = useCallback(({ activatorEvent, draggingNodeRect, transform }) => {
+    if (!activeDragId?.startsWith('satellite-') || !activatorEvent || !draggingNodeRect) {
+      return transform;
+    }
+    const evt = activatorEvent as PointerEvent;
+    return {
+      ...transform,
+      x: evt.clientX - draggingNodeRect.left - draggingNodeRect.width / 2 + transform.x,
+      y: evt.clientY - draggingNodeRect.top - draggingNodeRect.height / 2 + transform.y,
+    };
+  }, [activeDragId]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     setActiveDragId(null);
@@ -173,13 +201,15 @@ export default function OrbitPage() {
           <Card variant="container" className={`w-full max-w-2xl flex flex-col items-center p-8 pt-12 md:p-20 relative overflow-visible transition-all duration-1000 ${isNight ? 'bg-white/10! backdrop-blur-xl border-white/20 text-white shadow-2xl' : 'bg-white/60! backdrop-blur-xl border border-white/60 shadow-2xl'}`}>
             <DroppableOrbitZone>
               {/* Center Planet / Timer */}
-              <div className={`w-[150px] h-[150px] md:w-[180px] md:h-[180px] bg-primary rounded-full flex flex-col items-center justify-center text-white z-10 transition-shadow duration-500
-                ${sessionState === 'running' ? 'shadow-[0_8px_32px_rgba(255,150,0,0.4)]' : 'shadow-none opacity-80'}
+              <div className={`w-[150px] h-[150px] md:w-[180px] md:h-[180px] ${isBreakMode ? "bg-success" : "bg-primary"} rounded-full flex flex-col items-center justify-center text-white z-10 transition-shadow duration-500
+                ${sessionState === 'running' ? isBreakMode ? 'shadow-[0_8px_32px_rgba(88,204,2,0.4)]' : 'shadow-[0_8px_32px_rgba(255,150,0,0.4)]' : 'shadow-none opacity-80'}
               `}>
                 <span className="text-4xl md:text-5xl font-extrabold tracking-tighter">
                   {formatTime(remainingSeconds)}
                 </span>
-                <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-90 mt-1">Remaining</span>
+                <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-90 mt-1">
+                  {isBreakMode ? "Break Remaining" : "Remaining"}
+                </span>
               </div>
 
               {/* Orbiting Elements (Dynamic) */}
@@ -224,10 +254,10 @@ export default function OrbitPage() {
                 <h2 
                   className={`text-xl md:text-3xl font-extrabold transition-colors px-2 truncate max-w-full mt-4 ${isNight ? 'text-white' : 'text-text-primary'}`}
                 >
-                  {sessionState === 'idle' && sessionTitle}
-                  {sessionState === 'running' && sessionTitle}
+                  {sessionState === 'idle' && (isBreakMode ? 'Break Time' : sessionTitle)}
+                  {sessionState === 'running' && (isBreakMode ? 'Restoring Energy...' : sessionTitle)}
                   {sessionState === 'paused' && 'Session Paused'}
-                  {sessionState === 'finished' && 'Session Complete!'}
+                  {sessionState === 'finished' && (isBreakMode ? 'Break Complete!' : 'Session Complete!')}
                 </h2>
                 
                 <div className="w-8 h-8 shrink-0 flex items-center justify-center">
@@ -247,16 +277,16 @@ export default function OrbitPage() {
               </div>
             )}
             <p className={`text-sm md:text-base mb-2 md:mb-8 text-center max-w-md transition-colors ${isNight ? 'text-gray-300' : 'text-text-secondary'}`}>
-              {sessionState === 'idle' && "Ready to enter your focus orbit."}
-              {sessionState === 'running' && "You're orbiting success! Keep the momentum going."}
+              {sessionState === 'idle' && (isBreakMode ? "Ready for a refreshing break." : "Ready to enter your focus orbit.")}
+              {sessionState === 'running' && (isBreakMode ? "Recharge your mind." : "You're orbiting success! Keep the momentum going.")}
               {sessionState === 'paused' && "Take a deep breath. Ready when you are."}
-              {sessionState === 'finished' && "Masterful deep work! Take a refreshing break today."}
+              {sessionState === 'finished' && (isBreakMode ? "Break is over, time to return to focus!" : "Masterful deep work! Take a refreshing break today.")}
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mt-2">
               {sessionState === 'idle' && (
                 <Button variant="primary" className="w-full md:w-auto" onClick={handleStartSession}>
-                  START SESSION
+                  {isBreakMode ? "START BREAK" : "START SESSION"}
                 </Button>
               )}
               
@@ -272,22 +302,39 @@ export default function OrbitPage() {
               )}
 
               {sessionState === 'finished' && (
-                <Button variant="primary" className="w-full md:w-auto" onClick={handleResetOrbit}>
-                  RESET ORBIT
-                </Button>
+                <>
+                  {!isBreakMode && (
+                    <Button variant="primary" className="w-full md:w-auto" onClick={() => startBreakMode()}>
+                      START BREAK
+                    </Button>
+                  )}
+                  <Button variant={isBreakMode ? "primary" : "outline"} className="w-full md:w-auto" onClick={() => {
+                     isBreakMode ? exitBreakMode() : handleResetOrbit();
+                  }}>
+                    NEW SESSION
+                  </Button>
+                </>
               )}
             </div>
           </Card>
         </motion.div>
       </AppLayout>
       </div>
-      <DragOverlay dropAnimation={null}>
+      <DragOverlay dropAnimation={null} modifiers={[snapCenterForSatellite]}>
         {activeDragId && activeDragId.startsWith('sound-') ? (
-          <div className="w-12 h-12 rounded-full border-2 border-primary ring-2 ring-primary ring-offset-2 flex items-center justify-center bg-white shadow-2xl scale-110">
-            {getIconMap(activeDragId.replace('sound-', ''), "w-6 h-6 text-primary")}
+          <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center shadow-2xl scale-110
+            ${getSoundBgClass(activeDragId.replace('sound-', ''))}
+            ${getSoundColorClass(activeDragId.replace('sound-', ''))}
+            ${getSoundBorderClass(activeDragId.replace('sound-', ''))}
+          `}>
+             {getIconMap(activeDragId.replace('sound-', ''), "w-6 h-6")}
           </div>
         ) : activeDragId && activeDragId.startsWith('satellite-') ? (
-          <div className="w-10 h-10 rounded-full bg-white border-2 border-primary shadow-2xl flex items-center justify-center text-primary scale-125">
+          <div className={`w-10 h-10 rounded-full border-2 shadow-2xl flex items-center justify-center scale-125
+            ${getSoundBgClass(activeDragId.replace('satellite-', ''))}
+            ${getSoundColorClass(activeDragId.replace('satellite-', ''))}
+            ${getSoundBorderClass(activeDragId.replace('satellite-', ''))}
+          `}>
              {getIconMap(activeDragId.replace('satellite-', ''), "w-5 h-5")}
           </div>
         ) : null}

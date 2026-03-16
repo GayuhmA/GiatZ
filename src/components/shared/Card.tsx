@@ -1,6 +1,6 @@
 import React from 'react';
 
-type CardVariant = 'container' | 'content' | 'tinted-success' | 'tinted-warning' | 'tinted-danger' | 'tinted-info';
+type CardVariant = 'container' | 'content' | 'static-content' | 'tinted-success' | 'tinted-warning' | 'tinted-danger' | 'tinted-info';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: CardVariant;
@@ -13,6 +13,7 @@ export default function Card({ variant = 'content', children, className = '', ..
   const variants = {
     container: "bg-bg-card p-4 md:p-5 rounded-3xl shadow-[var(--shadow-card)]",
     content: "bg-bg-card p-4 rounded-2xl shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:scale-[1.02]",
+    "static-content": "bg-bg-card p-4 rounded-2xl shadow-[var(--shadow-card)]",
     "tinted-success": "bg-success-light p-4 rounded-2xl",
     "tinted-warning": "bg-warning-light p-4 rounded-2xl",
     "tinted-danger": "bg-danger-light p-4 rounded-2xl",

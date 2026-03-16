@@ -66,7 +66,7 @@ export default function ActivityHeatmap({ heatmapData }: ActivityHeatmapProps) {
   }, [heatmapData, selectedYear]);
 
   return (
-    <Card className="p-5 md:p-6 border border-gray-100 shadow-sm w-full font-body">
+    <Card variant="static-content" className="p-5 md:p-6 border border-gray-100 shadow-sm w-full font-body">
       <div className="flex justify-between items-center mb-6">
          <div>
             <h3 className="font-extrabold text-xl lg:text-2xl text-text-primary capitalize mb-1">
