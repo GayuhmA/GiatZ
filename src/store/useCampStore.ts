@@ -5,13 +5,13 @@ import {
   onSnapshot,
   query,
   doc,
-  addDoc,
   updateDoc,
   deleteDoc,
   serverTimestamp,
   orderBy,
   setDoc,
 } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 
 export interface Flashcard {
   id: string;
@@ -147,11 +147,13 @@ export const useCampStore = create<CampState>((set, get) => ({
     }
 
     const cardsData = await response.json();
-    const cards: Flashcard[] = cardsData.map((c: any, i: number) => ({
-      id: `fc-${Date.now()}-${i}`,
-      ...c,
-      level: "New",
-    }));
+    const cards: Flashcard[] = cardsData.map(
+      (c: Omit<Flashcard, "id" | "level">, i: number) => ({
+        id: `fc-${Date.now()}-${i}`,
+        ...c,
+        level: "New",
+      }),
+    );
 
     const newSetRef = doc(collection(db, "users", user.uid, "flashcards"));
     const newSet: Omit<FlashcardSet, "id"> = {
@@ -183,7 +185,7 @@ export const useCampStore = create<CampState>((set, get) => ({
 
     const questionsData = await response.json();
     const questions: QuizQuestion[] = questionsData.map(
-      (q: any, i: number) => ({
+      (q: Omit<QuizQuestion, "id">, i: number) => ({
         id: `q-${Date.now()}-${i}`,
         ...q,
       }),

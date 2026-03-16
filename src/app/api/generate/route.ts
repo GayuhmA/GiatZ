@@ -84,7 +84,7 @@ export async function POST(req: Request) {
     const text = response.text();
 
     // Attempt to clean the response if Gemini includes markdown blocks
-    let cleanText = text
+    const cleanText = text
       .replace(/```json/g, "")
       .replace(/```html/g, "")
       .replace(/```/g, "")

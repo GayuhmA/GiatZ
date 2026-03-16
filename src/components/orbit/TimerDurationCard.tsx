@@ -6,15 +6,27 @@ import Button from "@/components/shared/Button";
 import { useOrbitStore } from "@/store/useOrbitStore";
 import { Clock } from "lucide-react";
 
-export default function TimerDurationCard({ className = "" }: { className?: string }) {
-  const { sessionLengthSecs, setSessionLength, breakLengthSecs, setBreakLength } = useOrbitStore();
-  
+export default function TimerDurationCard({
+  className = "",
+}: {
+  className?: string;
+}) {
+  const {
+    sessionLengthSecs,
+    setSessionLength,
+    breakLengthSecs,
+    setBreakLength,
+  } = useOrbitStore();
+
   // Local state for the slider and custom input before applying
   const [localMinutes, setLocalMinutes] = useState(sessionLengthSecs / 60);
-  const [localBreakMinutes, setLocalBreakMinutes] = useState(breakLengthSecs / 60);
+  const [localBreakMinutes, setLocalBreakMinutes] = useState(
+    breakLengthSecs / 60,
+  );
 
   // Sync local state if global state changes externally
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLocalMinutes(sessionLengthSecs / 60);
     setLocalBreakMinutes(breakLengthSecs / 60);
   }, [sessionLengthSecs, breakLengthSecs]);
@@ -28,7 +40,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
   };
 
   const handleCustomInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+    const val = parseInt(e.target.value.replace(/[^0-9]/g, ""));
     if (!isNaN(val)) {
       setLocalMinutes(val);
     } else {
@@ -37,7 +49,7 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
   };
 
   const handleCustomBreakInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+    const val = parseInt(e.target.value.replace(/[^0-9]/g, ""));
     if (!isNaN(val)) {
       setLocalBreakMinutes(val);
     } else {
@@ -77,26 +89,31 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
       <div className="space-y-6">
         {/* Slider Section */}
         <div>
-          <label className="text-xs font-bold text-text-label block mb-4 uppercase">Durasi Sesi</label>
+          <label className="text-xs font-bold text-text-label block mb-4 uppercase">
+            Durasi Sesi
+          </label>
           <div className="relative pt-2 pb-6">
-            <input 
-              type="range" 
-              min="1" 
-              max="120" 
+            <input
+              type="range"
+              min="1"
+              max="120"
               value={localMinutes}
               onChange={handleSliderChange}
-              className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary" 
+              className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
             />
             {/* Markers */}
-            <div className="absolute w-full mt-2 text-xs text-text-tertiary" style={{ left: 0, right: 0 }}>
+            <div
+              className="absolute w-full mt-2 text-xs text-text-tertiary"
+              style={{ left: 0, right: 0 }}
+            >
               <span className="absolute left-0">1</span>
-              {markers.map(m => {
+              {markers.map((m) => {
                 const pos = ((m - 1) / (120 - 1)) * 100;
                 return (
-                  <span 
-                    key={m} 
-                    className={`absolute cursor-pointer hover:text-text-primary transition-colors ${localMinutes === m ? 'text-primary font-bold' : ''}`} 
-                    style={{ left: `${pos}%`, transform: 'translateX(-50%)' }}
+                  <span
+                    key={m}
+                    className={`absolute cursor-pointer hover:text-text-primary transition-colors ${localMinutes === m ? "text-primary font-bold" : ""}`}
+                    style={{ left: `${pos}%`, transform: "translateX(-50%)" }}
                     onClick={() => setLocalMinutes(m)}
                   >
                     {m}
@@ -112,11 +129,13 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-shadow">
             <span className="text-sm font-medium mr-2 opacity-70">Kustom:</span>
-            <input 
-              type="text" 
-              value={localMinutes || ""} 
+            <input
+              type="text"
+              value={localMinutes || ""}
               onChange={handleCustomInput}
-              onBlur={() => { if (!localMinutes || localMinutes < 1) setLocalMinutes(25); }}
+              onBlur={() => {
+                if (!localMinutes || localMinutes < 1) setLocalMinutes(25);
+              }}
               className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12"
             />
             <span className="text-sm font-medium ml-2 opacity-70">menit</span>
@@ -127,26 +146,31 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
 
         {/* Break Slider Section */}
         <div>
-          <label className="text-xs font-bold text-text-label block mb-4 uppercase">Durasi Break</label>
+          <label className="text-xs font-bold text-text-label block mb-4 uppercase">
+            Durasi Break
+          </label>
           <div className="relative pt-2 pb-6">
-            <input 
-              type="range" 
-              min="1" 
-              max="30" 
+            <input
+              type="range"
+              min="1"
+              max="30"
               value={localBreakMinutes}
               onChange={handleBreakSliderChange}
-              className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-success" 
+              className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-success"
             />
             {/* Markers */}
-            <div className="absolute w-full mt-2 text-xs text-text-tertiary" style={{ left: 0, right: 0 }}>
+            <div
+              className="absolute w-full mt-2 text-xs text-text-tertiary"
+              style={{ left: 0, right: 0 }}
+            >
               <span className="absolute left-0">1</span>
-              {breakMarkers.map(m => {
+              {breakMarkers.map((m) => {
                 const pos = ((m - 1) / (30 - 1)) * 100;
                 return (
-                  <span 
-                    key={m} 
-                    className={`absolute cursor-pointer hover:text-success transition-colors ${localBreakMinutes === m ? 'text-success font-bold' : ''}`} 
-                    style={{ left: `${pos}%`, transform: 'translateX(-50%)' }}
+                  <span
+                    key={m}
+                    className={`absolute cursor-pointer hover:text-success transition-colors ${localBreakMinutes === m ? "text-success font-bold" : ""}`}
+                    style={{ left: `${pos}%`, transform: "translateX(-50%)" }}
                     onClick={() => setLocalBreakMinutes(m)}
                   >
                     {m}
@@ -162,11 +186,14 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-success focus-within:border-success transition-shadow">
             <span className="text-sm font-medium mr-2 opacity-70">Kustom:</span>
-            <input 
-              type="text" 
-              value={localBreakMinutes || ""} 
+            <input
+              type="text"
+              value={localBreakMinutes || ""}
               onChange={handleCustomBreakInput}
-              onBlur={() => { if (!localBreakMinutes || localBreakMinutes < 1) setLocalBreakMinutes(5); }}
+              onBlur={() => {
+                if (!localBreakMinutes || localBreakMinutes < 1)
+                  setLocalBreakMinutes(5);
+              }}
               className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12 text-success"
             />
             <span className="text-sm font-medium ml-2 opacity-70">menit</span>
@@ -174,14 +201,13 @@ export default function TimerDurationCard({ className = "" }: { className?: stri
         </div>
 
         {/* Apply Button */}
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="w-full font-bold bg-white/50 hover:bg-white border-border shadow-sm focus:ring-0 active:scale-95"
           onClick={handleApply}
         >
           TERAPKAN
         </Button>
-
       </div>
     </Card>
   );

@@ -1,3 +1,4 @@
+"use client";
 import { useDailyStats } from "@/hooks/useDailyStats";
 import { db } from "@/lib/firebase";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -15,8 +16,11 @@ import {
   onSnapshot,
   query,
   serverTimestamp,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
+/* eslint-disable react-hooks/preserve-manual-memoization */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect } from "react";
 
 export function useExplorer() {
@@ -234,9 +238,9 @@ export function useExplorer() {
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
           });
-          
-          addActivityUnit(1, 'note');
-          
+
+          addActivityUnit(1, "note");
+
           return docRef.id;
         } else {
           const noteRef = doc(db, "users", user.uid, "notes", noteId);

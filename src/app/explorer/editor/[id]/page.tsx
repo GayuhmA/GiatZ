@@ -134,7 +134,11 @@ export default function NoteEditorPage({
   const [showFloatingToolbar, setShowFloatingToolbar] = useState(false);
   const [toolbarPos, setToolbarPos] = useState({ x: 0, y: 0 });
 
-  const [matrixStatus, setMatrixStatus] = useState<any>(null);
+  const [matrixStatus, setMatrixStatus] = useState<{
+    id: string;
+    label: string;
+    color: string;
+  } | null>(null);
   const [showMatrixPicker, setShowMatrixPicker] = useState(false);
   const [questAdded, setQuestAdded] = useState(false);
   const [newLink, setNewLink] = useState("");
@@ -274,7 +278,11 @@ export default function NoteEditorPage({
     disconnectNodes(edgeId);
   };
 
-  const handleAddLink = async (item?: any) => {
+  const handleAddLink = async (item?: {
+    id: string;
+    title: string;
+    type: string;
+  }) => {
     const itemToAdd = item || availableSuggestions[0];
     if (!itemToAdd || !noteId || !user?.uid) return;
 

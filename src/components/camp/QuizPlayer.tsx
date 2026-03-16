@@ -102,7 +102,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
       updateStats(set.id, finalScore, newRadar).catch((err) =>
         console.error("Failed to update quiz stats:", err),
       );
-      addActivityUnit(1, 'camp');
+      addActivityUnit(1, "camp");
       setCompleted(true);
       setShowModal(true);
     }
@@ -290,7 +290,7 @@ export default function QuizPlayer({ set, onClose }: QuizPlayerProps) {
 
                 {isAnswered ? (
                   <p className="text-xs text-secondary-dark font-medium italic leading-relaxed">
-                    "{currentQuestion.hint}"
+                    &quot;{currentQuestion.hint}&quot;
                   </p>
                 ) : (
                   <p className="text-[10px] text-text-secondary font-bold uppercase tracking-wide opacity-40">
