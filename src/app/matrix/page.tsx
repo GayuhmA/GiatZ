@@ -101,7 +101,7 @@ export default function MatrixPage() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary">Task Matrix</h2>
-            <p className="text-sm md:text-base text-text-secondary">Eisenhower 2.0 Productivity System</p>
+            <p className="text-text-secondary mt-1 flex items-center gap-2 font-medium">Eisenhower 2.0 Productivity System</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
             <Button onClick={() => { setActiveTaskToEdit(undefined); setIsModalOpen(true); }} className="w-full md:w-auto flex items-center justify-center gap-2">

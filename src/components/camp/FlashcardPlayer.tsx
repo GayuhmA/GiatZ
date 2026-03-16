@@ -221,10 +221,10 @@ export default function FlashcardPlayer({
         </div>
       </div>
 
-      {/* Main Play Area — Use CSS Grid for balanced columns */}
-      <div className="flex-1 grid grid-cols-[1fr_minmax(300px,380px)_1fr] gap-4 lg:gap-6 min-h-0 items-stretch">
-        {/* Left Container: Still Learning */}
-        <div className="bg-white rounded-2xl border border-border shadow-sm flex flex-col overflow-hidden">
+      {/* Main Play Area */}
+      <div className="flex-1 flex flex-col lg:grid lg:grid-cols-[1fr_minmax(300px,380px)_1fr] gap-4 lg:gap-6 min-h-0 items-stretch">
+        {/* Left Container: Still Learning (hidden on mobile, shown below card) */}
+        <div className="hidden lg:flex bg-white rounded-2xl border border-border shadow-sm flex-col overflow-hidden order-1">
           <div className="p-3 lg:p-4 pb-2 lg:pb-3 border-b border-border/50">
             <div>
               <h4 className="text-xs lg:text-sm font-black text-primary uppercase tracking-wider">
@@ -273,7 +273,7 @@ export default function FlashcardPlayer({
         </div>
 
         {/* Center: Card Stack */}
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center order-first lg:order-2">
           <div
             className="relative w-full aspect-[3/4] max-w-[340px]"
             style={{ perspective: "1000px" }}
@@ -416,8 +416,8 @@ export default function FlashcardPlayer({
           </p>
         </div>
 
-        {/* Right Container: Perfected */}
-        <div className="bg-white rounded-2xl border border-border shadow-sm flex flex-col overflow-hidden">
+        {/* Right Container: Perfected (hidden on mobile, shown below card) */}
+        <div className="hidden lg:flex bg-white rounded-2xl border border-border shadow-sm flex-col overflow-hidden order-3">
           <div className="p-3 lg:p-4 pb-2 lg:pb-3 border-b border-border/50">
             <div>
               <h4 className="text-xs lg:text-sm font-black text-success uppercase tracking-wider">
@@ -464,6 +464,24 @@ export default function FlashcardPlayer({
             </div>
           )}
         </div>
+
+        {/* Mobile: Still Learning & Perfected */}
+        <div className="flex lg:hidden gap-3 order-last">
+          <div className="flex-1 bg-white rounded-2xl border border-border shadow-sm p-3">
+            <h4 className="text-xs font-black text-primary uppercase tracking-wider mb-1">Still Learning</h4>
+            <div className="text-lg font-extrabold text-primary leading-none mb-2">{learningCards.length}</div>
+            {learningCards.length > 0 && (
+              <button onClick={handleReviewNow} className="w-full mt-2 py-1.5 bg-primary text-white font-bold rounded-full uppercase tracking-wide text-[10px] border-b-2 border-primary-dark">Review Now</button>
+            )}
+          </div>
+          <div className="flex-1 bg-white rounded-2xl border border-border shadow-sm p-3">
+            <h4 className="text-xs font-black text-success uppercase tracking-wider mb-1">Perfected</h4>
+            <div className="text-lg font-extrabold text-success leading-none mb-2">{perfectedCards.length}</div>
+            {perfectedCards.length > 0 && (
+              <button onClick={handleChallengeAgain} className="w-full mt-2 py-1.5 bg-success text-white font-bold rounded-full uppercase tracking-wide text-[10px] border-b-2 border-success-dark">Challenge Again</button>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Completion Modal Overlay */}
@@ -484,7 +502,7 @@ export default function FlashcardPlayer({
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative bg-white rounded-3xl p-10 w-[420px] shadow-2xl text-center"
+              className="relative bg-white rounded-3xl p-10 w-full max-w-[420px] mx-4 shadow-2xl text-center"
             >
               <div className="flex justify-center mb-6">
                 <div className="w-20 h-20 bg-warning/10 rounded-full flex items-center justify-center">

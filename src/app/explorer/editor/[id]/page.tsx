@@ -80,7 +80,7 @@ function AnimatedToggle({
   return (
     <button
       onClick={onClick}
-      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${active ? activeColor : "bg-white/10"}`}
+      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${active ? activeColor : "bg-slate-200"}`}
     >
       <motion.div
         animate={{ x: active ? 24 : 0 }}
@@ -746,21 +746,21 @@ export default function NoteEditorPage({
           </div>
 
           {/* Save & AI Optimizer Widget */}
-          <div className="bg-[#212121] rounded-[32px] p-6 border border-white/10 shadow-xl relative overflow-hidden flex flex-col min-h-[300px]">
-            <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-[#FF9600] opacity-10 rounded-full blur-3xl animate-pulse" />
+          <div className="bg-white rounded-[32px] p-6 border border-[#E5E5E5] shadow-sm flex flex-col min-h-[260px] relative overflow-hidden">
+            <div className="absolute top-0 right-0 -mt-6 -mr-6 w-32 h-32 bg-[#FF9600]/10 rounded-full blur-3xl" />
 
-            <div className="flex items-center gap-3 mb-6 shrink-0">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF9600] to-[#E65100] flex items-center justify-center text-white shadow-[0_0_20px_rgba(255,150,0,0.3)]">
+            <div className="flex items-center gap-3 mb-6 shrink-0 relative z-10">
+              <div className="w-10 h-10 rounded-2xl bg-[#FFF4E5] flex items-center justify-center text-[#FF9600]">
                 <BoltIcon className="w-6 h-6" />
               </div>
-              <h3 className="text-white font-extrabold text-lg uppercase italic tracking-wider">
+              <h3 className="text-[#3C3C3C] font-extrabold text-[15px]">
                 Optimizer
               </h3>
             </div>
 
-            <div className="space-y-4 mb-8 flex-1">
-              <div className="flex items-center justify-between h-8">
-                <span className="text-white/60 font-bold text-xs uppercase tracking-widest">
+            <div className="space-y-4 mb-6 flex-1 relative z-10">
+              <div className="flex items-center justify-between h-8 bg-slate-50 px-3 pr-2 py-5 rounded-2xl border border-slate-100">
+                <span className="text-[#3C3C3C] font-extrabold text-xs">
                   Auto-save
                 </span>
                 <AnimatedToggle
@@ -769,8 +769,8 @@ export default function NoteEditorPage({
                 />
               </div>
 
-              <div className="flex items-center justify-between h-8">
-                <span className="text-white/60 font-bold text-xs uppercase tracking-widest">
+              <div className="flex items-center justify-between h-8 bg-slate-50 px-3 pr-2 py-5 rounded-2xl border border-slate-100">
+                <span className="text-[#3C3C3C] font-extrabold text-xs">
                   AI Optimize
                 </span>
                 <AnimatedToggle
@@ -781,20 +781,20 @@ export default function NoteEditorPage({
               </div>
             </div>
 
-            <div className="h-[60px] flex items-center">
+            <div className="h-[60px] flex items-center mt-auto relative z-10">
               <button
                 onClick={handleManualSave}
                 disabled={isRefreshing}
-                className="w-full bg-[#FF9600] text-white font-black text-base py-4 rounded-2xl flex items-center justify-center gap-3 border-b-4 border-[#E68600] hover:translate-y-[2px] hover:border-b-[2px] active:translate-y-[4px] active:border-b-0 transition-all shadow-lg group shrink-0 disabled:opacity-50"
+                className="w-full bg-[#FF9600] text-white font-black text-sm py-4 rounded-2xl flex items-center justify-center gap-2 border-b-4 border-[#E68600] hover:translate-y-[2px] hover:border-b-[2px] active:translate-y-[4px] active:border-b-0 transition-all shadow-sm shrink-0 disabled:opacity-50"
               >
                 <CheckBadgeIcon
-                  className={`w-6 h-6 group-hover:scale-110 transition-transform ${isRefreshing ? "animate-spin" : ""}`}
+                  className={`w-5 h-5 transition-transform ${isRefreshing ? "animate-spin" : ""}`}
                 />
                 {isRefreshing ? "SAVING..." : "SAVE NOTE"}
               </button>
             </div>
 
-            <p className="text-white/30 text-[10px] text-center mt-4 font-bold uppercase tracking-widest">
+            <p className="text-[#AFAFAF] text-[9px] text-center mt-3 font-bold uppercase tracking-widest relative z-10 flex-shrink-0">
               Last saved:{" "}
               {lastSavedAt ? lastSavedAt.toLocaleTimeString() : "Just now"}
             </p>

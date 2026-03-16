@@ -99,12 +99,10 @@ export default function MindGlancePage() {
         <div className="flex flex-row items-start justify-between gap-4 w-full mb-6">
           <div className="flex-1 relative z-10 flex flex-col items-start gap-1 min-w-0">
             <h2 className="text-2xl md:text-[32px] font-extrabold text-[#3C3C3C] flex items-center font-heading tracking-wide truncate w-full">
-              {isMobile ? "Explorer" : "Interactive Graph Canvas"}
+              Explorer
             </h2>
-            <p className="text-[#AFAFAF] font-bold text-[10px] md:text-sm mt-0.5 md:mt-1 tracking-wide uppercase truncate w-full">
-              {isMobile
-                ? "Connect your ideas"
-                : "Connect the dots of your learning journey"}
+            <p className="text-text-secondary flex items-center gap-2 font-medium">
+              Centralized Notebook & Mind-Glance
             </p>
           </div>
 

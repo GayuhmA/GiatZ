@@ -3,8 +3,9 @@
 import Button from "@/components/shared/Button";
 import Input from "@/components/shared/Input";
 import { useAuthStore } from "@/store/useAuthStore";
-import { AtSymbolIcon, LockClosedIcon, UserIcon } from "@heroicons/react/24/outline";
+import { AtSymbolIcon, UserIcon } from "@heroicons/react/24/outline";
 import { RocketLaunchIcon } from "@heroicons/react/24/solid";
+import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -15,6 +16,7 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const handleEmailSignup = async (e: React.FormEvent) => {
@@ -125,11 +127,15 @@ export default function SignupPage() {
 
           <Input 
             label="PASSWORD"
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            rightElement={<LockClosedIcon className="w-5 h-5 text-text-secondary" />}
+            rightElement={
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-text-secondary hover:text-primary transition-colors cursor-pointer">
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            }
           />
 
           <Button 
