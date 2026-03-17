@@ -1,8 +1,13 @@
 # GiatZ
 
-**Nama Website:** GiatZ
-**Nama Tim:** harahetta
-**Dengan Backend:** Ya (Fullstack Next.js + Firebase)
+- **Nama Website:** GiatZ
+- **Nama Tim:** harahetta
+- **Dengan Backend:** Ya (Fullstack Next.js + Firebase)
+
+## 📖 Overview
+
+**GiatZ: Productivity Tools for Gen Z**
+GiatZ adalah platform produktivitas interaktif dengan sentuhan gamifikasi yang dirancang khusus untuk mendukung cara belajar dan bekerja Gen Z. Aplikasi ini menyatukan manajemen tugas yang cerdas, pengatur waktu fokus, dan sistem pencatatan yang terintegrasi AI ke dalam satu ekosistem seru yang terasa seperti sedang bermain *game*.
 
 ## 📌 Daftar Fitur Utama
 
