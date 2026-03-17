@@ -1,6 +1,6 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-export type TaskQuadrant = 'DO_FIRST' | 'SCHEDULE' | 'DELEGATE' | 'ELIMINATE';
+export type TaskQuadrant = "DO_FIRST" | "SCHEDULE" | "DELEGATE" | "ELIMINATE";
 
 export interface Task {
   id: string;
@@ -11,6 +11,7 @@ export interface Task {
   completedAt?: Date | null;
   dueDate?: Date | null;
   createdAt: Date;
+  position: number;
 }
 
 interface TaskState {
@@ -20,20 +21,21 @@ interface TaskState {
   setTasks: (tasks: Task[]) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
-  
+
   // Optimistic UI updates
   optimisticMoveTask: (taskId: string, newQuadrant: TaskQuadrant) => void;
   optimisticToggleTask: (taskId: string) => void;
   optimisticAddTask: (task: Task) => void;
   optimisticDeleteTask: (taskId: string) => void;
   optimisticUpdateTask: (taskId: string, updates: Partial<Task>) => void;
+  optimisticReorderTasks: (quadrant: TaskQuadrant, newTasks: Task[]) => void;
 }
 
 export const useTaskStore = create<TaskState>((set) => ({
   tasks: [],
   loading: true,
   error: null,
-  
+
   setTasks: (tasks) => set({ tasks, loading: false }),
   setLoading: (loading) => set({ loading }),
   setError: (error) => set({ error, loading: false }),
@@ -41,35 +43,44 @@ export const useTaskStore = create<TaskState>((set) => ({
   optimisticMoveTask: (taskId, newQuadrant) =>
     set((state) => ({
       tasks: state.tasks.map((t) =>
-        t.id === taskId ? { ...t, quadrant: newQuadrant } : t
+        t.id === taskId ? { ...t, quadrant: newQuadrant } : t,
       ),
     })),
 
   optimisticToggleTask: (taskId) =>
     set((state) => ({
       tasks: state.tasks.map((t) =>
-        t.id === taskId ? { 
-          ...t, 
-          completed: !t.completed,
-          completedAt: !t.completed ? new Date() : null
-        } : t
+        t.id === taskId
+          ? {
+              ...t,
+              completed: !t.completed,
+              completedAt: !t.completed ? new Date() : null,
+            }
+          : t,
       ),
     })),
 
   optimisticAddTask: (task) =>
     set((state) => ({
-      tasks: [...state.tasks, task]
+      tasks: [...state.tasks, task],
     })),
 
   optimisticDeleteTask: (taskId) =>
     set((state) => ({
-      tasks: state.tasks.filter((t) => t.id !== taskId)
+      tasks: state.tasks.filter((t) => t.id !== taskId),
     })),
 
   optimisticUpdateTask: (taskId, updates) =>
     set((state) => ({
-      tasks: state.tasks.map((t) => 
-        t.id === taskId ? { ...t, ...updates } : t
-      )
+      tasks: state.tasks.map((t) =>
+        t.id === taskId ? { ...t, ...updates } : t,
+      ),
     })),
+  optimisticReorderTasks: (quadrant, newTasks) =>
+    set((state) => {
+      const otherTasks = state.tasks.filter((t) => t.quadrant !== quadrant);
+      return {
+        tasks: [...otherTasks, ...newTasks],
+      };
+    }),
 }));

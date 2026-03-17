@@ -32,6 +32,8 @@ export async function POST(req: Request) {
           { "front": "question or concept", "back": "answer or explanation" }
         ]
         
+        IMPORTANT: Generate the content in the same language as the provided Note Content.
+        
         Note Content:
         ${noteContent}
         
@@ -52,6 +54,8 @@ export async function POST(req: Request) {
         ${noteContent}
         
         Return ONLY the resulting HTML string. Do not include markdown code blocks.
+        
+        IMPORTANT: Maintain the same language as the provided Original Note Content.
       `;
     } else {
       prompt = `
@@ -76,6 +80,8 @@ export async function POST(req: Request) {
         ${noteContent}
         
         Strictly return ONLY the JSON array. Do not include any markdown formatting like \`\`\`json or regular text.
+
+        IMPORTANT: Generate the content in the same language as the provided Note Content.
       `;
     }
 
