@@ -303,6 +303,7 @@ export default function OrbitPage() {
                     ? "bg-white/10! border-white/20 backdrop-blur-md text-white"
                     : "bg-white/50! border border-white/50 backdrop-blur-md shadow-lg"
                 }
+                isNight={isNight}
               />
             </div>
           }
@@ -375,33 +376,27 @@ export default function OrbitPage() {
                   </div>
                 </div>
               ) : (
-                <div className="relative group mb-2 flex items-center justify-center w-full min-w-0">
-                  {/* Left Spacer to balance the Edit Button on the right */}
-                  <div
-                    className="w-8 h-8 shrink-0 invisible"
-                    aria-hidden="true"
-                  />
+                <div className="relative group mb-2 flex items-center justify-center w-full min-w-0 mt-4 px-4 overflow-hidden">
+                  <div className="flex items-center gap-2 max-w-full relative">
+                    <h2
+                      className={`text-xl md:text-3xl font-extrabold transition-colors truncate ${isNight ? "text-white" : "text-text-primary"}`}
+                    >
+                      {sessionState === "idle" &&
+                        (isBreakMode ? "Break Time" : sessionTitle)}
+                      {sessionState === "running" &&
+                        (isBreakMode ? "Ngecas Energi..." : sessionTitle)}
+                      {sessionState === "paused" && "Sesi Dijeda"}
+                      {sessionState === "finished" &&
+                        (isBreakMode ? "Break Selesai!" : "Sesi Selesai!")}
+                    </h2>
 
-                  <h2
-                    className={`text-xl md:text-3xl font-extrabold transition-colors px-2 truncate max-w-full mt-4 ${isNight ? "text-white" : "text-text-primary"}`}
-                  >
-                    {sessionState === "idle" &&
-                      (isBreakMode ? "Break Time" : sessionTitle)}
-                    {sessionState === "running" &&
-                      (isBreakMode ? "Ngecas Energi..." : sessionTitle)}
-                    {sessionState === "paused" && "Sesi Dijeda"}
-                    {sessionState === "finished" &&
-                      (isBreakMode ? "Break Selesai!" : "Sesi Selesai!")}
-                  </h2>
-
-                  <div className="w-8 h-8 shrink-0 flex items-center justify-center">
                     {sessionState === "idle" && (
                       <button
                         onClick={() => {
                           setEditedTitle(sessionTitle);
                           setIsEditingTitle(true);
                         }}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:text-primary"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 hover:text-primary shrink-0"
                         title="Edit Title"
                       >
                         <Pencil size={18} />
@@ -472,7 +467,7 @@ export default function OrbitPage() {
                     )}
                     <Button
                       variant={isBreakMode ? "primary" : "outline"}
-                      className="w-full md:w-auto bg-white/50 hover:bg-white"
+                      className="w-full md:w-auto"
                       onClick={() => {
                         if (isBreakMode) {
                           exitBreakMode();

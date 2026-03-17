@@ -51,7 +51,7 @@ export default function MatrixPage() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: 1, // smaller distance for faster reaction
       },
     }),
     useSensor(KeyboardSensor, {
@@ -177,7 +177,7 @@ export default function MatrixPage() {
 
   return (
     <AppLayout showRightPanel={false}>
-      <div className="h-full flex flex-col">
+      <div className="min-h-full flex flex-col">
         {/* Header Area */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-6">
           <div>
@@ -210,7 +210,7 @@ export default function MatrixPage() {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 grid-rows-4 md:grid-rows-2 gap-6 md:gap-10 relative min-h-0 mt-8 md:mt-10 ml-4 md:ml-16">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 relative min-h-0 mt-8 md:mt-10 ml-4 md:ml-16">
             {/* Column Labels */}
             <div className="hidden md:flex absolute -top-8 left-0 w-full justify-around text-text-label font-bold uppercase tracking-widest text-sm z-0 pointer-events-none">
               <div className="w-1/2 text-center">Mendesak</div>
@@ -230,7 +230,7 @@ export default function MatrixPage() {
             {/* Do First (Urgent & Important) */}
             <Card
               variant="tinted-danger"
-              className="flex flex-col p-4 md:p-5 relative z-10 min-h-0"
+              className="flex flex-col p-4 md:p-5 relative z-10 min-h-48 md:min-h-64"
             >
               <div className="flex justify-between items-center mb-4 shrink-0">
                 <h3 className="text-[10px] md:text-sm font-extrabold uppercase tracking-widest text-danger">
@@ -250,7 +250,7 @@ export default function MatrixPage() {
             {/* Schedule (Not Urgent & Important) */}
             <Card
               variant="tinted-success"
-              className="flex flex-col p-4 md:p-5 relative z-10 min-h-0"
+              className="flex flex-col p-4 md:p-5 relative z-10 min-h-48 md:min-h-64"
             >
               <div className="flex justify-between items-center mb-4 shrink-0">
                 <h3 className="text-[10px] md:text-sm font-extrabold uppercase tracking-widest text-success">
@@ -270,7 +270,7 @@ export default function MatrixPage() {
             {/* Delegate (Urgent & Not Important) */}
             <Card
               variant="tinted-info"
-              className="flex flex-col p-4 md:p-5 relative z-10 min-h-0"
+              className="flex flex-col p-4 md:p-5 relative z-10 min-h-48 md:min-h-64"
             >
               <div className="flex justify-between items-center mb-4 shrink-0">
                 <h3 className="text-[10px] md:text-sm font-extrabold uppercase tracking-widest text-secondary">
@@ -290,7 +290,7 @@ export default function MatrixPage() {
             {/* Eliminate (Not Urgent & Not Important) */}
             <Card
               variant="tinted-warning"
-              className="flex flex-col p-4 md:p-5 relative z-10 min-h-0"
+              className="flex flex-col p-4 md:p-5 relative z-10 min-h-48 md:min-h-64"
             >
               <div className="flex justify-between items-center mb-4 shrink-0">
                 <h3 className="text-[10px] md:text-sm font-extrabold uppercase tracking-widest text-warning">
@@ -308,7 +308,7 @@ export default function MatrixPage() {
             </Card>
           </div>
 
-          <DragOverlay adjustScale={false} zIndex={1000}>
+          <DragOverlay adjustScale={false} zIndex={1000} dropAnimation={{ duration: 250, easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)'}}>
             {activeId && activeTask ? (
               <TaskCardUI task={activeTask} isOverlay />
             ) : null}

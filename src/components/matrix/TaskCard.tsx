@@ -40,15 +40,15 @@ export function TaskCardUI({
       {...attributes}
       {...listeners}
       className={`touch-none relative group select-none
-        ${isDragging ? "opacity-0" : "opacity-100"} 
+        ${isDragging ? "opacity-30" : "opacity-100"} 
         ${task.completed && !isOverlay ? "opacity-60" : ""}
         ${isOverlay ? "z-50 cursor-grabbing scale-105" : "cursor-grab active:cursor-grabbing"}
-        transition-all duration-400 cubic-bezier(0.4, 0, 0.2, 1)
+        transition-opacity duration-200
       `}
     >
       <div
         className={`bg-white p-4 rounded-2xl border border-gray-100 relative
-          transition-all duration-400 cubic-bezier(0.4, 0, 0.2, 1)
+          transition-all duration-200 ease-out
           ${isOverlay ? "shadow-2xl ring-2 ring-primary/20 scale-[1.02]" : "hover:shadow-lg hover:border-gray-200"}
         `}
         onClick={() => !isOverlay && onEdit?.(task)}
@@ -141,9 +141,8 @@ export default function TaskCard(props: TaskCardProps) {
   });
 
   const style = {
-    // Standard dnd-kit cubic-bezier transition for buttery smooth movement
-    transition: transition || undefined,
-    transform: CSS.Translate.toString(transform),
+    transition,
+    transform: CSS.Transform.toString(transform),
   };
 
   return (
