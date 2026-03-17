@@ -127,12 +127,6 @@ export default function LoginPage() {
                 </button>
               }
             />
-            <Link 
-              href="/forgot-password" 
-              className="absolute right-0 top-0 text-[11px] font-bold text-primary uppercase tracking-wider hover:text-primary-dark transition-colors"
-            >
-              LUPA?
-            </Link>
           </div>
 
           <Button 
