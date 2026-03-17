@@ -8,8 +8,10 @@ import { Clock } from "lucide-react";
 
 export default function TimerDurationCard({
   className = "",
+  isNight,
 }: {
   className?: string;
+  isNight?: boolean;
 }) {
   const {
     sessionLengthSecs,
@@ -82,14 +84,14 @@ export default function TimerDurationCard({
   return (
     <Card className={`w-full ${className}`}>
       <div className="flex items-center gap-2 mb-6">
-        <Clock className="w-5 h-5 opacity-70 text-slate-600" />
-        <h3 className="font-bold text-lg text-slate-800">Durasi Timer</h3>
+        <Clock className={`w-5 h-5 opacity-70 ${isNight ? "text-white" : "text-slate-600"}`} />
+        <h3 className={`font-bold text-xl ${isNight ? "text-white" : "text-text-primary"}`}>Durasi Timer</h3>
       </div>
 
       <div className="space-y-6">
         {/* Slider Section */}
         <div>
-          <label className="text-xs font-bold text-slate-500 block mb-4 uppercase">
+          <label className= {`text-xs font-bold uppercase ${isNight ? "text-gray-300" : "text-text-label"}`}>
             Durasi Sesi
           </label>
           <div className="relative pt-2 pb-6">
@@ -128,7 +130,7 @@ export default function TimerDurationCard({
         {/* Custom Input */}
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-shadow">
-            <span className="text-sm font-medium mr-2 text-slate-500">
+            <span className={`text-sm font-medium mr-2 ${isNight ? "text-gray-300" : "text-text-label"}`}>
               Kustom:
             </span>
             <input
@@ -138,9 +140,9 @@ export default function TimerDurationCard({
               onBlur={() => {
                 if (!localMinutes || localMinutes < 1) setLocalMinutes(25);
               }}
-              className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12 text-slate-800"
+              className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12"
             />
-            <span className="text-sm font-medium ml-2 text-slate-500">
+            <span className={`text-sm font-medium ml-2 ${isNight ? "text-gray-300" : "text-text-label"}`}>
               menit
             </span>
           </div>
@@ -150,7 +152,7 @@ export default function TimerDurationCard({
 
         {/* Break Slider Section */}
         <div>
-          <label className="text-xs font-bold text-slate-500 block mb-4 uppercase">
+          <label className={`text-xs font-bold uppercase ${isNight ? "text-gray-300" : "text-text-label"}`}>
             Durasi Break
           </label>
           <div className="relative pt-2 pb-6">
@@ -189,7 +191,7 @@ export default function TimerDurationCard({
         {/* Custom Break Input */}
         <div>
           <div className="w-full relative flex items-center bg-bg-page/50 border border-border rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-success focus-within:border-success transition-shadow">
-            <span className="text-sm font-medium mr-2 text-slate-500">
+            <span className={`text-sm font-medium mr-2 ${isNight ? "text-gray-300" : "text-text-label"}`}>
               Kustom:
             </span>
             <input
@@ -200,9 +202,9 @@ export default function TimerDurationCard({
                 if (!localBreakMinutes || localBreakMinutes < 1)
                   setLocalBreakMinutes(5);
               }}
-              className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12 text-success"
+              className="bg-transparent flex-1 text-sm font-bold focus:outline-none w-12"
             />
-            <span className="text-sm font-medium ml-2 text-slate-500">
+            <span className={`text-sm font-medium ml-2 ${isNight ? "text-gray-300" : "text-text-label"}`}>
               menit
             </span>
           </div>

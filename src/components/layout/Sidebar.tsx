@@ -21,6 +21,7 @@ import {
   GlobeAltIcon as GlobeAltIconSolid,
   AcademicCapIcon as AcademicCapIconSolid,
 } from "@heroicons/react/24/solid";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 const navItems = [
   {
@@ -141,6 +142,63 @@ export default function Sidebar() {
             </Link>
           );
         })}
+
+        {/* Mobile User Profile Menu */}
+        <div className="md:hidden flex flex-col justify-center px-1 relative z-50">
+          <Menu>
+            <MenuButton className="relative focus:outline-none focus:ring-2 focus:ring-primary rounded-full transition-transform active:scale-95">
+              {user && photoUrl && !imgError ? (
+                <img
+                  src={photoUrl}
+                  alt={user?.displayName || "Profile"}
+                  onError={() => {
+                    failedPhotoUrls.add(photoUrl);
+                    setImgError(true);
+                  }}
+                  className="w-7 h-7 min-[425px]:w-8 min-[425px]:h-8 rounded-full border-2 border-primary object-cover"
+                />
+              ) : (
+                <div className="w-7 h-7 min-[425px]:w-8 min-[425px]:h-8 rounded-full bg-primary-light text-primary-dark border-2 border-primary flex items-center justify-center">
+                  <span className="font-extrabold text-xs min-[425px]:text-sm">
+                    {user?.displayName
+                      ? user.displayName.charAt(0).toUpperCase()
+                      : user?.email
+                        ? user.email.charAt(0).toUpperCase()
+                        : "?"}
+                  </span>
+                </div>
+              )}
+            </MenuButton>
+
+            <MenuItems 
+              transition
+              className="absolute bottom-14 right-2 w-48 bg-white border border-border rounded-2xl shadow-card p-2 origin-bottom-right transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0"
+            >
+              {user && (
+                <div className="px-3 py-2 border-b border-border mb-2 flex flex-col gap-0.5">
+                  <span className="text-sm font-extrabold text-text-primary truncate">
+                    {user.displayName || "Scholar"}
+                  </span>
+                  <span className="text-[11px] font-medium text-text-secondary truncate">
+                    {user.email}
+                  </span>
+                </div>
+              )}
+              <MenuItem>
+                <button
+                  onClick={async () => {
+                    await logout();
+                    router.push("/");
+                  }}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm font-bold text-danger hover:bg-danger-light rounded-xl transition-colors cursor-pointer"
+                >
+                  <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
+                  LOGOUT
+                </button>
+              </MenuItem>
+            </MenuItems>
+          </Menu>
+        </div>
       </nav>
 
       {/* Bottom CTA (Hidden on mobile) */}

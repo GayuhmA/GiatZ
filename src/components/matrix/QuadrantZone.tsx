@@ -72,7 +72,7 @@ export default function QuadrantZone({
           </div>
         ) : (
           <div
-            className={`flex-1 min-h-20 border-2 border-dashed rounded-2xl flex items-center justify-center opacity-50 ${getBorderColor()}`}
+            className={`flex-1 border-2 border-dashed rounded-2xl flex items-center justify-center opacity-50 ${getBorderColor()}`}
           >
             <span className="text-sm font-bold uppercase">Drop Here</span>
           </div>
